@@ -1,0 +1,141 @@
+#navbarSupportedContent li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    height: 38px;
+    width: 50px;
+}
+#navbarSupportedContent li.navuname {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    height: 50px;
+    width: auto;
+}
+.nav-drop-down{
+    right: 0;
+    left: -576%!important;
+    top: 126%!important;
+    width: 315px;
+    height: 90vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.nav-drop-down li {
+    height: auto!important;
+    width: 100%!important;
+    padding: .5rem 0!important;
+}
+.nav-drop-down li a{
+    text-decoration: none;
+}
+.navsearchinp {
+    border: 0;
+    outline: 0;
+}
+.navsearchinp:focus {
+    box-shadow: none;
+}
+.navsearchbtn {
+    border: 0;
+}
+.mid-nav li a {
+    font-size: 2.5rem;
+}
+
+.mid-nav li a span {
+    padding-top: 1rem;
+}
+.icon-drop-down {
+    height: 50px;
+    width: 50px;
+    padding: .8rem .5rem;
+}
+
+.notify-dropdown {
+    max-height: 75vh;
+    max-width: 92vw;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    left: -9.5rem!important;
+    position: absolute!important;
+}
+.notification-para, .notification-para a {
+    font-size: 1rem!important;
+}
+.notification-para {
+    white-space: break-spaces;
+    min-width: 250px;
+}
+/* .profilename {
+    padding: 0 1rem;
+} */
+
+/* ============================================================================
+small screen  
+============================================================================== */
+@media (min-width: 576px) {
+    
+    .notification-para {
+        white-space: normal;
+        min-width: 250px;
+    }
+    #navbarSupportedContent li {
+        height: 50px;
+        width: 50px;
+    }
+    
+}
+
+/* ===========================================================================
+medium screen  
+=============================================================================*/
+@media (min-width: 768px) {   
+    .navsearch {
+        width: 51px;
+        padding: .7rem;
+    }
+    #navbarSupportedContent {
+        width: 23%;
+    }
+    #navbarSupportedContent li {
+        height: 38px;
+        width: 50px;
+    }
+    .mid-nav {
+        width: 48%;
+        
+    }
+}
+
+
+/* =========================================================================
+lg screen 
+============================================================================ */
+@media (min-width: 992px) {
+    #navbarSupportedContent li {
+        height: 50px;
+        width: 50px;
+    }
+}
+
+/* =========================================================================
+  x-lg screen 
+============================================================================ */
+@media (min-width: 1200px) {
+    #navbarSupportedContent {
+        width: 33%;
+    }
+    .navsearch {
+        width: 281px;
+    }
+    .navbrand {
+        width: 28%;
+    }
+    .mid-nav {
+        width: 33%;
+     
+    }
+}

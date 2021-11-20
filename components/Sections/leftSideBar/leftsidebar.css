@@ -1,0 +1,44 @@
+.leftsidebar-container ul {
+    list-style-type: none;
+}
+.leftsidebar-container ul li{
+    color: black
+}
+.leftsidebar-container ul li a{
+    color: black;
+    font-size: 1.1rem;
+}
+.leftsidebar-container ul li a span{
+    color: black;
+    padding-right: .5rem;
+}
+
+
+/* small screen  */
+@media (min-width: 576px) {
+    
+}
+/* medium screen  */
+@media (min-width: 768px) {
+    
+}
+/* large screen  */
+@media (min-width: 992px) {
+    .leftsidebar-container {
+        max-height: 100vh;
+        max-width: 45vw;
+        overflow-y: scroll;
+        padding-top: 1rem;
+        left: 0;
+    }
+}
+/* xtra-large screen  */
+@media (min-width: 1200px) {
+    .leftsidebar-container {
+        max-height: 100vh;
+        max-width: 45vw;
+        overflow-y: scroll;
+        padding-top: 1rem;
+        left: 0;
+    }
+}

@@ -1,0 +1,150 @@
+.feed-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+}
+
+.feedrow {
+    width: 100%;
+}
+
+.postimg {
+    height: 35px;
+    width: 35px;
+    margin-right: .5rem;
+}
+
+.statuscol {
+
+    width: 85%;
+    border-radius: 3.5rem;
+    height: 35px;
+    margin-left: .3rem;
+   
+}
+
+
+.statusinp {
+    border: 0;
+    outline: 0;
+    border-radius: 3.5rem;
+    padding-left: 1rem;
+    height: 100%;
+}
+.statusinp:focus {
+    box-shadow: none;
+}
+.postinp {
+    height: 65px;
+    width: 100%;
+}
+.postbottom {
+    font-size: .5rem;
+}
+
+.postreactcount a {
+    font-size: .6rem;
+}
+.postreact a, .postreact .btn {
+    font-size: .6rem;
+}
+.statusimg {
+    height: 45px;
+    width: 45px;
+}
+/* sm screen  */
+@media (min-width: 576px) {
+    .postbottom {
+        font-size: 1rem;
+    }
+    .postreactcount a {
+        font-size: 1rem;
+    }
+    .postreact a, .postreact .btn {
+        font-size: 1rem;
+    }
+    .postimg {
+        height: 45px;
+        width: 45px;
+        margin-right: .5rem;
+    }
+    .statuscol {
+
+        width: 85%;
+        border-radius: 3.5rem;
+        height: 45px;
+        margin-left: .3rem;
+       
+    }
+}
+/*=======================================================
+lg large device 
+====================================================== */
+@media (min-width: 992px) {
+    .feed-container {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+    
+    }
+
+    .feedrow {
+        width: 90%;
+    }
+    .postimg {
+        height: 65px;
+        width: 65px;
+    }
+    .statuscol {
+
+        width: 85%;
+        border-radius: 3.5rem;
+        height: 65px;
+        margin-left: .3rem;
+       
+    }
+    .statusimg {
+        height: 55px;
+        width: 55px;
+    }
+ 
+}
+
+
+
+/*=====================================================
+xl xtra large 
+===================================================== */
+@media (min-width: 1200px) {
+    .feed-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50vw;
+        margin: auto;
+        flex-grow: 1;
+    }
+    
+    .feedrow {
+        width: 90%;
+    }
+    .statuscol {
+        width: 85%;
+        border-radius: 3.5rem;
+    }
+    
+    .statusinp {
+        border: 0;
+        outline: 0;
+        height: 55px;
+        border-radius: 3.5rem;
+        padding-left: 1.5rem;
+    }
+    .statusinp:focus {
+        box-shadow: none;
+    }
+    
+}

@@ -1,0 +1,22 @@
+/* small screen  */
+@media (min-width: 576px) {
+    
+}
+/* medium screen  */
+@media (min-width: 768px) {
+    
+}
+/* large screen  */
+@media (min-width: 992px) {
+    .rightbar-container {
+        min-height: 100vh;
+        right: 0;
+    }    
+}
+/* xtra-large screen  */
+@media (min-width: 1200px) {
+    .rightbar-container {
+        min-height: 100vh;
+        right: 0;
+    }    
+}

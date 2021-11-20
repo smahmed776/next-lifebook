@@ -1,0 +1,41 @@
+.homepage_container {
+    padding: 0rem;
+}
+.homepage_container h1{
+    font-weight: 900;
+}
+
+.footer_link {
+    color: darkslategrey;
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+
+.homepage_alert {
+    position: absolute;
+    top: 5%;
+    left: 20%;
+    z-index: 100;
+    width: 50vw;
+}
+
+@media (min-width: 576px) {
+    .homepage_container {
+        padding: 5rem;
+    }
+}
+@media (min-width: 768px) {
+    .homepage_container {
+        padding: 0;
+    }
+}
+@media (min-width: 992px) {
+    
+}
+@media (min-width: 1200px) {
+    .homepage_container {
+        padding: 7rem;
+    }
+}
+@media (min-width: 1400px) {
+}
