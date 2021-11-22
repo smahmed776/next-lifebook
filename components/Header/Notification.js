@@ -2,63 +2,63 @@ import React, { useContext, useEffect, useState } from 'react'
 import Moment from 'react-moment';
 import Link from "next/link";
 import API from "../API/API";
-import { NotificationContext } from '../../globalcontext/isLogged';
+import { NotificationContext } from '../globalcontext/isLogged';
 
 const Notification = ({ currentUser }) => {
 
-    const [getNotification, setGetNotification] = useContext(NotificationContext)
-    const [notificationCount, setNotificationCount] = useState("");
-    const [notarray, setNotArray] = useState([]);
-    const [reverseNotif, setReverseNotif] = useState([]);
+    // const [getNotification, setGetNotification] = useContext(NotificationContext)
+    // const [notificationCount, setNotificationCount] = useState("");
+    // const [notarray, setNotArray] = useState([]);
+    // const [reverseNotif, setReverseNotif] = useState([]);
 
 
-    const getIcon = (type) => {
-        if (type === "like") {
-            return "bi bi-hand-thumbs-up-fill text-primary pe-2"
-        } else if (type === 'comment') {
-            return "bi bi-chat-fill text-success pe-2"
-        }
-    }
-
-
-
+    // const getIcon = (type) => {
+    //     if (type === "like") {
+    //         return "bi bi-hand-thumbs-up-fill text-primary pe-2"
+    //     } else if (type === 'comment') {
+    //         return "bi bi-chat-fill text-success pe-2"
+    //     }
+    // }
 
 
 
-    const readNotification = async () => {
-        setNotificationCount('');
-        try {
-            const option = {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Athorization": `Bearer ${currentUser._id}`
-                }
-            }
-            await API.put('/readnotification', {}, option);
-        } catch (error) {
-            console.log(error.response);
-        }
-    }
 
-    useEffect(()=> {
-        if(getNotification.length > 0){
-          let arr =  [...getNotification[0]?.read]
-          arr.reverse()
-          setReverseNotif([
-              ...arr,
-          ])
-        }
-    }, [getNotification])
 
-    useEffect(() => {
 
-        setNotificationCount(getNotification[0]?.unread.length)
-    }, [getNotification])
+    // const readNotification = async () => {
+    //     setNotificationCount('');
+    //     try {
+    //         const option = {
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 "Athorization": `Bearer ${currentUser._id}`
+    //             }
+    //         }
+    //         await API.put('/readnotification', {}, option);
+    //     } catch (error) {
+    //         console.log(error.response);
+    //     }
+    // }
+
+    // useEffect(()=> {
+    //     if(getNotification.length > 0){
+    //       let arr =  [...getNotification[0]?.read]
+    //       arr.reverse()
+    //       setReverseNotif([
+    //           ...arr,
+    //       ])
+    //     }
+    // }, [getNotification])
+
+    // useEffect(() => {
+
+    //     setNotificationCount(getNotification[0]?.unread.length)
+    // }, [getNotification])
 
     return (
         <div className="d-block border  px-xl-2 bg-light rounded-pill position-relative dropdown" style={{ height: "45px", width: "45px" }}>
 
-            <a className="nav-link d-flex justify-content-center align-items-center p-0 h-100 w-100"
+            {/* <a className="nav-link d-flex justify-content-center align-items-center p-0 h-100 w-100"
                 id="notificationdrop"
                 role="button"
                 data-bs-toggle="dropdown"
@@ -132,7 +132,7 @@ const Notification = ({ currentUser }) => {
                             <p className="p-2">No notification found!</p>
                         </li>
                 }
-            </ul>
+            </ul> */}
 
         </div>
     )

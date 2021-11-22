@@ -16,13 +16,31 @@
 }
 .nav-drop-down{
     right: 0;
-    left: -576%!important;
-    top: 126%!important;
+    left: auto!important;
+    top: 100%!important;
     width: 315px;
-    height: 90vh;
+    max-height: 80vh;
     overflow-x: hidden;
     overflow-y: scroll;
 }
+::-webkit-scrollbar{
+   width: 5px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 50px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
 .nav-drop-down li {
     height: auto!important;
     width: 100%!important;
@@ -30,6 +48,9 @@
 }
 .nav-drop-down li a{
     text-decoration: none;
+}
+.nav-drop-down li a:hover{
+    background-color:#928c8c2e;
 }
 .navsearchinp {
     border: 0;
@@ -41,8 +62,12 @@
 .navsearchbtn {
     border: 0;
 }
+.mid-nav li {
+    align-self: flex-end;
+}
 .mid-nav li a {
-    font-size: 2.5rem;
+    font-size: 2rem;
+    padding-bottom: .2rem;
 }
 
 .mid-nav li a span {
@@ -69,6 +94,9 @@
     white-space: break-spaces;
     min-width: 250px;
 }
+.navbrand {
+    width: 40%;
+}
 /* .profilename {
     padding: 0 1rem;
 } */
@@ -86,6 +114,9 @@ small screen
         height: 50px;
         width: 50px;
     }
+    .navbrand {
+        width: 23%;
+    }
     
 }
 
@@ -94,7 +125,7 @@ medium screen
 =============================================================================*/
 @media (min-width: 768px) {   
     .navsearch {
-        width: 51px;
+        width: 45px;
         padding: .7rem;
     }
     #navbarSupportedContent {
@@ -107,6 +138,9 @@ medium screen
     .mid-nav {
         width: 48%;
         
+    }
+    .navbrand {
+        width: 13%;
     }
 }
 
@@ -130,6 +164,7 @@ lg screen
     }
     .navsearch {
         width: 281px;
+        height: 40px;
     }
     .navbrand {
         width: 28%;

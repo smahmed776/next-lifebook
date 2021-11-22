@@ -1,20 +1,17 @@
 import React from "react";
 import Link from "next/link";
-import API from "../../api/API";
-import { NotificationContext } from "../../globalcontext/isLogged";
-import "./Header.css";
-import Notification from "./Notification";
+import API from "../API/API";
+// import Notification from "./Notification";
 import mainLogo from "./mainLogo.jpg";
 import MobileNav from "../offcanvas/MobileNav";
 
-const Header = ({ currentUser }) => {
+const Header = ({ user }) => {
   const logout = async () => {
     try {
       await API.delete("/logout", {
         headers: { "Content-Type": "application/json" }
       });
       localStorage.setItem("token", "");
-      window.location.replace("/");
     } catch (error) {
       console.log(error);
     }
@@ -22,12 +19,12 @@ const Header = ({ currentUser }) => {
 
   return (
     <nav
-      className="navbar navbar-expand-sm navbar-light bg-white sticky-top vw-100 border-bottom"
+      className="navbar navbar-expand-sm navbar-light bg-white sticky-top vw-100 border-bottom p-0"
       id="navbar"
     >
       <div className="container-fluid d-flex justify-content-between align-items-center px-3">
-        <div className="navbrand">
-          <a className="navbar-brand me-1" href="/">
+        <div className="navbrand d-flex align-items-center justify-content-between">
+          <a className="navbar-brand me-1">
             {" "}
             <img
               src={mainLogo.src}
@@ -37,47 +34,49 @@ const Header = ({ currentUser }) => {
               alt=""
             />{" "}
           </a>
-          <button className="btn rounded-pill bg-light navsearch border">
-            <form action="">
+          <div className="d-inline-block rounded-pill bg-light navsearch border p-2 overflow-hidden">
+            <form className="h-100" action="">
               <button
                 type="submit"
-                className="bg-light bi bi-search navsearchbtn"
+                className="bg-light bi bi-search navsearchbtn h-100"
               ></button>
               <input
                 type="search"
-                className="form-control d-none d-xl-inline w-auto ms-2 bg-light navsearchinp"
+                className="form-control h-100 d-none d-xl-inline w-auto ps-1 bg-light navsearchinp"
                 name="search"
                 placeholder="Search lifebook..."
               />
             </form>
-          </button>
+          </div>
         </div>
 
         {/* middle navbar  */}
 
         <ul className="navbar-nav mid-nav justify-content-between d-flex">
-          <li className="nav-item d-none d-md-block">
-            <Link passHref href="/" className="nav-link ">
-              <span className="bi bi-house-door"></span>
+          <li className="nav-item d-none d-md-block border-bottom border-primary">
+            <Link passHref href="/">
+              <a className="nav-link ">
+                <span className="bi bi-house-door"></span>
+              </a>
             </Link>
           </li>
           <li className="nav-item">
-            <a href="/" className="nav-link d-none d-md-block">
+            <a  className="nav-link d-none d-md-block">
               <span className="bi bi-collection-play"></span>
             </a>
           </li>
           <li className="nav-item">
-            <a href="" className="nav-link d-none d-md-block">
+            <a className="nav-link d-none d-md-block">
               <span className="bi bi-shop"></span>
             </a>
           </li>
           <li className="nav-item">
-            <a href="" className="nav-link d-none d-md-block">
+            <a  className="nav-link d-none d-md-block">
               <span className="bi bi-people"></span>
             </a>
           </li>
           <li className="nav-item d-flex align-items-center">
-            <Notification currentUser={currentUser} />
+            {/* <Notification currentUser={user} /> */}
           </li>
         </ul>
 
@@ -93,43 +92,44 @@ const Header = ({ currentUser }) => {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <MobileNav currentUser={currentUser} />
+        <MobileNav currentUser={user} />
 
         {/* right side navbar  */}
 
         <div className="d-none d-sm-block" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0 justify-content-end">
-            <li className="nav-item navuname d-none d-xl-block">
-              <Link className="nav-link " to={`/profile?id=${currentUser._id}`}>
-                {currentUser.image ? (
-                  <img
-                    src={currentUser.image}
-                    className="d-inline rounded-pill"
-                    height="35px"
-                    width="35px"
-                    alt={currentUser.name}
-                  />
-                ) : (
-                  <span
-                    className="bi bi-person-circle"
-                    style={{ fontSize: "1.5rem" }}
-                  ></span>
-                )}
-                <p className="d-inline text-dark ps-2">{currentUser.name}</p>
+          <ul className="navbar-nav me-auto mb-lg-0 justify-content-end">
+            <li className="nav-item navuname d-none d-xl-flex p-3 bg-light border border-primary me-1 rounded-pill">
+              <Link
+                className="nav-link "
+                passHref
+                href={`/profile?id=${user._id}`}
+              >
+                <a style={{ textDecoration: "none" }}>
+                  {user.profile && (
+                    <img
+                      src={user.profile.profileImage}
+                      className="d-inline rounded-pill"
+                      height="35px"
+                      width="35px"
+                      alt={`${user?.name?.firstName} ${user?.name?.lastName}`}
+                    />
+                  )}
+                  <p className="d-inline text-dark ps-2">{`${user?.name?.firstName} ${user?.name?.lastName}`}</p>
+                </a>
               </Link>
             </li>
             <li className="nav-item rounded-pill border bg-light me-2 px-lg-0 px-xl-2">
-              <a className="nav-link active" href="#" aria-current="page">
+              <a className="nav-link active" aria-current="page">
                 <span className="bi bi-plus"></span>
               </a>
             </li>
             <li className="nav-item rounded-pill border bg-light me-2 px-lg-0 px-xl-2">
-              <a className="nav-link" href="#about-me">
-                <span className="bi bi-chat-fill"></span>
+              <a className="nav-link" >
+                <span className="bi bi-chat-dots-fill"></span>
               </a>
             </li>
             <li className="nav-item rounded-pill border bg-light me-2 px-lg-0 px-xl-2">
-              <a className="nav-link" href="#my-skills">
+              <a className="nav-link">
                 {" "}
                 <span className="bi bi-bell"></span>
               </a>
@@ -137,7 +137,6 @@ const Header = ({ currentUser }) => {
             <li className="nav-item rounded-pill border bg-light me-2 px-lg-0 px-xl-2 dropdown">
               <a
                 className="nav-link"
-                href="#my-works"
                 role="button"
                 id="profiledrop"
                 data-bs-toggle="dropdown"
@@ -146,39 +145,37 @@ const Header = ({ currentUser }) => {
                 <span className="bi bi-caret-down-fill"></span>
               </a>
               <ul
-                class="dropdown-menu nav-drop-down"
+                className="dropdown-menu nav-drop-down"
                 aria-labelledby="profiledrop"
               >
                 <li>
-                  <Link
-                    className="row w-100"
-                    href={`/profile?id=${currentUser._id}`}
-                    passHref
-                  >
-                    <div className="col-3">
-                      <img
-                        src={currentUser.image}
-                        className="rounded-pill mt-1"
-                        height="56px"
-                        width="56px"
-                        alt={currentUser.name}
-                      />
-                    </div>
-                    <div className="col-8 pt-2">
-                      <h6 className="text-dark">{currentUser.name}</h6>
-                      <small className="text-muted">See your profile</small>
-                    </div>
+                  <Link href={`/profile?id=${user._id}`} passHref>
+                    <a className="row p-3 w-100">
+                      <div className="col-3">
+                        <img
+                          src={user.profile?.profileImage}
+                          className="rounded-pill mt-1"
+                          height="56px"
+                          width="56px"
+                          alt={`${user?.name?.firstName} ${user?.name?.lastName}`}
+                        />
+                      </div>
+                      <div className="col-8 pt-2">
+                        <h6 className="text-dark">{`${user?.name?.firstName} ${user?.name?.lastName}`}</h6>
+                        <small className="text-muted">See your profile</small>
+                      </div>
+                    </a>
                   </Link>
                 </li>
                 <hr />
                 <li>
-                  <a class="row w-100 text-dark ps-1" href="#">
+                  <a className="row w-100 text-dark p-3">
                     <div className="col-3 p-2">
                       <div className="icon-drop-down rounded-pill bg-light">
                         <span className="bi bi-chat-left-quote-fill ps-2"></span>
                       </div>
                     </div>
-                    <div className="col-8">
+                    <div className="col-9">
                       <h6 className="text-dark">Give FeedBack</h6>
                       <small className="text-muted">
                         help us improve new lifebook
@@ -188,7 +185,7 @@ const Header = ({ currentUser }) => {
                 </li>
                 <hr />
                 <li>
-                  <a class="row w-100 text-dark ps-1" href="#">
+                  <a className="row w-100 text-dark ps-1">
                     <div className="col-3 p-2">
                       <div className="icon-drop-down bg-light rounded-pill">
                         <span className="bi bi-gear ps-2"></span>
@@ -200,7 +197,7 @@ const Header = ({ currentUser }) => {
                   </a>
                 </li>
                 <li>
-                  <a class="row w-100 text-dark ps-1" href="#">
+                  <a className="row w-100 text-dark ps-1">
                     <div className="col-3 p-2">
                       <div className="icon-drop-down bg-light rounded-pill">
                         <span className="bi bi-question-circle ps-2"></span>
@@ -212,7 +209,7 @@ const Header = ({ currentUser }) => {
                   </a>
                 </li>
                 <li>
-                  <a class="row w-100 text-dark ps-1" href="#">
+                  <a className="row w-100 text-dark ps-1" >
                     <div className="col-3 p-2 ">
                       <div className="icon-drop-down bg-light rounded-pill">
                         <span className="bi bi-moon-fill ps-2"></span>
@@ -224,7 +221,11 @@ const Header = ({ currentUser }) => {
                   </a>
                 </li>
                 <li>
-                  <a onClick={logout} class="row w-100 text-dark ps-1" href="#">
+                  <a
+                    onClick={logout}
+                    className="row w-100 text-dark ps-1"
+                    
+                  >
                     <div className="col-3 p-2">
                       <div className="icon-drop-down bg-light rounded-pill">
                         <span className="bi bi-box-arrow-left ps-2"></span>
@@ -237,29 +238,29 @@ const Header = ({ currentUser }) => {
                 </li>
                 <hr />
                 <li>
-                  <div className="row w-100 text-muted ps-1" href="#">
+                  <div className="row w-100 text-muted ps-1">
                     <div className="col-12 p-2" style={{ fontSize: "1rem" }}>
-                      <a className="px-2" href="">
+                      <a className="px-2">
                         Privacy
                       </a>
                       .
-                      <a className="px-2" href="">
+                      <a className="px-2">
                         Terms
                       </a>
                       .
-                      <a className="px-2" href="">
+                      <a className="px-2">
                         Advertising
                       </a>
                       .
-                      <a className="px-2" href="">
+                      <a className="px-2">
                         Ad Choices
                       </a>
                       .
-                      <a className="px-2" href="">
+                      <a className="px-2">
                         Cookies
                       </a>
                       .
-                      <a className="px-2" href="">
+                      <a className="px-2">
                         More
                       </a>
                       . @lifebook 2021

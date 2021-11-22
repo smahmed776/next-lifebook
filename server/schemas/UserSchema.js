@@ -83,6 +83,10 @@ const UserSchema = new mongoose.Schema({
                 default: []
             }
         },
+        posts: {
+            type: Array,
+            default: [],
+        }
     },
     friends: {
         type: Array,
@@ -96,25 +100,19 @@ const UserSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
-    study: [
-        {"Primary" : {
-            type: String
-        }},
-        {"intermediate" : {
-            type: String
-        }},
-        {"Collage" : {
-            type: String
-        }},
-        {"University" : {
-            type: String
-        }}
-    ],
+    newsfeed: {
+        type: Array,
+        default: []
+    },
     gender: {
         type: String,
         enum: ["Male", "Female", "Other"],
         default: "Male"
     },
+    friend_requests: {
+        type: Array,
+        default: [],
+    }
 });
 
 mongoose.models = {};

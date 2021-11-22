@@ -1,7 +1,7 @@
 import React, { Fragment, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import API from "../API/API";
-import { usePost } from "../globalcontext/useApi";
+import { fetchPost } from "../globalcontext/callApi";
 import CreateAccoutModal from "../Modals/CreateAccoutModal";
 import styles from "./Homepage.module.css";
 import HomePageFooter from "./HomePageFooter";
@@ -18,7 +18,7 @@ const HomePage = () => {
   const handleLoginForm = async (dataObj) => {
     lbtn.current.setAttribute("disabled", "true");
     lspinner.current.classList.remove("d-none");
-    const { data, isError, error } = await usePost({
+    const { data, isError, error } = await fetchPost({
       url: "/login",
       data: dataObj
     });

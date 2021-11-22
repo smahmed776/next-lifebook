@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { usePost } from "../globalcontext/useApi";
+import { usePost } from "../globalcontext/callApi";
 
 const CreateAccoutModal = () => {
   const sspinner = useRef();
@@ -119,7 +119,7 @@ const CreateAccoutModal = () => {
               <h3 className="modal-title" id="staticBackdropLabel">
                 Create Account for free!
               </h3>
-              <h6 className="text-muted">It's quick and easy</h6>
+              <h6 className="text-muted">It&apos;s quick and easy</h6>
             </div>
             <button
               type="button"

@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { useApi } from "../globalcontext/useApi";
+import { callApi } from "../globalcontext/callApi";
 
 const MobileNav = ({ currentUser }) => {
   const logout = async () => {
@@ -18,7 +18,7 @@ const MobileNav = ({ currentUser }) => {
   return (
     <div
       className="offcanvas offcanvas-start d-sm-none bg-light"
-      tabindex="-1"
+      tabIndex="-1"
       id="offcanvasNav"
       aria-labelledby="offcanvasNavLabel"
     >
@@ -34,7 +34,7 @@ const MobileNav = ({ currentUser }) => {
         <ul className="navbar-nav justify-content-center me-auto mb-2 mb-lg-0">
           <li className="nav-item">
             <button
-              className="btn"
+              className="btn w-100"
               data-bs-dismiss="offcanvas"
               aria-label="Close"
             >
@@ -43,21 +43,22 @@ const MobileNav = ({ currentUser }) => {
                 passHref
                 href={`/profile?id=${currentUser._id}`}
               >
-                <div className="row m-0">
-                  <div className="col-2 m-0 ">
+                <div className="row m-0 w-100 p-2 bg-white">
+                  <div className="col-3 m-0 d-flex justify-content-center align-items-center ">
                     <img
-                      src={currentUser.image}
+                      src={currentUser.profile?.profileImage}
                       className="d-inline rounded-pill"
-                      height="35px"
-                      width="35px"
-                      alt={currentUser.name}
+                      height={45}
+                      width={45}
+                      loading="lazy"
+                      alt={`${currentUser?.name?.firstName} ${currentUser?.name?.lastName}`}
                     />
                   </div>
-                  <div className="col-10 m-0">
-                    <p className="d-inline text-dark ps-2">
-                      {currentUser.name}
+                  <div className="col-9 m-0 d-flex justify-contetnt-start flex-column">
+                    <p className="text-start text-dark mb-1">
+                    {`${currentUser?.name?.firstName} ${currentUser?.name?.lastName}`}
                     </p>
-                    <p className="text-muted">See your profile</p>
+                    <p className="text-start text-muted m-0">See your profile</p>
                   </div>
                 </div>
               </Link>

@@ -1,9 +1,9 @@
 import useSWR from "swr";
 import API from "../API/API";
 
-export function useApi(obj) {
+export function callApi(obj) {
   if (obj.method === "GET") {
-    if (obj.auth) {
+    if (obj.auth && obj.revalidate) {
       const fetcher = async () => {
         const res = await API.get(obj.url, {
           headers: {
@@ -13,7 +13,7 @@ export function useApi(obj) {
         });
         return res.data;
       };
-      const { data, error } = useSWR(obj.text, fetcher);
+      const { data, error } = useSWR(obj.text, fetcher, obj.revalidate);
 
       return {
         data,
@@ -21,6 +21,18 @@ export function useApi(obj) {
         isError: error
       };
     } else {
+      if(obj.revalidate) {
+
+        const fetcher = async () => {
+          const res = await API.get(obj.url, {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          });
+          return res.data;
+        };
+        const { data, error } = useSWR(obj.text, fetcher, obj.revalidate);
+      }
       const fetcher = async () => {
         const res = await API.get(obj.url, {
           headers: {
@@ -151,7 +163,7 @@ export function useValidate(obj){
 }
 
 
-export async function usePost(obj){
+export async function fetchPost(obj){
   try {
     const res = await API.post(obj.url, obj.data, {
       headers: {
