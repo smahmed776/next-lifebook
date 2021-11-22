@@ -2,13 +2,12 @@ import useSWR from "swr";
 import API from "../API/API";
 
 export function useApi(obj) {
-  if (obj.method === "GET") {
-    if (obj.auth && obj.revalidate) {
+  
+    
       const fetcher = async () => {
         const res = await API.get(obj.url, {
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${obj.auth}`
+            "Content-Type": "application/json"
           }
         });
         return res.data;
@@ -20,89 +19,11 @@ export function useApi(obj) {
         isLoading: !error && !data,
         isError: error
       };
-    } else {
-      if(obj.revalidate) {
+   
 
-        const fetcher = async () => {
-          const res = await API.get(obj.url, {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          });
-          return res.data;
-        };
-        const { data, error } = useSWR(obj.text, fetcher, obj.revalidate);
-      }
-      const fetcher = async () => {
-        const res = await API.get(obj.url, {
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-        return res.data;
-      };
-      const { data, error } = useSWR(obj.text, fetcher);
+        
 
-      return {
-        data,
-        isLoading: !error && !data,
-        isError: error
-      };
-    }
-  } else if (obj.method === "POST") {
-    if (obj.auth) {
-      const fetcher = async () => {
-        const res = await API.get(obj.url, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${obj.auth}`
-          }
-        });
-        return res.data;
-      };
-      const { data, error } = useSWR(obj.text, fetcher);
-
-      return {
-        data,
-        isLoading: !error && !data,
-        isError: error
-      };
-    } else {
-      const fetcher = async () => {
-        const res = await API.post(obj.url, obj.data, {
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-        return res.data;
-      };
-      const { data, error } = useSWR(obj.text, fetcher);
-
-      return {
-        data,
-        isLoading: !error && !data,
-        isError: error
-      };
-    }
-
-  } else if (obj.method === "DELETE") {
-    const fetcher = async () => {
-      const res = await API.delete(obj.url, {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-      return res.data;
-    };
-    const { data, error } = useSWR(obj.text, fetcher);
-
-    return {
-      data,
-      isLoading: !error && !data,
-      isError: error
-    };
-  } else if (obj.method === "PUT") {
-  }
+  
 }
 
 
