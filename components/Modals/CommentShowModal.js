@@ -221,7 +221,7 @@ const CommentShowModal = ({ post, fetchComment, setFetchComment, user }) => {
           </div>
           <div className="modal-body px-3 ">
             {data.map((i) => (
-              <div className="row w-100 m-0 mb-3">
+              <div className="row w-100 m-0 mb-3" key={i}>
                 <div className="col-2 p-0 d-flex justify-content-center">
                   <img
                     src={i.image}

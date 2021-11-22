@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import Header from "../components/Header/Header";
-import { callApi } from "../components/globalcontext/callApi";
+import { useApi } from "../components/globalcontext/callApi";
 import HomePage from "../components/HomePage/HomePage";
 import NewsFeed from "../components/Sections/newsfeed/newsfeed"
 import RightSideBar from "../components/Sections/rightsidebar/rightsidebar"
@@ -8,7 +8,7 @@ import LeftSideBar from "../components/Sections/leftSideBar/leftsidebar"
 
 
 export default function Home() {
-  const { data, isLoading, isError } = callApi({
+  const { data, isLoading, isError } = useApi({
     text: "user",
     method: "GET",
     url: "/user"

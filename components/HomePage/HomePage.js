@@ -1,8 +1,9 @@
 import React, { Fragment, useRef, useState } from "react";
+import {useRouter} from "next/router";
 import { useForm } from "react-hook-form";
 import API from "../API/API";
 import { fetchPost } from "../globalcontext/callApi";
-import CreateAccoutModal from "../Modals/CreateAccoutModal";
+import CreateAccountModal from "../Modals/CreateAccountModal";
 import styles from "./Homepage.module.css";
 import HomePageFooter from "./HomePageFooter";
 
@@ -11,6 +12,7 @@ const HomePage = () => {
   const [invalid, setInvalid] = useState("");
   const lspinner = useRef();
   const lbtn = useRef();
+  const history = useRouter()
 
   const logSuccess = useRef();
   const { register, handleSubmit } = useForm();
@@ -32,6 +34,7 @@ const HomePage = () => {
       lspinner.current.classList.add("d-none");
       setInvalid("");
       setValid(data.message);
+      history.reload()
     }
     // if (!e.target.checkValidity()) {
     //   e.preventDefault();
@@ -188,7 +191,7 @@ const HomePage = () => {
             </div>
           </div>
 
-          <CreateAccoutModal />
+          <CreateAccountModal />
         </div>
       </div>
       <HomePageFooter />

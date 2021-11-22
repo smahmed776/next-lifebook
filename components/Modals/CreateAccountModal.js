@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { usePost } from "../globalcontext/callApi";
+import { fetchPost } from "../globalcontext/callApi";
 
-const CreateAccoutModal = () => {
+const CreateAccountModal = () => {
   const sspinner = useRef();
   const sbtn = useRef();
   const salert = useRef();
@@ -23,7 +23,7 @@ const CreateAccoutModal = () => {
       signForm.current.classList.add("was-validated");
       sbtn.current.setAttribute("disabled", "true");
       sspinner.current.classList.remove("d-none");
-      const { data, isError, error } = await usePost({
+      const { data, isError, error } = await fetchPost({
         url: "/signup",
         data: dataobj
       });
@@ -300,4 +300,4 @@ const CreateAccoutModal = () => {
   );
 };
 
-export default CreateAccoutModal;
+export default CreateAccountModal;

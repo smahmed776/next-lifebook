@@ -119,7 +119,6 @@ const GetPosts = ({ post, user }) => {
             {post.author_image ? (
               <img
                 src={post.author_image}
-                alt="Name"
                 className="rounded-pill statusimg me-2"
                 alt={`${post.author_name.firstName} ${post.author_name.lastName}`}
               />

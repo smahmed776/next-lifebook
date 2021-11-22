@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import GetPosts from "./GetPosts";
 import CreatePostModal from "../../Modals/CreatePostModal";
-import { callApi } from "../../globalcontext/callApi";
+import { useApi } from "../../globalcontext/callApi";
 
 const NewsFeed = ({ user }) => {
-  const { data, isLoading, isError } = callApi({
+  const { data, isLoading, isError } = useApi({
     text: "posts",
     method: "GET",
     url: "/posts",
