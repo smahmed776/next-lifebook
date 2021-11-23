@@ -42,7 +42,7 @@ const ProfilePage = ({ user, data }) => {
                 >
                   <button
                     type="button"
-                    class="btn btn-secondary "
+                    className="btn btn-secondary "
                     data-bs-toggle="modal"
                     data-bs-target="#changeCover"
                   >
@@ -76,7 +76,7 @@ const ProfilePage = ({ user, data }) => {
                 >
                   <button
                     type="button"
-                    class="btn btn-secondary bi bi-camera rounded-pill"
+                    className="btn btn-secondary bi bi-camera rounded-pill"
                     data-bs-toggle="modal"
                     data-bs-target="#changeProfile"
                   ></button>
@@ -327,7 +327,7 @@ const ProfilePage = ({ user, data }) => {
                   </div>
 
                   <div
-                    class="modal fade"
+                    className="modal fade"
                     id="profcreatepost"
                     data-bs-backdrop="static"
                     data-bs-keyboard="false"
@@ -335,20 +335,20 @@ const ProfilePage = ({ user, data }) => {
                     aria-labelledby="profcreatepostLabel"
                     aria-hidden="true"
                   >
-                    <div class="modal-dialog modal-dialog-centered">
-                      <div class="modal-content">
-                        <div class="modal-header">
+                    <div className="modal-dialog modal-dialog-centered">
+                      <div className="modal-content">
+                        <div className="modal-header">
                           <div className="modal-title">
-                            <h3 class="modal-title">Create your post.</h3>
+                            <h3 className="modal-title">Create your post.</h3>
                           </div>
                           <button
                             type="button"
-                            class="btn-close"
+                            className="btn-close"
                             data-bs-dismiss="modal"
                             aria-label="Close"
                           ></button>
                         </div>
-                        <div class="modal-body px-1 ">
+                        <div className="modal-body px-1 ">
                           <form
                             action="#"
                             className="needs-validation"
