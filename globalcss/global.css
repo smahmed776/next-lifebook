@@ -20,3 +20,6 @@ button.resetbtn:focus {
     right: 10px;
     height: 100vh;
 }
+body {
+    background-color: rgb(240, 242, 245);
+}

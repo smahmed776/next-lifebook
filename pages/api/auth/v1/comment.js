@@ -1,7 +1,7 @@
 import dbConnect from "../../../../server/db/dbConnect";
 import Posts from "../../../../server/schemas/postSchema";
 
-export default async function handleLogin(req, res) {
+export default async function handleComment(req, res) {
   await dbConnect();
   if (req.method === "PUT") {
     const { c_id, post_id, text, image } = req.body;

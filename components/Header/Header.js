@@ -1,20 +1,18 @@
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import API from "../API/API";
 // import Notification from "./Notification";
 import mainLogo from "./mainLogo.jpg";
 import MobileNav from "../offcanvas/MobileNav";
 
 const Header = ({ user }) => {
+  const history = useRouter();
   const logout = async () => {
-    try {
-      await API.delete("/logout", {
-        headers: { "Content-Type": "application/json" }
-      });
-      localStorage.setItem("token", "");
-    } catch (error) {
-      console.log(error);
-    }
+    await API.delete("/logout", {
+      headers: { "Content-Type": "application/json" },
+    });
+    history.reload();
   };
 
   return (
@@ -61,7 +59,7 @@ const Header = ({ user }) => {
             </Link>
           </li>
           <li className="nav-item">
-            <a  className="nav-link d-none d-md-block">
+            <a className="nav-link d-none d-md-block">
               <span className="bi bi-collection-play"></span>
             </a>
           </li>
@@ -71,7 +69,7 @@ const Header = ({ user }) => {
             </a>
           </li>
           <li className="nav-item">
-            <a  className="nav-link d-none d-md-block">
+            <a className="nav-link d-none d-md-block">
               <span className="bi bi-people"></span>
             </a>
           </li>
@@ -92,7 +90,7 @@ const Header = ({ user }) => {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <MobileNav currentUser={user} />
+        <MobileNav currentUser={user} logout={logout} />
 
         {/* right side navbar  */}
 
@@ -102,7 +100,7 @@ const Header = ({ user }) => {
               <Link
                 className="nav-link "
                 passHref
-                href={`/profile?id=${user._id}`}
+                href={`/profile/${user._id}`}
               >
                 <a style={{ textDecoration: "none" }}>
                   {user.profile && (
@@ -112,6 +110,7 @@ const Header = ({ user }) => {
                       height="35px"
                       width="35px"
                       alt={`${user?.name?.firstName} ${user?.name?.lastName}`}
+                      style={{objectFit: "cover"}}
                     />
                   )}
                   <p className="d-inline text-dark ps-2">{`${user?.name?.firstName} ${user?.name?.lastName}`}</p>
@@ -124,7 +123,7 @@ const Header = ({ user }) => {
               </a>
             </li>
             <li className="nav-item rounded-pill border bg-light me-2 px-lg-0 px-xl-2">
-              <a className="nav-link" >
+              <a className="nav-link">
                 <span className="bi bi-chat-dots-fill"></span>
               </a>
             </li>
@@ -149,7 +148,7 @@ const Header = ({ user }) => {
                 aria-labelledby="profiledrop"
               >
                 <li>
-                  <Link href={`/profile?id=${user._id}`} passHref>
+                  <Link href={`/profile/${user._id}`} passHref>
                     <a className="row p-3 w-100">
                       <div className="col-3">
                         <img
@@ -158,6 +157,7 @@ const Header = ({ user }) => {
                           height="56px"
                           width="56px"
                           alt={`${user?.name?.firstName} ${user?.name?.lastName}`}
+                          style={{objectFit: "cover"}}
                         />
                       </div>
                       <div className="col-8 pt-2">
@@ -209,7 +209,7 @@ const Header = ({ user }) => {
                   </a>
                 </li>
                 <li>
-                  <a className="row w-100 text-dark ps-1" >
+                  <a className="row w-100 text-dark ps-1">
                     <div className="col-3 p-2 ">
                       <div className="icon-drop-down bg-light rounded-pill">
                         <span className="bi bi-moon-fill ps-2"></span>
@@ -221,11 +221,7 @@ const Header = ({ user }) => {
                   </a>
                 </li>
                 <li>
-                  <a
-                    onClick={logout}
-                    className="row w-100 text-dark ps-1"
-                    
-                  >
+                  <a onClick={logout} className="row w-100 text-dark ps-1">
                     <div className="col-3 p-2">
                       <div className="icon-drop-down bg-light rounded-pill">
                         <span className="bi bi-box-arrow-left ps-2"></span>
@@ -240,30 +236,12 @@ const Header = ({ user }) => {
                 <li>
                   <div className="row w-100 text-muted ps-1">
                     <div className="col-12 p-2" style={{ fontSize: "1rem" }}>
-                      <a className="px-2">
-                        Privacy
-                      </a>
-                      .
-                      <a className="px-2">
-                        Terms
-                      </a>
-                      .
-                      <a className="px-2">
-                        Advertising
-                      </a>
-                      .
-                      <a className="px-2">
-                        Ad Choices
-                      </a>
-                      .
-                      <a className="px-2">
-                        Cookies
-                      </a>
-                      .
-                      <a className="px-2">
-                        More
-                      </a>
-                      . @lifebook 2021
+                      <a className="px-2">Privacy</a>.
+                      <a className="px-2">Terms</a>.
+                      <a className="px-2">Advertising</a>.
+                      <a className="px-2">Ad Choices</a>.
+                      <a className="px-2">Cookies</a>.
+                      <a className="px-2">More</a>. @lifebook 2021
                     </div>
                   </div>
                 </li>

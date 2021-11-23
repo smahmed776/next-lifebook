@@ -9,18 +9,15 @@ export default async function handleLogin(req, res) {
       try {
         const checkReaction = await Posts.findOne({ _id: post_id });
         if (checkReaction.reactions.likes.includes(user_id)) {
-          const newArr = checkReaction.reactions.likes.filter(
-            (like) => like !== user_id
-          );
           await Posts.findOneAndUpdate(
             { _id: post_id },
             {
               $pull: {
-                "reactions.likes": user_id
-              }
+                "reactions.likes": user_id,
+              },
             },
             {
-              safe: true
+              safe: true,
             }
           );
           res.status(200).json({ message: "unliked" });
@@ -32,7 +29,7 @@ export default async function handleLogin(req, res) {
         console.log(error);
         res.status(400).json({
           error,
-          message: "internal server error"
+          message: "internal server error",
         });
       }
     } else {

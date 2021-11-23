@@ -2,19 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { callApi } from "../globalcontext/callApi";
 
-const MobileNav = ({ currentUser }) => {
-  const logout = async () => {
-    try {
-      await API.delete("/logout", {
-        headers: { "Content-Type": "application/json" }
-      });
-      localStorage.setItem("token", "");
-      window.location.replace("/");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+const MobileNav = ({ currentUser, logout }) => {
   return (
     <div
       className="offcanvas offcanvas-start d-sm-none bg-light"
@@ -52,13 +40,16 @@ const MobileNav = ({ currentUser }) => {
                       width={45}
                       loading="lazy"
                       alt={`${currentUser?.name?.firstName} ${currentUser?.name?.lastName}`}
+                      style={{objectFit: "cover"}}
                     />
                   </div>
                   <div className="col-9 m-0 d-flex justify-contetnt-start flex-column">
                     <p className="text-start text-dark mb-1">
-                    {`${currentUser?.name?.firstName} ${currentUser?.name?.lastName}`}
+                      {`${currentUser?.name?.firstName} ${currentUser?.name?.lastName}`}
                     </p>
-                    <p className="text-start text-muted m-0">See your profile</p>
+                    <p className="text-start text-muted m-0">
+                      See your profile
+                    </p>
                   </div>
                 </div>
               </Link>
@@ -191,8 +182,10 @@ const MobileNav = ({ currentUser }) => {
                 </li> */}
           <button
             type="button"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
             className="btn btn-secondary w-100 "
-            onClick={logout}
+            onClick={() => logout()}
           >
             {" "}
             Log Out{" "}

@@ -35,7 +35,6 @@ const PostSchema = new mongoose.Schema({
     },
     created: {
         type: Date,
-        default: Date.now()
     },
     reactions: {
         type: Object,

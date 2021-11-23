@@ -6,8 +6,11 @@ import { callApi } from "../../globalcontext/callApi";
 import ShowMoreText from "react-show-more-text";
 import LikeShowModal from "../../Modals/LikeShowModal";
 import CommentShowModal from "../../Modals/CommentShowModal";
+import { useRouter } from "next/router";
+import DeletePostModal from "../../Modals/DeletePostModal";
 
 const GetPosts = ({ post, user }) => {
+  const [userImage, setUserImage] = useState(null);
   const [comment, setComment] = useState("");
   const [likeText, setLikeText] = useState(post.reactions?.likes?.length);
   const [fetchLike, setFetchLike] = useState(false);
@@ -22,8 +25,16 @@ const GetPosts = ({ post, user }) => {
   const [reqtype, setreqType] = useState("");
   const [postid, setPostid] = useState("");
   const likeCount = useRef();
+  const history = useRouter();
+  const getUserImage = async () => {
+    const res = await API.get(`/userimage/${post.author_id}`, {
+      headers: { "Content-Type": "application/json" },
+    });
+    setUserImage(res.data?.profile?.profileImage);
+  };
   useEffect(() => {
     setLikeText(post.reactions?.likes?.length);
+    getUserImage()
   }, [post]);
 
   const likePost = async (e) => {
@@ -95,13 +106,11 @@ const GetPosts = ({ post, user }) => {
       const option = {
         headers: {
           "Content-Type": "application/json",
-          Athorization: `Bearer ${e.target.dataset.postId}`,
         },
       };
 
-      await API.delete("/deletepost", option);
-
-      window.location.replace("/");
+      await API.delete(`/deletepost/${e.target.dataset.postId}`, option);
+      history.reload();
     } catch (error) {
       console.log(error.response);
     }
@@ -116,20 +125,21 @@ const GetPosts = ({ post, user }) => {
       <div className="">
         <div className="d-flex justify-content-between py-1 px-1 px-sm-3">
           <div className="d-flex justify-content-between">
-            {post.author_image ? (
+            {userImage && (
               <img
-                src={post.author_image}
+                src={userImage}
                 className="rounded-pill statusimg me-2"
                 alt={`${post.author_name.firstName} ${post.author_name.lastName}`}
               />
-            ) : (
-              <span
-                className="bi bi-person-circle pe-3"
-                style={{ fontSize: "1.5rem" }}
-              ></span>
+            )}
+            {!userImage && (
+             <span
+             className="placeholder rounded-pill me-2"
+             style={{ width: "45px", height: "45px" }}
+           ></span>
             )}
             <div className=" text-start">
-              <Link passHref href={`/profile?id=${post.author_id}`}>
+              <Link passHref href={`/profile/${post.author_id}`}>
                 <a
                   className="mt-1 text-dark"
                   style={{ textDecoration: "none" }}
@@ -143,37 +153,93 @@ const GetPosts = ({ post, user }) => {
             </div>
           </div>
           <div className="dropdown">
-            <button
+            <a
               className="btn resetbtn"
               style={{ padding: "0", height: "24px" }}
-              href="#my-works"
               role="button"
               id={`${post._id}drop`}
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
               <span className="bi bi-three-dots"></span>
-            </button>
-            <ul className="dropdown-menu" aria-labelledby={`${post._id}drop`}>
-              {post.author_id === user._id ? (
-                <li className="dropdown-item ">
-                  <button
-                    className="btn text-white w-100 text-center bg-danger"
+            </a>
+            <ul
+              className="dropdown-menu status-drop-down col-12"
+              aria-labelledby={`${post._id}drop`}
+            >
+              <li className="py-2 px-3">
+                <a className="row w-100 text-dark m-0">
+                  <div className="col-3 p-0 pe-2">
+                    <div className="icon-drop-down rounded-pill bg-light">
+                      <span className="bi bi-bookmark ps-2"></span>
+                    </div>
+                  </div>
+                  <div className="col-9">
+                    <h6 className="text-dark m-0">Save Post</h6>
+                    <small className="text-muted">
+                      Add this to your saved item.
+                    </small>
+                  </div>
+                </a>
+              </li>
+              <li className="py-2 px-3">
+                <a className="row w-100 text-dark m-0">
+                  <div className="col-3 p-0 pe-2">
+                    <div className="icon-drop-down rounded-pill bg-light">
+                      <span className="bi bi-x-lg ps-2"></span>
+                    </div>
+                  </div>
+                  <div className="col-9">
+                    <h6 className="text-dark">Hide Post</h6>
+                    <small className="text-muted">See fewer like this</small>
+                  </div>
+                </a>
+              </li>
+              <hr />
+              <li className="py-2 px-3">
+                <a className="row w-100 text-dark m-0">
+                  <div className="col-3 p-0 pe-2">
+                    <div className="icon-drop-down bg-light rounded-pill">
+                      <span className="bi bi-bell ps-2"></span>
+                    </div>
+                  </div>
+                  <div className="col-8 d-flex align-items-center">
+                    <h6 className="text-dark">
+                      Turn on notification for this post.
+                    </h6>
+                  </div>
+                </a>
+              </li>
+              <li className="py-2 px-3">
+                <a className="row w-100 text-dark m-0">
+                  <div className="col-3 p-0 pe-2">
+                    <div className="icon-drop-down bg-light rounded-pill">
+                      <span className="bi bi-pencil-square ps-2"></span>
+                    </div>
+                  </div>
+                  <div className="col-8 d-flex align-items-center">
+                    <h6 className="text-dark">Edit Post</h6>
+                  </div>
+                </a>
+              </li>
+              {post.author_id === user._id && (
+                <li className="py-2 px-3">
+                  <a
+                    data-post-id={post._id}
                     data-bs-toggle="modal"
                     data-bs-target={`#del${post._id}`}
+                    className="row w-100 text-dark m-0"
+                    style={{ textDecoration: "none" }}
                   >
-                    Delete
-                  </button>
-                </li>
-              ) : (
-                <li className="dropdown-item ">
-                  <button
-                    className="btn text-white w-100 text-center bg-danger"
-                    data-post-id={post._id}
-                    onClick={(e) => hidePost(e)}
-                  >
-                    Hide
-                  </button>
+                    <div className="col-3 p-0 pe-2">
+                      <div className="icon-drop-down bg-light rounded-pill">
+                        <span className="bi bi-trash ps-2"></span>
+                      </div>
+                    </div>
+                    <div className="col-8 d-flex align-items-center">
+                      <h6 className="text-dark">Delete this post</h6>
+                    </div>
+                  </a>
                 </li>
               )}
             </ul>
@@ -292,52 +358,7 @@ const GetPosts = ({ post, user }) => {
 
       {/* delete post modal  */}
 
-      <div
-        className="modal fade"
-        id={`del${post._id}`}
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabIndex="-1"
-        aria-labelledby={`del${post._id}Label`}
-        aria-hidden="true"
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <div className="modal-title">
-                <h3 className="modal-title">Confirmation</h3>
-              </div>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body px-1 ">
-              <p className="ps-3">Are you sure to delete this post?</p>
-            </div>
-
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                className="btn btn-danger"
-                data-post-id={post._id}
-                onClick={(e) => deletePost(e)}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <DeletePostModal post={post} deletePost={deletePost} />
 
       {/* modal for like  */}
       <LikeShowModal

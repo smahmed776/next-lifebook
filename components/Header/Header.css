@@ -45,6 +45,7 @@
     height: auto!important;
     width: 100%!important;
     padding: .5rem 0!important;
+    cursor: pointer;
 }
 .nav-drop-down li a{
     text-decoration: none;

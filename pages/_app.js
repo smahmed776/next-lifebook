@@ -1,3 +1,4 @@
+import React from 'react'
 import Head from "next/head";
 import Script from "next/script";
 import { Fragment, useEffect } from "react";
@@ -6,8 +7,12 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "../components/Header/Header.css";
 import "../components/Sections/newsfeed/newsfeed.css";
 import "../globalcss/global.css";
+import "../components/Sections/profile/ProfilePage.css"
 import "../components/Sections/rightsidebar/rightsidebar.css";
 import "../components/Sections/leftSideBar/leftsidebar.css";
+import {useApi} from "../components/globalcontext/callApi"
+import HomePage from "../components/HomePage/HomePage";
+import Header from "../components/Header/Header"
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -15,6 +20,21 @@ function MyApp({ Component, pageProps }) {
       import("bootstrap/dist/js/bootstrap.bundle");
     }
   });
+  const { data, isLoading, isError } = useApi({
+    text: "user",
+    method: "GET",
+    url: "/user",
+  });
+  if (isLoading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100 vw-100 bg-white">
+        <button className="spinner spinner-border bg-white"></button>
+      </div>
+    );
+  }
+  if (isError) {
+    return <HomePage />;
+  }
   return (
     <Fragment>
       <Head>
@@ -23,7 +43,9 @@ function MyApp({ Component, pageProps }) {
 
         <title>Lifebook - A platform to connect with peoples!</title>
       </Head>
-      <Component {...pageProps} />
+
+      <Component {...pageProps} user={data.findUser} />
+      
     </Fragment>
   );
 }

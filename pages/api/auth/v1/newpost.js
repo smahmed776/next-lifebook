@@ -30,6 +30,7 @@ export default async function handler(req, res) {
             author_name,
             author_image,
             privacy,
+            created: Date.now(),
             post: {
               text: post,
               images: image
@@ -41,7 +42,7 @@ export default async function handler(req, res) {
               {
                   $push: {
                       "profile.posts": {
-                        post_id: newPost._id,
+                        post_id: newPost._id.toString(),
                         author_id,
                         author_username,
                         author_name,
