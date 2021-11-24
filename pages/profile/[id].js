@@ -6,7 +6,7 @@ import dbConnect from "../../server/db/dbConnect";
 import User from "../../server/schemas/UserSchema";
 
 export default function SingleProfile(props) {
-  console.log(props.data)
+
   return (
     <Fragment>
       <Head>

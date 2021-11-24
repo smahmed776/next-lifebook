@@ -1,6 +1,7 @@
 import dbConnect from "../../../../server/db/dbConnect";
 import jwt from "jsonwebtoken";
 import User from "../../../../server/schemas/UserSchema";
+import Notification from "../../../../server/schemas/NotificationSchema"
 import cookie from "cookie";
 
 const JWT_SECRET = "salksfhklaskdjfkshalkjfjlasdlfs";
@@ -42,8 +43,26 @@ export default async function getUser(req, res) {
           "profile.profileImage",
           "profile.coverImage"
         ]);
+        const user_notification = await Notification.findOne({user_id: decode.id})
         res.status(200).json({
-          findUser,
+          findUser: {
+            email: findUser.email,
+            username: findUser.username,
+            name: {
+              firstName: findUser.name.firstName,
+              lastName: findUser.name.lastName,
+            },
+            _id: findUser._id,
+            profile: {
+              profileImage: findUser.profile.profileImage,
+              coverImage: findUser.profile.coverImage
+            },
+            notification: {
+              read: user_notification.read,
+              unread: user_notification.unread,
+            }
+          },
+
           message: "User Found"
         });
       }

@@ -1,18 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import API from "../API/API";
-// import Notification from "./Notification";
 import mainLogo from "./mainLogo.jpg";
 import MobileNav from "../offcanvas/MobileNav";
+import NotificationDropDown from "./NotificationDropDown";
+import NotificationOffcanvas from "../offcanvas/NotificationOffcanvas";
 
 const Header = ({ user }) => {
+  const [notification, setNotification] = useState(null);
   const history = useRouter();
   const logout = async () => {
     await API.delete("/logout", {
       headers: { "Content-Type": "application/json" },
     });
     history.reload();
+  };
+
+  const fetchNotification = async () => {
+    const res = await API.get("/notification", {
+      headers: { "Content-Type": "application/json" },
+    });
+    setNotification(res.data);
   };
 
   return (
@@ -22,16 +31,17 @@ const Header = ({ user }) => {
     >
       <div className="container-fluid d-flex justify-content-between align-items-center px-3">
         <div className="navbrand d-flex align-items-center justify-content-between">
-          <a className="navbar-brand me-1">
-            {" "}
-            <img
-              src={mainLogo.src}
-              className="rounded-pill border"
-              height="50px"
-              width="50px"
-              alt=""
-            />{" "}
-          </a>
+          <Link href="/" passHref>
+            <a className="navbar-brand me-1">
+              <img
+                src={mainLogo.src}
+                className="rounded-pill border"
+                height="50px"
+                width="50px"
+                alt=""
+              />{" "}
+            </a>
+          </Link>
           <div className="d-inline-block rounded-pill bg-light navsearch border p-2 overflow-hidden">
             <form className="h-100" action="">
               <button
@@ -73,15 +83,43 @@ const Header = ({ user }) => {
               <span className="bi bi-people"></span>
             </a>
           </li>
-          <li className="nav-item d-flex align-items-center">
-            {/* <Notification currentUser={user} /> */}
+          <li
+            className="nav-item d-sm-none rounded-pill border bg-light me-2 px-lg-0 px-xl-2 dropdown"
+            style={{ height: "50px", width: "50px" }}
+          >
+            <a
+              className="nav-link p-0 d-flex justify-content-center align-items-center position-relative h-100 w-100"
+              role="button"
+              id="notificationdrop"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#notificationcanvas"
+              aria-controls="notificationcanvas"
+              onClick={() => fetchNotification()}
+              style={{ fontSize: "1.2rem" }}
+            >
+              <span className="bi bi-bell p-0"></span>
+              {user.notification.unread.length > 0 && (
+                <span
+                  className="position-absolute p-1 rounded-pill bg-danger text-center text-white d-flex justify-content-center align-items-center"
+                  style={{
+                    height: "25px",
+                    width: "25px",
+                    top: "-5px",
+                    right: "-10px",
+                  }}
+                >
+                  {user.notification.unread.length}
+                </span>
+              )}
+            </a>
+            <NotificationOffcanvas notification={notification} user={user} />
           </li>
         </ul>
 
         {/* mobile off canvas  */}
 
         <button
-          className="btn navbar-toggler"
+          className="btn resetbtn navbar-toggler"
           type="button"
           data-bs-toggle="offcanvas"
           data-bs-target="#offcanvasNav"
@@ -110,7 +148,7 @@ const Header = ({ user }) => {
                       height="35px"
                       width="35px"
                       alt={`${user?.name?.firstName} ${user?.name?.lastName}`}
-                      style={{objectFit: "cover"}}
+                      style={{ objectFit: "cover" }}
                     />
                   )}
                   <p className="d-inline text-dark ps-2">{`${user?.name?.firstName} ${user?.name?.lastName}`}</p>
@@ -124,15 +162,40 @@ const Header = ({ user }) => {
             </li>
             <li className="nav-item rounded-pill border bg-light me-2 px-lg-0 px-xl-2">
               <a className="nav-link">
-                <span className="bi bi-chat-dots-fill"></span>
+                <span className="bi bi-messenger"></span>
               </a>
             </li>
-            <li className="nav-item rounded-pill border bg-light me-2 px-lg-0 px-xl-2">
-              <a className="nav-link">
-                {" "}
-                <span className="bi bi-bell"></span>
+            <li className="nav-item rounded-pill d-none d-sm-block border bg-light me-2 px-lg-0 px-xl-2 dropdown">
+              <a
+                className="nav-link position-relative rounded-pill h-100 d-flex justify-content-center align-items-center p-0"
+                role="button"
+                id="notificationdrop"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                onClick={() => fetchNotification()}
+              >
+                <span className="bi bi-bell p-0"></span>
+                {user.notification.unread.length > 0 && (
+                  <span
+                    className="position-absolute p-1 rounded-pill bg-danger text-center text-white d-flex justify-content-center align-items-center"
+                    style={{
+                      height: "25px",
+                      width: "25px",
+                      top: "-5px",
+                      right: "-10px",
+                    }}
+                  >
+                    {user.notification.unread.length}
+                  </span>
+                )}
               </a>
+              <NotificationDropDown
+                notification={notification}
+                user={user}
+                mobile={false}
+              />
             </li>
+
             <li className="nav-item rounded-pill border bg-light me-2 px-lg-0 px-xl-2 dropdown">
               <a
                 className="nav-link"
@@ -157,7 +220,7 @@ const Header = ({ user }) => {
                           height="56px"
                           width="56px"
                           alt={`${user?.name?.firstName} ${user?.name?.lastName}`}
-                          style={{objectFit: "cover"}}
+                          style={{ objectFit: "cover" }}
                         />
                       </div>
                       <div className="col-8 pt-2">

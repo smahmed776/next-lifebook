@@ -1,6 +1,7 @@
 import dbConnect from "../../../../server/db/dbConnect";
 import bcrypt from "bcrypt";
 import User from "../../../../server/schemas/UserSchema";
+import Notification from "../../../../server/schemas/NotificationSchema"
 
 
 export default async function handler(req, res) {
@@ -49,6 +50,13 @@ export default async function handler(req, res) {
             Dob
           });
           await newUser.save();
+
+          const newNotification = await new Notification({
+            user_id: newUser._id,
+            read: [],
+            unread: []
+          })
+          await newNotification.save()
 
   
           res.status(200).json({ message: "Account created successfully", newUser });

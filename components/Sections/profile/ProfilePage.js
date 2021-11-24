@@ -92,31 +92,41 @@ const ProfilePage = ({ user, data }) => {
 
         <div className="col-12 d-flex justify-content-center pt-5 mt-3 mt-sm-5">
           <div className="profile-nav pt-5">
-            <ul className="navbar border-top pt-3">
-              <li className="nav-item">
+            <ul className="navbar border-top pt-3 px-3 m-0">
+              <li className="nav-item border-bottom border-primary pb-1">
                 <a href="" className="nav-link">
-                  Home
+                  Posts
                 </a>
               </li>
               <li className="nav-item">
-                <a href="" className="nav-link">
-                  Home
+                <a href="" className="nav-link text-dark">
+                  About
                 </a>
               </li>
               <li className="nav-item">
-                <a href="" className="nav-link">
-                  Home
+                <a href="" className="nav-link text-dark">
+                  Friends
                 </a>
               </li>
               <li className="nav-item">
-                <a href="" className="nav-link">
-                  Home
+                <a href="" className="nav-link text-dark">
+                  Photos
                 </a>
               </li>
-              <li className="nav-item">
-                <a href="" className="nav-link">
-                  Home
-                </a>
+              <li className="nav-item px-2">
+                <button className="btn btn-primary bi bi-person-plus mb-2">
+                  {" "}
+                  Add Friend
+                </button>
+              </li>
+              <li className="nav-item px-2">
+                <button className="btn btn-light bi bi-messenger mb-2">
+                  {` Message`}
+                 
+                </button>
+              </li>
+              <li className="nav-item px-2">
+                <button className="btn btn-light rounded-pill bi bi-three-dots mb-2"></button>
               </li>
             </ul>
           </div>

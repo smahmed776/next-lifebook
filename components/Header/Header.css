@@ -15,16 +15,18 @@
     width: auto;
 }
 .nav-drop-down{
-    right: 0;
-    left: auto!important;
-    top: 100%!important;
-    width: 315px;
+    position: absolute!important;
+    /* right: 1%!important; */
+    left: 3%!important;
+    top: 87%!important;
+    min-width: 300px;
     max-height: 80vh;
     overflow-x: hidden;
     overflow-y: scroll;
 }
 ::-webkit-scrollbar{
    width: 5px;
+   height: 4px
 }
 /* Track */
 ::-webkit-scrollbar-track {
@@ -44,7 +46,10 @@
 .nav-drop-down li {
     height: auto!important;
     width: 100%!important;
-    padding: .5rem 0!important;
+    cursor: pointer;
+}
+.nav-drop-down li:hover {
+    background-color:#928c8c2e;
     cursor: pointer;
 }
 .nav-drop-down li a{
@@ -98,6 +103,13 @@
 .navbrand {
     width: 40%;
 }
+.notification-para, .notification-para a {
+    font-size: 1rem!important;
+}
+.notification-para {
+    white-space: break-spaces;
+    min-width: 250px;
+}
 /* .profilename {
     padding: 0 1rem;
 } */
@@ -117,6 +129,16 @@ small screen
     }
     .navbrand {
         width: 23%;
+    }
+    .nav-drop-down{
+        position: absolute!important;
+        right: 0%!important;
+        left: auto!important;
+        top: 100%!important;
+        width: 300px;
+        max-height: 80vh;
+        overflow-x: hidden;
+        overflow-y: scroll;
     }
     
 }
