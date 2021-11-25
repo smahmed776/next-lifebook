@@ -85,7 +85,7 @@ const Header = ({ user }) => {
           </li>
           <li
             className="nav-item d-sm-none rounded-pill border bg-light me-2 px-lg-0 px-xl-2 dropdown"
-            style={{ height: "50px", width: "50px" }}
+            style={{ height: "40px", width: "40px" }}
           >
             <a
               className="nav-link p-0 d-flex justify-content-center align-items-center position-relative h-100 w-100"
@@ -95,17 +95,17 @@ const Header = ({ user }) => {
               data-bs-target="#notificationcanvas"
               aria-controls="notificationcanvas"
               onClick={() => fetchNotification()}
-              style={{ fontSize: "1.2rem" }}
+              style={{ fontSize: "1rem" }}
             >
               <span className="bi bi-bell p-0"></span>
               {user.notification.unread.length > 0 && (
                 <span
                   className="position-absolute p-1 rounded-pill bg-danger text-center text-white d-flex justify-content-center align-items-center"
                   style={{
-                    height: "25px",
-                    width: "25px",
+                    height: "20px",
+                    width: "20px",
                     top: "-5px",
-                    right: "-10px",
+                    right: "-6px",
                   }}
                 >
                   {user.notification.unread.length}

@@ -19,7 +19,7 @@ const NotificationOffcanvas = ({ notification, user }) => {
         />
         <h3 className="p-2 my-2">Notifications</h3>
       </div>
-      <div className="offcanvas-body justify-content-center align-items-center">
+      <div className="offcanvas-body justify-content-center align-items-center p-0">
         <NotificationDropDown user={user} notification={notification} mobile={true} />
       </div>
     </div>

@@ -44,6 +44,7 @@ export async function getServerSideProps(context) {
         "friends",
         "followers",
       ]);
+      console.log(id, res)
       if (!res) {
         return {
           notFound: true,

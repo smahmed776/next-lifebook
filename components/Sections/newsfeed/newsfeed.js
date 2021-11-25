@@ -22,7 +22,7 @@ const NewsFeed = ({ user }) => {
     return (
       <section className="feed-container">
         <div className="row feedrow gy-2 gy-sm-4 px-0 px-sm-3 ps-lg-5">
-          <div className="col-12 bg-white rounded p-0 p-sm-2 mt-3 mt-sm-5 border">
+          <div className="col-12 bg-white custom-rounded p-0 p-sm-2 mt-3 mt-sm-5 border">
             <div className="row gy-3 gy-sm-3 p-0 pt-3 w-100 m-0 justify-content-center align-items-center p-sm-3">
               <div className="col-12 d-flex align-items-center justify-content-center p-0">
                 <div
@@ -74,70 +74,69 @@ const NewsFeed = ({ user }) => {
           </div>
 
           <div className="col-12 border shadow-sm bg-white custom-rounded p-2">
-          <div className="d-flex justify-content-start">
-            <div className="placeholder-glow w-100 mt-3">
-              <div className="col-12 col-sm-8 d-flex justify-content-start px-sm-4">
-                <div className="col-3 ps-2">
-                  <span
-                    className="placeholder rounded-pill"
-                    style={{ width: "45px", height: "45px" }}
-                  ></span>
+            <div className="d-flex justify-content-start">
+              <div className="placeholder-glow w-100 mt-3">
+                <div className="col-12 col-sm-8 d-flex justify-content-start px-sm-4">
+                  <div className="col-3 ps-2">
+                    <span
+                      className="placeholder rounded-pill"
+                      style={{ width: "45px", height: "45px" }}
+                    ></span>
+                  </div>
+                  <div className="col-5">
+                    <span className="placeholder col-12"></span>
+                    <span className="placeholder col-8"></span>
+                  </div>
                 </div>
-                <div className="col-5">
-                  <span className="placeholder col-12"></span>
-                  <span className="placeholder col-8"></span>
+                <div className="col-12 px-4 my-3">
+                  <span className="placeholder col-6 mt-2 px-2 me-3"></span>
+                  <span className="placeholder col-5 mt-2"></span>
+                  <span className="placeholder col-12 mt-2"></span>
+                  <span className="placeholder col-3 mt-2 me-2"></span>
+                  <span className="placeholder col-3 mt-2 me-2"></span>
+                  <span className="placeholder col-3 mt-2"></span>
+                  <span className="placeholder col-6 mt-2 px-2 me-3"></span>
+                  <span className="placeholder col-5 mt-2"></span>
+                  <span className="placeholder col-12 mt-2"></span>
+                  <span className="placeholder col-3 mt-2 me-2"></span>
+                  <span className="placeholder col-3 mt-2 me-2"></span>
+                  <span className="placeholder col-3 mt-2"></span>
                 </div>
-              </div>
-              <div className="col-12 px-4 my-3">
-                <span className="placeholder col-6 mt-2 px-2 me-3"></span>
-                <span className="placeholder col-5 mt-2"></span>
-                <span className="placeholder col-12 mt-2"></span>
-                <span className="placeholder col-3 mt-2 me-2"></span>
-                <span className="placeholder col-3 mt-2 me-2"></span>
-                <span className="placeholder col-3 mt-2"></span>
-                <span className="placeholder col-6 mt-2 px-2 me-3"></span>
-                <span className="placeholder col-5 mt-2"></span>
-                <span className="placeholder col-12 mt-2"></span>
-                <span className="placeholder col-3 mt-2 me-2"></span>
-                <span className="placeholder col-3 mt-2 me-2"></span>
-                <span className="placeholder col-3 mt-2"></span>
               </div>
             </div>
           </div>
-        </div>
-        <div className="col-12 border shadow-sm bg-white custom-rounded p-2">
-          <div className="d-flex justify-content-start">
-            <div className="placeholder-glow w-100 mt-3">
-              <div className="col-12 col-sm-8 d-flex justify-content-start px-sm-4">
-                <div className="col-3 ps-2">
-                  <span
-                    className="placeholder rounded-pill"
-                    style={{ width: "45px", height: "45px" }}
-                  ></span>
+          <div className="col-12 border shadow-sm bg-white custom-rounded p-2">
+            <div className="d-flex justify-content-start">
+              <div className="placeholder-glow w-100 mt-3">
+                <div className="col-12 col-sm-8 d-flex justify-content-start px-sm-4">
+                  <div className="col-3 ps-2">
+                    <span
+                      className="placeholder rounded-pill"
+                      style={{ width: "45px", height: "45px" }}
+                    ></span>
+                  </div>
+                  <div className="col-5">
+                    <span className="placeholder col-12"></span>
+                    <span className="placeholder col-8"></span>
+                  </div>
                 </div>
-                <div className="col-5">
-                  <span className="placeholder col-12"></span>
-                  <span className="placeholder col-8"></span>
+                <div className="col-12 px-4 my-3">
+                  <span className="placeholder col-6 mt-2 px-2 me-3"></span>
+                  <span className="placeholder col-5 mt-2"></span>
+                  <span className="placeholder col-12 mt-2"></span>
+                  <span className="placeholder col-3 mt-2 me-2"></span>
+                  <span className="placeholder col-3 mt-2 me-2"></span>
+                  <span className="placeholder col-3 mt-2"></span>
+                  <span className="placeholder col-6 mt-2 px-2 me-3"></span>
+                  <span className="placeholder col-5 mt-2"></span>
+                  <span className="placeholder col-12 mt-2"></span>
+                  <span className="placeholder col-3 mt-2 me-2"></span>
+                  <span className="placeholder col-3 mt-2 me-2"></span>
+                  <span className="placeholder col-3 mt-2"></span>
                 </div>
-              </div>
-              <div className="col-12 px-4 my-3">
-                <span className="placeholder col-6 mt-2 px-2 me-3"></span>
-                <span className="placeholder col-5 mt-2"></span>
-                <span className="placeholder col-12 mt-2"></span>
-                <span className="placeholder col-3 mt-2 me-2"></span>
-                <span className="placeholder col-3 mt-2 me-2"></span>
-                <span className="placeholder col-3 mt-2"></span>
-                <span className="placeholder col-6 mt-2 px-2 me-3"></span>
-                <span className="placeholder col-5 mt-2"></span>
-                <span className="placeholder col-12 mt-2"></span>
-                <span className="placeholder col-3 mt-2 me-2"></span>
-                <span className="placeholder col-3 mt-2 me-2"></span>
-                <span className="placeholder col-3 mt-2"></span>
               </div>
             </div>
           </div>
-        </div>
-
         </div>
       </section>
     );
@@ -146,7 +145,7 @@ const NewsFeed = ({ user }) => {
     return (
       <section className="feed-container">
         <div className="row feedrow gy-2 gy-sm-4 px-0 px-sm-3 ps-lg-5">
-          <div className="col-12 bg-white rounded p-0 p-sm-2 mt-3 mt-sm-5 border">
+          <div className="col-12 bg-white custom-rounded p-0 p-sm-2 mt-3 mt-sm-5 border">
             <div className="row gy-3 gy-sm-3 p-0 pt-3 w-100 m-0 justify-content-center align-items-center p-sm-3">
               <div className="col-12 d-flex align-items-center justify-content-center p-0">
                 <div
@@ -216,7 +215,7 @@ const NewsFeed = ({ user }) => {
   return (
     <section className="feed-container pb-3">
       <div className="row feedrow gy-2 gy-sm-4 px-0 px-sm-3 ps-lg-5">
-        <div className="col-12 bg-white rounded p-0 p-sm-2 mt-3 mt-sm-5 border">
+        <div className="col-12 bg-white custom-rounded p-0 p-sm-2 mt-3 mt-sm-5 border">
           <div className="row gy-3 gy-sm-3 p-0 pt-3 w-100 m-0 justify-content-center align-items-center p-sm-3">
             <div className="col-12 d-flex align-items-center justify-content-center p-0">
               <div
@@ -266,7 +265,6 @@ const NewsFeed = ({ user }) => {
             <CreatePostModal user={user} />
           </div>
         </div>
-
 
         {data.findPosts.length > 0 &&
           data.findPosts.map((post, index) => (

@@ -22,7 +22,6 @@ const SingleNotification = ({ notify }) => {
       },
     });
     setName(res.data.users);
-    console.log(res.data);
   };
 
   useEffect(() => {
@@ -45,16 +44,16 @@ const SingleNotification = ({ notify }) => {
           {
             <p className="notification-para mb-0 pb-0">
               <span className={`${getIcon(notify.type)}`}></span>
-             {notify.buddy_id.length === 1 && `${name[0].name.firstName} ${name[0].name.lastName} has`}
-              {notify.buddy_id.length == 2 && `${name[0].name.firstName} ${name[0].name.lastName} and ${name[1].name.firstName} ${name[1].name.lastName}`}
+             {notify.buddy_id.length === 1 && `${name[0]?.name.firstName} ${name[0]?.name.lastName} has`}
+              {notify.buddy_id.length == 2 && `${name[0]?.name.firstName} ${name[0]?.name.lastName} and ${name[1]?.name.firstName} ${name[1]?.name.lastName}`}
               {notify.buddy_id.length > 2 &&
-                `${name[0].name.firstName}, ${name[1].name.firstName} and ${
+                `${name[0]?.name.firstName}, ${name[1]?.name.firstName} and ${
                   notify.buddy_id.length - 2
                 } others `}
               {notify.type === "like" && " liked your "}
               {notify.type === "comment" && " commented on your "} 
               <Link
-                href={`/post/${notify.post_id}`}
+                href={`/posts/${notify.post_id}`}
                 style={{ paddingLeft: ".5rem", textDecoration: "none" }}
               >
                 Post

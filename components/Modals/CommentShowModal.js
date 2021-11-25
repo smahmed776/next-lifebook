@@ -220,14 +220,14 @@ const CommentShowModal = ({ post, fetchComment, setFetchComment, user }) => {
             ></button>
           </div>
           <div className="modal-body px-3 ">
-            {data.map((i) => (
-              <div className="row w-100 m-0 mb-3" key={i}>
+            {data.map((i, index) => (
+              <div className="row w-100 m-0 mb-3" key={index}>
                 <div className="col-2 p-0 d-flex justify-content-center">
                   <img
                     src={i.image}
                     alt=""
                     className="rounded-pill"
-                    style={{ height: "45px", width: "45px" }}
+                    style={{ height: "45px", width: "45px", objectFit: "cover" }}
                   />
                 </div>
                 <div className="col-10 bg-light rounded py-1 ps-3">

@@ -3,8 +3,8 @@ import Posts from "../../../../server/schemas/postSchema";
 import Notification from "../../../../server/schemas/NotificationSchema";
 
 export default async function likepost(req, res) {
-  await dbConnect();
   if (req.method === "PUT") {
+    await dbConnect();
     const { user_id, post_id } = req.body;
     if (user_id && post_id) {
       try {
@@ -141,7 +141,8 @@ export default async function likepost(req, res) {
                     post_id: post_id,
                   },
                 },
-              }
+              },
+              {new: true}
             );
           }
 

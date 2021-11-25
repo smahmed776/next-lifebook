@@ -3,7 +3,7 @@ import SingleNotification from "./SingleNotification";
 import Link from "next/link";
 
 const NotificationDropDown = ({ user, notification, mobile }) => {
-  console.log(notification);
+  console.log(notification)
   if (mobile) {
     if (!notification) {
       return (
@@ -55,12 +55,12 @@ const NotificationDropDown = ({ user, notification, mobile }) => {
         aria-labelledby="notificationdrop"
       >
         {notification.unread.length > 0 &&
-          notification.unread.map((notify) => (
-            <SingleNotification notify={notify} key={notify} />
+          notification.unread.map((notify, index) => (
+            <SingleNotification notify={notify} key={index} />
           ))}
         {notification.read.length > 0 &&
-          notification.read.map((notify) => (
-            <SingleNotification notify={notify} key={notify} />
+          notification.read.map((notify, index) => (
+            <SingleNotification notify={notify} key={index} />
           ))}
       </ul>
     );
@@ -113,12 +113,12 @@ const NotificationDropDown = ({ user, notification, mobile }) => {
         aria-labelledby="notificationdrop"
       >
         {notification.unread.length > 0 &&
-          notification.unread.map((notify) => (
-            <SingleNotification notify={notify} key={notify} />
+          notification.unread.map((notify, index) => (
+            <SingleNotification notify={notify} key={index} />
           ))}
         {notification.read.length > 0 &&
-          notification.read.map((notify) => (
-            <SingleNotification notify={notify} key={notify} />
+          notification.read.map((notify, index) => (
+            <SingleNotification notify={notify} key={index} />
           ))}
       </ul>
     );

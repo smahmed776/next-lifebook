@@ -23,7 +23,10 @@ export default async function notification(req, res) {
       if (decode) {
         const getNotification = await Notification.findOne({ user_id: decode.id });
         if (getNotification) {
-          res.status(200).json(getNotification);
+          res.status(200).json({
+            read: getNotification.read.reverse(),
+            unread: getNotification.unread.reverse()
+          });
         }
       }
     } else {

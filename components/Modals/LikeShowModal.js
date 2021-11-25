@@ -122,7 +122,7 @@ const LikeShowModal = ({ post, fetchLike, setFetchLike }) => {
               aria-label="Close"
             ></button>
           </div>
-          <div className="modal-body px-1 ">
+          <div className="modal-body px-1 py-1 ">
             <div className="row row-cols-1 w-100 m-0 gy-3">
               {data.length > 0 &&
                 data.map((i) => (
@@ -132,7 +132,7 @@ const LikeShowModal = ({ post, fetchLike, setFetchLike }) => {
                         src={i.image}
                         alt=""
                         className="rounded-pill"
-                        style={{ height: "35px", width: "35px" }}
+                        style={{ height: "35px", width: "35px", objectFit: "cover" }}
                       />
                       <p className="text-dark ms-3">{`${i.name.firstName} ${i.name.lastName}`}</p>
                     </div>
