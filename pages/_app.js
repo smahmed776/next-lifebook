@@ -13,13 +13,21 @@ import "../components/Sections/leftSideBar/leftsidebar.css";
 import { useApi } from "../components/globalcontext/callApi";
 import HomePage from "../components/HomePage/HomePage";
 import Header from "../components/Header/Header";
+import API from "../components/API/API";
 
 function MyApp({ Component, pageProps }) {
+  const fetchUser = async () => {
+    const res = await API.get("/user", {headers: {"Content-Type": "application/json"}})
+    console.log(res.data)    
+  }
   useEffect(() => {
     if (document !== "undefined") {
       import("bootstrap/dist/js/bootstrap.bundle");
     }
   });
+  useEffect(()=> {
+    fetchUser()
+  }, [])
   const { data, isLoading, isError } = useApi({
     text: "user",
     method: "GET",

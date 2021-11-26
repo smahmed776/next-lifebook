@@ -18,15 +18,6 @@ const NewsFeed = ({ user }) => {
       refreshInterval: 500,
     },
   });
-  const fetchPosts = async () => {
-    const res = await axios.get(`http://localhost:5000/api/auth/v1/user`, {headers: {
-      "Content-Type": "application/json",
-    }, withCredentials: true, credentials: "include"})
-    console.log(res.data)
-  }
-  useEffect(()=> {
-    fetchPosts()
-  }, [])
 
   if (isLoading) {
     return (
