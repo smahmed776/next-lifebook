@@ -34,7 +34,7 @@ const HomePage = () => {
       lspinner.current.classList.add("d-none");
       setInvalid("");
       setValid(data.message);
-      history.reload()
+      // history.reload()
     }
     // if (!e.target.checkValidity()) {
     //   e.preventDefault();
