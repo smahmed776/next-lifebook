@@ -2,7 +2,6 @@ import { Fragment, useEffect } from "react";
 import API from "../../components/API/API";
 import Header from "../../components/Header/Header";
 import axios from "axios";
-import Post from "../../components/Sections/newsfeed/Post";
 import GetPosts from "../../components/Sections/newsfeed/GetPosts";
 
 export default function PostHandler({ user, data }) {
@@ -13,7 +12,6 @@ export default function PostHandler({ user, data }) {
       <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 justify-content-center m-0 w-100">
         <GetPosts user={user} post={data} />
       </div>
-      {/* <Post data={data} user={user}/> */}
     </Fragment>
   );
 }
