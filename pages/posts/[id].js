@@ -1,30 +1,40 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
+import API from "../../components/API/API";
 import Header from "../../components/Header/Header";
-import dbConnect from "../../server/db/dbConnect";
-import Posts from "../../server/schemas/UserSchema"
+import axios from "axios";
+import Post from "../../components/Sections/newsfeed/Post";
+import GetPosts from "../../components/Sections/newsfeed/GetPosts";
 
-export default function PostHandler({user, data}){
-    console.log(data, user);
-    return (
-        <Fragment>
-            <Header user={user} />
-            <div>Hi there</div>
-        </Fragment>
-    )
+export default function PostHandler({ user, data }) {
+  console.log(data);
+  return (
+    <Fragment>
+      <Header user={user} />
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 justify-content-center m-0 w-100">
+        <GetPosts user={user} post={data} />
+      </div>
+      {/* <Post data={data} user={user}/> */}
+    </Fragment>
+  );
 }
 
-export async function getServerSideProps(context){
-    await dbConnect();
-    const { id } = context.query;
-    const getPost = await Posts.findOne({_id: id }, ["author_id"]);
-    const formatJson = JSON.stringify(getPost);
-    const data = JSON.parse(formatJson);
-    if(!data){
-        return {
-            notFound: true
-        }
+export async function getServerSideProps(context) {
+  const { id } = context.query;
+  const res = await axios.get(
+    `http://localhost:5000/api/auth/v1/singlepost/${id}`,
+    {
+      withCredentials: true,
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
     }
+  );
+  const data = res.data?.getPost;
+  if (!data) {
     return {
-        props: {data}
-    }
+      notFound: true,
+    };
+  }
+  return {
+    props: { data },
+  };
 }

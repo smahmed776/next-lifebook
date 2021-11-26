@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import GetPosts from "./GetPosts";
 import CreatePostModal from "../../Modals/CreatePostModal";
 import { useApi } from "../../globalcontext/callApi";
+import axios from "axios";
 
 const NewsFeed = ({ user }) => {
   const { data, isLoading, isError } = useApi({
     text: "posts",
     method: "GET",
-    url: "/posts",
+    url: `/posts/${user._id}`,
     revalidate: {
       revalidateIfStale: true,
       revalidateOnFocus: true,
@@ -17,6 +18,15 @@ const NewsFeed = ({ user }) => {
       refreshInterval: 500,
     },
   });
+  const fetchPosts = async () => {
+    const res = await axios.get(`http://localhost:5000/api/auth/v1/user`, {headers: {
+      "Content-Type": "application/json",
+    }, withCredentials: true, credentials: "include"})
+    console.log(res.data)
+  }
+  useEffect(()=> {
+    fetchPosts()
+  }, [])
 
   if (isLoading) {
     return (
@@ -266,8 +276,8 @@ const NewsFeed = ({ user }) => {
           </div>
         </div>
 
-        {data.findPosts.length > 0 &&
-          data.findPosts.map((post, index) => (
+        {data.Posts?.length > 0 &&
+          data.Posts.map((post, index) => (
             <GetPosts post={post} user={user} key={index} />
           ))}
       </div>

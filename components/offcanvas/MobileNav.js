@@ -29,7 +29,7 @@ const MobileNav = ({ currentUser, logout }) => {
               <Link
                 className="nav-link"
                 passHref
-                href={`/profile?id=${currentUser._id}`}
+                href={`/profile/${currentUser._id}`}
               >
                 <div className="row m-0 w-100 p-2 bg-white">
                   <div className="col-3 m-0 d-flex justify-content-center align-items-center ">
