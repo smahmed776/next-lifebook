@@ -19,7 +19,7 @@ export default function PostHandler({ user, data }) {
 export async function getServerSideProps(context) {
   const { id } = context.query;
   const res = await axios.get(
-    `http://localhost:5000/api/auth/v1/singlepost/${id}`,
+    `https://lifebooksocial.herokuapp.com/api/auth/v1/singlepost/${id}`,
     {
       withCredentials: true,
       headers: { "Content-Type": "application/json" },
