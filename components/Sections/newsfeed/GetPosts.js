@@ -11,7 +11,6 @@ import DeletePostModal from "../../Modals/DeletePostModal";
 
 const GetPosts = ({ post, user }) => {
   const [userImage, setUserImage] = useState(null);
-  const [comment, setComment] = useState("");
   const [likeText, setLikeText] = useState(post.reactions?.likes?.length);
   const [fetchLike, setFetchLike] = useState(false);
   const [fetchComment, setFetchComment] = useState(false);
@@ -34,7 +33,7 @@ const GetPosts = ({ post, user }) => {
   };
   useEffect(() => {
     setLikeText(post.reactions?.likes?.length);
-    getUserImage()
+    getUserImage();
   }, [post]);
 
   const likePost = async (e) => {
@@ -133,10 +132,10 @@ const GetPosts = ({ post, user }) => {
               />
             )}
             {!userImage && (
-             <span
-             className="placeholder rounded-pill me-2"
-             style={{ width: "45px", height: "45px" }}
-           ></span>
+              <span
+                className="placeholder rounded-pill me-2"
+                style={{ width: "45px", height: "45px" }}
+              ></span>
             )}
             <div className=" text-start">
               <Link passHref href={`/profile/${post.author_id}`}>
@@ -183,13 +182,17 @@ const GetPosts = ({ post, user }) => {
                 </a>
               </li>
               <li className="py-2 px-3">
-                <a className="row w-100 text-dark m-0">
-                  <div className="col-3 p-0 pe-2">
+                <a
+                  data-post-id={post._id}
+                  onClick={(e) => hidePost(e)}
+                  className="row w-100 text-dark m-0"
+                >
+                  <div className="col-3 p-0 pe-2" style={{pointerEvents: "none"}}>
                     <div className="icon-drop-down rounded-pill bg-light">
                       <span className="bi bi-x-lg ps-2"></span>
                     </div>
                   </div>
-                  <div className="col-9">
+                  <div className="col-9" style={{pointerEvents: "none"}}>
                     <h6 className="text-dark">Hide Post</h6>
                     <small className="text-muted">See fewer like this</small>
                   </div>
@@ -261,18 +264,18 @@ const GetPosts = ({ post, user }) => {
               {post.post.text}
             </ShowMoreText>
           )}
-          {post.post?.images?.length > 0 &&
-            post.post.images.map((img) => (
-              <img
-                key={img}
-                src={img}
-                alt=""
-                width="100%"
-                className="px-2"
-                style={{ objectFit: "contain" }}
-              />
-            ))}
         </div>
+        {post.post?.images?.length > 0 &&
+          post.post.images.map((img) => (
+            <img
+              key={img}
+              src={img}
+              alt=""
+              width="100%"
+              className="px-2"
+              style={{ maxHeight: "300px", objectFit: "contain" }}
+            />
+          ))}
 
         <div className="d-flex justify-content-between align-items-baseline px-3 px-sm-4 mt-3 postreactcount">
           <a

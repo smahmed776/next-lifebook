@@ -87,12 +87,12 @@ const CommentShowModal = ({ post, fetchComment, setFetchComment, user }) => {
                     style={{ height: "45px", width: "45px" }}
                   ></span>
                 </div>
-                <div className="col-6 bg-light rounded">
+                <div className="col-6 rounded">
                   <a
                     className="text-dark"
                     style={{ textDecoration: "none", fontWeight: "bold" }}
                   >
-                    <span className="placeholder text-dark col-12 me-2"></span>
+                    <span className="placeholder text-dark col-10 me-2"></span>
                     <span className="placeholder text-dark col-6 me-2 my-2"></span>
                   </a>
                 </div>

@@ -1,25 +1,33 @@
 import React, { useEffect, useRef, useState } from "react";
-import Moment from "react-moment";
+import API from "../../API/API";
 import GetPosts from "../newsfeed/GetPosts";
 import ChangeProfilePicModal from "../../Modals/ChangeProfilePicModal";
 import ChangeCoverPicModal from "../../Modals/ChangeCoverPicModal";
+import CreatePostModal from "../../Modals/CreatePostModal";
+import { useApi } from "../../globalcontext/callApi";
 
 const ProfilePage = ({ user, data }) => {
-  const [isMe, setIsMe] = useState(Boolean);
-  const [img, setImg] = useState("");
-  const [post, setPost] = useState([]);
-  const setUser = () => {};
+  const [profilePost, setProfilePost] = useState({ isLoading: true });
 
-  const postLoader = useRef();
-  const loaderText = useRef();
-  const loader = useRef();
-  const reverseArr = [...post];
-  reverseArr.reverse();
-  let albumReverse = [];
-  if (user.length) {
-    albumReverse = [...user[0].album];
-    albumReverse.reverse();
-  }
+  const fetchProfilePosts = async () => {
+    setProfilePost({
+      isLoading: true,
+      data: "undefined",
+    });
+    const res = await API.get(`/posts/${data._id}`, {
+      headers: { "Content-Type": "application/json" },
+    });
+    setProfilePost({
+      isLoading: false,
+      data: {
+        Posts: res.data.Posts,
+      },
+    });
+  };
+
+  useEffect(() => {
+    fetchProfilePosts();
+  }, [data]);
 
   return (
     <div className="profile-container">
@@ -90,9 +98,9 @@ const ProfilePage = ({ user, data }) => {
           </div>
         </div>
 
-        <div className="col-12 d-flex justify-content-center pt-5 mt-3 mt-sm-5">
-          <div className="profile-nav pt-5">
-            <ul className="navbar border-top pt-3 px-3 m-0">
+        <div className="col-12 d-flex justify-content-center pt-5 mt-3 mt-sm-5 px-0 px-lg-5 mx-0">
+          <div className="profile-nav pt-5 px-0 px-lg-5 w-100">
+            <ul className="navbar border-top pt-3 px-0 px-lg-3 m-0">
               <li className="nav-item border-bottom border-primary pb-1">
                 <a href="" className="nav-link">
                   Posts
@@ -122,7 +130,6 @@ const ProfilePage = ({ user, data }) => {
               <li className="nav-item px-2">
                 <button className="btn btn-light bi bi-messenger mb-2">
                   {` Message`}
-                 
                 </button>
               </li>
               <li className="nav-item px-2">
@@ -139,10 +146,12 @@ const ProfilePage = ({ user, data }) => {
       {/* change profile picture modal  */}
       <ChangeProfilePicModal />
 
-      <div className="bottom-container d-flex justify-content-center px-sm-5 px-md-5 py-2">
-        <div className="row row-cols-1 row-cols-md-2 gy-2 gy-md-0 mt-lg-3 px-sm-3 px-md-5 bottom-row gx-4">
-          <div className="col">
-            <div className="row row-cols-1 gy-3 bottom-left">
+      {/* bottom container  */}
+
+      <div className="bottom-container d-flex justify-content-center px-sm-5 px-md-0 py-2">
+        <div className="row row-cols-1 row-cols-md-2 gy-3 gy-md-0 mt-lg-3 px-sm-3 px-md-3 bottom-row gx-5">
+          <div className="col ms-0 mb-3">
+            <div className="row row-cols-1 gy-3 bottom-left m-0 w-100">
               {data._id === user._id && (
                 <div className="col px-3 py-3 bg-white border rounded">
                   <h3>
@@ -248,185 +257,103 @@ const ProfilePage = ({ user, data }) => {
             </div>
           </div>
 
-          <div className="col">
-            <div className="row row-cols-1 gy-4">
-              {/* Post status */}
+          {/* post column  */}
 
-              <div className="col bg-white border rounded">
-                {/* <div className="row justify-content-center align-items-center">
-                  {data._id === user._id ? (
-                    <div className="col-3 pt-3 pb-3">
-                      {currentUser.image ? (
-                        <img
-                          src={currentUser.image}
-                          className="postimg rounded-pill"
-                          alt={currentUser.name}
-                        />
-                      ) : (
-                        <span
-                          className="bi bi-person-circle ps-3"
-                          style={{ fontSize: "1.5rem" }}
-                        ></span>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="col-3 pt-3 pb-3">
-                      {user.length && user[0].profile_img ? (
-                        <img
-                          src={user[0].profile_img}
-                          className="postimg rounded-pill"
-                          alt={user[0].name}
-                        />
-                      ) : (
-                        <span
-                          className="bi bi-person-circle ps-3"
-                          style={{ fontSize: "1.5rem" }}
-                        ></span>
-                      )}
-                    </div>
-                  )}
-                  {isMe ? (
-                    <div className="col-9 pe-5 pt-3 pb-3">
-                      <div className="bg-light statuscol border">
-                        <form action="">
-                          <input
-                            type="text"
-                            data-bs-toggle="modal"
-                            data-bs-target="#profcreatepost"
-                            placeholder={`What's on your mind, ${currentUser.name}?`}
-                            className="form-control profstatusinp bg-light"
-                            disabled
-                          />
-                        </form>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="col-9 pe-5 pt-3 pb-3">
-                      <div className="bg-light statuscol border">
-                        <form action="">
-                          {user.length && (
-                            <input
-                              type="text"
-                              data-bs-toggle="modal"
-                              data-bs-target="#profcreatepost"
-                              placeholder={`Post on ${user[0].name}'s timeline'`}
-                              className="form-control profstatusinp bg-light"
-                              disabled
-                            />
-                          )}
-                        </form>
-                      </div>
-                    </div>
-                  )}
-                  <hr className="mb-1 w-75 w-sm-100" />
-                  <div className="col-12 py-2 px-3">
-                    <div className="d-flex justify-content-between align-items-center px-3">
-                      <div className="mx-2 postbottom ">
-                        <span className="bi bi-camera-reels-fill text-danger pe-2"></span>{" "}
-                        Live Video
-                      </div>
-                      <div className="mx-2 postbottom ">
-                        <span className="bi bi-images text-success pe-2"></span>{" "}
-                        Photo / Video
-                      </div>
-                      <div className="mx-2 postbottom ">
-                        <span className="bi bi-emoji-smile text-warning pe-2"></span>{" "}
-                        Feeling activity
-                      </div>
-                    </div>
-                  </div>
-
+          <div className="col row m-0 gy-3 gx-0">
+            <div className="col-12 bg-white custom-rounded p-0 p-sm-2 mt-0 border">
+              <div className="row gy-3 gy-sm-3 p-0 pt-3 w-100 m-0 justify-content-center align-items-center p-sm-3">
+                <div className="col-12 d-flex align-items-center justify-content-center p-0">
                   <div
-                    className="modal fade"
-                    id="profcreatepost"
-                    data-bs-backdrop="static"
-                    data-bs-keyboard="false"
-                    tabindex="-1"
-                    aria-labelledby="profcreatepostLabel"
-                    aria-hidden="true"
+                    className="d-flex justify-content-evenly align-items-center"
+                    style={{ width: "85%" }}
                   >
-                    <div className="modal-dialog modal-dialog-centered">
-                      <div className="modal-content">
-                        <div className="modal-header">
-                          <div className="modal-title">
-                            <h3 className="modal-title">Create your post.</h3>
-                          </div>
-                          <button
-                            type="button"
-                            className="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div className="modal-body px-1 ">
-                          <form
-                            action="#"
-                            className="needs-validation"
-                            onSubmit="{e => handlePostForm(e)}"
-                            id="signform"
-                          >
-                            <div className="row gy-2 gx-2 px-0 px-sm-3">
-                              <div className="col-12">
-                                <textarea
-                                  name="status"
-                                  className="form-control postinp"
-                                  placeholder={`Whats on yout mind, ${currentUser.name}?`}
-                                  id="status"
-                                  value="{userPost}"
-                                  onChange="{e => setUserPost(e.target.value)}"
-                                  required
-                                ></textarea>
-                                <label htmlFor="imagepost mt-2">
-                                  Upload a photo:{" "}
-                                </label>
-                                <input
-                                  type="file"
-                                  id="imagepost"
-                                  accept="img/**"
-                                  className="form-control"
-                                  onChange="{e => setimage(e)}"
-                                />
-                              </div>
-
-                              <div className="col-12">
-                                <button
-                                  type="submit"
-                                  className="btn btn-primary w-100"
-                                >
-                                  Post
-                                </button>
-                              </div>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
-              </div>
-
-              {/* user posts  */}
-
-              {/* {reverseArr.length > 0 ? (
-                reverseArr.map((i) => (
-                  <GetPosts i={i} currentUser={currentUser} />
-                ))
-              ) : (
-                <div className="col-12 bg-white border rounded p-2">
-                  <div className="">
-                    <div className="text-center">
-                      <h4 className="text-center">
-                        <span
-                          className="spinner-border spinner-border-md me-2"
-                          ref={postLoader}
-                        ></span>
-                        <span ref={loaderText}></span>
-                      </h4>
+                    {data.profile && (
+                      <img
+                        src={data.profile.profileImage}
+                        className="postimg rounded-pill"
+                        alt={`${data?.name?.firstName} ${data?.name?.lastName}`}
+                      />
+                    )}
+                    <div className="bg-light statuscol border overflow-hidden">
+                      <form action="" className="h-100">
+                        <input
+                          type="text"
+                          data-bs-toggle="modal"
+                          data-bs-target="#createpost"
+                          placeholder={
+                            data._id === user._id
+                              ? `What's on your mind, ${user.name?.firstName}?`
+                              : `Post on ${data.name?.firstName}'s timeline..?`
+                          }
+                          className="form-control statusinp bg-light"
+                          disabled
+                        />
+                      </form>
                     </div>
                   </div>
                 </div>
-              )} */}
+
+                <hr className="mb-1 w-75 w-sm-100" />
+                <div className="col-12 p-0">
+                  <div className="d-flex justify-content-evenly align-items-center pb-3">
+                    <div className="mx-2 postbottom ">
+                      <span className="bi bi-camera-reels-fill text-danger pe-2"></span>{" "}
+                      Live Video
+                    </div>
+                    <div className="mx-2 postbottom ">
+                      <span className="bi bi-images text-success pe-2"></span>{" "}
+                      Photo / Video
+                    </div>
+                    <div className="mx-2 postbottom ">
+                      <span className="bi bi-emoji-smile text-warning pe-2"></span>{" "}
+                      Feeling activity
+                    </div>
+                  </div>
+                </div>
+                {/* Create post Modal */}
+                <CreatePostModal user={user} />
+              </div>
             </div>
+
+            {profilePost.isLoading && (
+              <div className="col-12 border shadow-sm bg-white custom-rounded p-2 my-2">
+                <div className="d-flex justify-content-start">
+                  <div className="placeholder-glow w-100 mt-3">
+                    <div className="col-12 col-sm-8 d-flex justify-content-start px-sm-4">
+                      <div className="col-3 ps-2">
+                        <span
+                          className="placeholder rounded-pill"
+                          style={{ width: "45px", height: "45px" }}
+                        ></span>
+                      </div>
+                      <div className="col-5">
+                        <span className="placeholder col-12"></span>
+                        <span className="placeholder col-8"></span>
+                      </div>
+                    </div>
+                    <div className="col-12 px-4 my-3">
+                      <span className="placeholder col-6 mt-2 px-2 me-3"></span>
+                      <span className="placeholder col-5 mt-2"></span>
+                      <span className="placeholder col-12 mt-2"></span>
+                      <span className="placeholder col-3 mt-2 me-2"></span>
+                      <span className="placeholder col-3 mt-2 me-2"></span>
+                      <span className="placeholder col-3 mt-2"></span>
+                      <span className="placeholder col-6 mt-2 px-2 me-3"></span>
+                      <span className="placeholder col-5 mt-2"></span>
+                      <span className="placeholder col-12 mt-2"></span>
+                      <span className="placeholder col-3 mt-2 me-2"></span>
+                      <span className="placeholder col-3 mt-2 me-2"></span>
+                      <span className="placeholder col-3 mt-2"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {profilePost.data?.Posts?.length > 0 &&
+              profilePost.data.Posts.map((post, index) => (
+                <GetPosts post={post} user={user} key={index} />
+              ))}
           </div>
         </div>
       </div>
@@ -435,36 +362,3 @@ const ProfilePage = ({ user, data }) => {
 };
 
 export default ProfilePage;
-
-// <div className="col-12 bg-white border rounded p-2">
-//     <div className="">
-//         <div className="d-flex justify-content-between py-1 px-1 px-sm-3">
-//             <div className="d-flex justify-content-between">
-//                 {i.user_image ? <img src={i.user_image} alt={i.name} className="rounded-pill statusimg me-2" alt={i.name} />
-//                     : <span className="bi bi-person-circle pe-3" style={{ fontSize: "1.5rem" }}></span>}
-//                 <div className=" text-start">
-//                     <h6 className="mt-1">{i.name}</h6>
-//                     <p className="text-muted text-start"><Moment fromNow interval={1000}>{i.time}</Moment></p>
-//                 </div>
-//             </div>
-//             <span className="bi bi-justify"></span>
-//         </div>
-//         <div>
-//             <p className="px-1">{i.post}</p>
-//             {i.image && <img src={i.image} alt={i.name} width="100%" className="px-2" style={{ objectFit: "contain" }} />}
-//         </div>
-//         <div className="d-flex justify-content-between align-items-baseline px-2 px-sm-4 postreactcount">
-//             <a href="" className="text-dark " style={{ textDecoration: "none" }}><span className="bi bi-hand-thumbs-up-fill text-primary pe-1"></span> 1.1k</a>
-//             <div>
-//                 <a href="" className="text-dark" style={{ textDecoration: "none" }}><span className="pe-0 pe-sm-2">756</span> Comment</a>
-//                 <a href="" className="text-dark ms-2" style={{ textDecoration: "none" }}><span className="pe-0 pe-sm-2">1k</span> shares</a>
-//             </div>
-//         </div>
-//         <hr className="mt-1 mb-2 m-sm-3" />
-//         <div className="d-flex justify-content-around postreact">
-//             <a href="" className="text-dark" style={{ textDecoration: "none" }}><span className="bi bi-hand-thumbs-up pe-2"></span> Like</a>
-//             <a href="" className="text-dark" style={{ textDecoration: "none" }}><span className="bi bi-chat pe-2"></span> Comment</a>
-//             <a href="" className="text-dark" style={{ textDecoration: "none" }}><span className="bi bi-share pe-2"></span> Share</a>
-//         </div>
-//     </div>
-// </div>

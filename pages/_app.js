@@ -7,6 +7,8 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "../components/Header/Header.css";
 import "../components/Sections/newsfeed/newsfeed.css";
 import "../globalcss/global.css";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css'
 import "../components/Sections/profile/ProfilePage.css";
 import "../components/Sections/rightsidebar/rightsidebar.css";
 import "../components/Sections/leftSideBar/leftsidebar.css";

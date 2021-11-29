@@ -1,180 +1,186 @@
 .feed-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0;
 }
 
 .feedrow {
-    width: 100%;
+  width: 100%;
 }
 
 .postimg {
-    height: 35px;
-    width: 35px;
-    margin-right: .5rem;
-    object-fit: cover;
+  height: 35px;
+  width: 35px;
+  margin-right: 0.5rem;
+  object-fit: cover;
 }
 
 .statuscol {
-
-    width: 85%;
-    border-radius: 3.5rem;
-    height: 32px;
-    margin-left: .3rem;
-   
+  width: 85%;
+  border-radius: 3.5rem;
+  height: 32px;
+  margin-left: 0.3rem;
 }
 .status-drop-down li {
-    height: auto!important;
-    width: 100%!important;
-    padding: 0.5rem;
-    cursor: pointer;
+  height: auto !important;
+  width: 100% !important;
+  padding: 0.5rem;
+  cursor: pointer;
 }
-.status-drop-down li a{
-    text-decoration: none;
+.status-drop-down li a {
+  text-decoration: none;
 }
-.status-drop-down li:hover{
-    background-color:#928c8c2e;
+.status-drop-down li:hover {
+  background-color: #928c8c2e;
 }
-.status-drop-down{
-    right: -13px!important;
-    left: auto!important;
-    top: 33%!important;
-    width: 300px;
-    max-height: 384px;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    transform: none!important;
+.status-drop-down {
+  right: -13px !important;
+  left: auto !important;
+  top: 33% !important;
+  width: 300px;
+  max-height: 384px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  transform: none !important;
 }
 .statusinp {
-    border: 0;
-    outline: 0;
-    border-radius: 3.5rem;
-    padding-left: 1rem;
-    height: 100%;
-    cursor: pointer;
+  border: 0;
+  outline: 0;
+  border-radius: 3.5rem;
+  padding-left: 1rem;
+  height: 100%;
+  cursor: pointer;
 }
 .statusinp:focus {
-    box-shadow: none;
+  box-shadow: none;
 }
 .postinp {
-    height: 65px;
-    width: 100%;
+  height: 65px;
+  width: 100%;
 }
 .postbottom {
-    font-size: .8rem;
+  font-size: 0.8rem;
 }
 
 .postreactcount a {
-    font-size: .8rem;
+  font-size: 0.8rem;
 }
-.postreact a, .postreact .btn {
-    font-size: .8rem;
+.postreact a,
+.postreact .btn {
+  font-size: 0.8rem;
 }
 .statusimg {
-    height: 45px;
-    width: 45px;
-    object-fit: cover;
+  height: 45px;
+  width: 45px;
+  object-fit: cover;
 }
 /* sm screen  */
 @media (min-width: 576px) {
-    .status-drop-down{
-        right: 0!important;
-        
-        width: 335px;
-       
-    }
-    .postbottom {
-        font-size: 1rem;
-    }
-    .postreactcount a {
-        font-size: 1rem;
-    }
-    .postreact a, .postreact .btn {
-        font-size: 1rem;
-    }
-    .postimg {
-        height: 45px;
-        width: 45px;
-        margin-right: .5rem;
-        object-fit: cover;
-    }
-    .statuscol {
+  .testimonial-control-prev {
+    background-color: black !important;
+    border-radius: 50% !important;
+    height: 70px !important;
+    width: 70px !important;
+    top: 40% !important;
+    left: -69px !important;
+  }
+  .testimonial-control-next {
+    background-color: black !important;
+    border-radius: 50% !important;
+    height: 70px !important;
+    width: 70px !important;
+    top: 40% !important;
+    right: -69px !important;
+  }
+  .status-drop-down {
+    right: 0 !important;
 
-        width: 85%;
-        border-radius: 3.5rem;
-        height: 45px;
-        margin-left: .3rem;
-       
-    }
+    width: 335px;
+  }
+  .postbottom {
+    font-size: 1rem;
+  }
+  .postreactcount a {
+    font-size: 1rem;
+  }
+  .postreact a,
+  .postreact .btn {
+    font-size: 1rem;
+  }
+  .postimg {
+    height: 45px;
+    width: 45px;
+    margin-right: 0.5rem;
+    object-fit: cover;
+  }
+  .statuscol {
+    width: 85%;
+    border-radius: 3.5rem;
+    height: 45px;
+    margin-left: 0.3rem;
+  }
 }
 /*=======================================================
 lg large device 
 ====================================================== */
 @media (min-width: 992px) {
-    .feed-container {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        width: 100%;
-    
-    }
+  .feed-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+  }
 
-    .feedrow {
-        width: 90%;
-    }
-    .postimg {
-        height: 65px;
-        width: 65px;
-    }
-    .statuscol {
-
-        width: 85%;
-        border-radius: 3.5rem;
-        height: 45px;
-        margin-left: .3rem;
-       
-    }
-    .statusimg {
-        height: 55px;
-        width: 55px;
-    }
- 
+  .feedrow {
+    width: 90%;
+  }
+  .postimg {
+    height: 65px;
+    width: 65px;
+  }
+  .statuscol {
+    width: 85%;
+    border-radius: 3.5rem;
+    height: 45px;
+    margin-left: 0.3rem;
+  }
+  .statusimg {
+    height: 55px;
+    width: 55px;
+  }
 }
-
-
 
 /*=====================================================
 xl xtra large 
 ===================================================== */
 @media (min-width: 1200px) {
-    .feed-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 50vw;
-        margin: auto;
-        flex-grow: 1;
-    }
-    
-    .feedrow {
-        width: 90%;
-    }
-    .statuscol {
-        width: 85%;
-        border-radius: 3.5rem;
-    }
-    
-    .statusinp {
-        border: 0;
-        outline: 0;
-        height: 100%;
-        border-radius: 3.5rem;
-        padding-left: 1.5rem;
-    }
-    .statusinp:focus {
-        box-shadow: none;
-    }
-    
+  .feed-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50vw;
+    margin: auto;
+    flex-grow: 1;
+  }
+
+  .feedrow {
+    width: 90%;
+  }
+  .statuscol {
+    width: 85%;
+    border-radius: 3.5rem;
+  }
+
+  .statusinp {
+    border: 0;
+    outline: 0;
+    height: 100%;
+    border-radius: 3.5rem;
+    padding-left: 1.5rem;
+  }
+  .statusinp:focus {
+    box-shadow: none;
+  }
 }

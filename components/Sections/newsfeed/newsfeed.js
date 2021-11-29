@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import GetPosts from "./GetPosts";
 import CreatePostModal from "../../Modals/CreatePostModal";
 import { useApi } from "../../globalcontext/callApi";
-import axios from "axios";
+import Slider from "react-slick";
+import Link from "next/link";
 
 const NewsFeed = ({ user }) => {
   const { data, isLoading, isError } = useApi({
     text: "posts",
     method: "GET",
-    url: `/posts/${user._id}`,
+    url: "/posts",
     revalidate: {
       revalidateIfStale: true,
       revalidateOnFocus: true,
@@ -18,11 +19,46 @@ const NewsFeed = ({ user }) => {
       refreshInterval: 500,
     },
   });
+  const peoples = useApi({
+    text: "people",
+    method: "GET",
+    url: `/people/${user._id}`,
+  });
+  console.log(peoples);
+
+  const PrevButton = (props) => {
+    const { onClick } = props;
+    return (
+      <button
+        className="slick-arrow carousel-control-prev d-none d-md-block testimonial-control-prev"
+        type="button"
+        onClick={onClick}
+      >
+        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span className="visually-hidden">Previous</span>
+      </button>
+    );
+  };
+  const NextButton = (props) => {
+    const { onClick } = props;
+    return (
+      <button
+        className="slick-arrow carousel-control-next d-none d-md-block testimonial-control-next"
+        type="button"
+        onClick={onClick}
+      >
+        <span className="carousel-control-next-icon" aria-hidden="true"></span>
+        <span className="visually-hidden">Next</span>
+      </button>
+    );
+  };
 
   if (isLoading) {
     return (
       <section className="feed-container">
         <div className="row feedrow gy-2 gy-sm-4 px-0 px-sm-3 ps-lg-5">
+          {/* create post column  */}
+
           <div className="col-12 bg-white custom-rounded p-0 p-sm-2 mt-3 mt-sm-5 border">
             <div className="row gy-3 gy-sm-3 p-0 pt-3 w-100 m-0 justify-content-center align-items-center p-sm-3">
               <div className="col-12 d-flex align-items-center justify-content-center p-0">
@@ -214,8 +250,102 @@ const NewsFeed = ({ user }) => {
   }
 
   return (
-    <section className="feed-container pb-3">
+    <section className="feed-container flex-column pb-3">
+      {/* people may know column  */}
+
+      {peoples.data?.length > 2 && (
+        <div className="col-12 p-0 mt-3 px-3">
+          <div className="w-100 bg-white">
+            <h5 className="p-2 text-muted">Pepole You May Know</h5>
+          </div>
+          <div className="w-100 my-2 px-3">
+            <Slider
+              infinite
+              nextArrow={<NextButton />}
+              prevArrow={<PrevButton />}
+              slidesToShow={3}
+              slidesToScroll={1}
+              responsive={[
+                {
+                  breakpoint: 1200,
+                  settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    infinite: true,
+                  },
+                },
+                {
+                  breakpoint: 992,
+                  settings: {
+                    slidesToScroll: 1,
+                    slidesToShow: 3,
+                  },
+                },
+                {
+                  breakpoint: 768,
+                  settings: {
+                    slidesToScroll: 1,
+                    slidesToShow: 3,
+                  },
+                },
+                {
+                  breakpoint: 576,
+                  settings: {
+                    slidesToScroll: 2,
+                    slidesToShow: 2,
+                  },
+                },
+                {
+                  breakpoint: 405,
+                  settings: {
+                    slidesToScroll: 1,
+                    slidesToShow: 1,
+                  },
+                },
+              ]}
+            >
+              {peoples.data.map((people, index) => (
+                <div className="p-1" key={index}>
+                  <div className=" bg-white custom-rounded border">
+                    <img
+                      src={people.profile.profileImage}
+                      style={{
+                        height: "230px",
+                        width: "100%",
+                        objectFit: "cover",
+                        borderTopLeftRadius: "15px",
+                        borderTopRightRadius: "15px",
+                      }}
+                    />
+                    <div className="p-2">
+                      <Link passHref href={`/profile/${people._id}`}>
+                        <a
+                          className="text-dark"
+                          style={{ textDecoration: "none" }}
+                        >
+                          <h6>{`${people.name.firstName} ${people.name.lastName}`}</h6>
+                        </a>
+                      </Link>
+                      <div className="w-100 d-flex justify-content-between">
+                        <button className="btn btn-sm btn-primary bi bi-person-plus mb-2">
+                          {" "}
+                          Add Friend
+                        </button>
+                        <button className="btn btn-sm btn-light bi bi-messenger mb-2">
+                          {` Message`}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </Slider>
+          </div>
+        </div>
+      )}
       <div className="row feedrow gy-2 gy-sm-4 px-0 px-sm-3 ps-lg-5">
+        {/* create post column  */}
+
         <div className="col-12 bg-white custom-rounded p-0 p-sm-2 mt-3 mt-sm-5 border">
           <div className="row gy-3 gy-sm-3 p-0 pt-3 w-100 m-0 justify-content-center align-items-center p-sm-3">
             <div className="col-12 d-flex align-items-center justify-content-center p-0">
