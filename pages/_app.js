@@ -16,23 +16,32 @@ import Header from "../components/Header/Header";
 import API from "../components/API/API";
 
 function MyApp({ Component, pageProps }) {
-  const fetchUser = async () => {
-    const res = await API.get("/user", {headers: {"Content-Type": "application/json"}})
-    console.log(res.data)    
-  }
+
   useEffect(() => {
     if (document !== "undefined") {
       import("bootstrap/dist/js/bootstrap.bundle");
     }
   });
-  useEffect(()=> {
-    fetchUser()
-  }, [])
+
   const { data, isLoading, isError } = useApi({
     text: "user",
     method: "GET",
     url: "/user",
   });
+  const notification = useApi({
+    text: "notification",
+    method: "GET",
+    url: "/notification",
+    revalidate: {
+      revalidateIfStale: true,
+      revalidateOnFocus: true,
+      revalidateOnMount: true,
+      revalidateOnReconnect: true,
+      refreshWhenOffline: true,
+      refreshInterval: 500,
+    },
+  });
+
   if (isLoading) {
     return (
       <div className="d-flex justify-content-center align-items-center vh-100 vw-100 bg-white">
@@ -62,7 +71,7 @@ function MyApp({ Component, pageProps }) {
         <title>Lifebook - A platform to connect with peoples!</title>
       </Head>
 
-      <Component {...pageProps} user={data.findUser} />
+      <Component {...pageProps} user={data.findUser} notification={notification.data?.unread?.length} />
     </Fragment>
   );
 }

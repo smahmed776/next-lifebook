@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import API from "../API/API";
-import Link from 'next/link'
-import Moment from 'react-moment'
+import Link from "next/link";
+import Moment from "react-moment";
 
 const CommentShowModal = ({ post, fetchComment, setFetchComment, user }) => {
   const [comment, setComment] = useState([]);
@@ -30,7 +30,7 @@ const CommentShowModal = ({ post, fetchComment, setFetchComment, user }) => {
       setComment("");
       commentbtn.current.removeAttribute("disabled");
       commentSpinner.current.classList.add("d-none");
-      setFetchComment(true)
+      setFetchComment(true);
     } catch (error) {
       commentbtn.current.removeAttribute("disabled");
       commentSpinner.current.classList.add("d-none");
@@ -39,7 +39,7 @@ const CommentShowModal = ({ post, fetchComment, setFetchComment, user }) => {
   };
 
   async function getComments(post_id) {
-    setData(null)
+    setData(null);
     const res = await API.get(`/comments/${post_id}`, {
       headers: { "Content-Type": "application/json" },
     });
@@ -80,11 +80,33 @@ const CommentShowModal = ({ post, fetchComment, setFetchComment, user }) => {
               ></button>
             </div>
             <div className="modal-body px-3 ">
-              <div className=" d-flex justify-content-center align-items-center p-5 w-100">
-                <p
-                  className="text-center p-3 spinner spinner-border"
-                  role="status"
-                ></p>
+              <div className="row w-100 m-0 mb-3 placeholder-glow">
+                <div className="col-2 p-0 d-flex justify-content-end">
+                  <span
+                    className="placeholder text-dark col-12 me-2 rounded-pill"
+                    style={{ height: "45px", width: "45px" }}
+                  ></span>
+                </div>
+                <div className="col-6 bg-light rounded">
+                  <a
+                    className="text-dark"
+                    style={{ textDecoration: "none", fontWeight: "bold" }}
+                  >
+                    <span className="placeholder text-dark col-12 me-2"></span>
+                    <span className="placeholder text-dark col-6 me-2 my-2"></span>
+                  </a>
+                </div>
+                <div className="col-3 "></div>
+                <div className="col-2 px-0"></div>
+                <div className="col-10">
+                  <span className="placeholder text-dark col-12 me-2"></span>
+                  <span className="placeholder text-dark col-4 me-2"></span>
+                  <span className="placeholder text-dark col-7 me-2 my-2"></span>
+                  <span className="placeholder text-dark col-6 me-2"></span>
+                  <span className="placeholder text-dark col-5 me-2 my-2"></span>
+                  <span className="placeholder text-dark col-4 me-2"></span>
+                  <span className="placeholder text-dark col-7 me-2 my-2"></span>
+                </div>
               </div>
             </div>
             <div className="modal-footer justify-content-center">
@@ -227,13 +249,17 @@ const CommentShowModal = ({ post, fetchComment, setFetchComment, user }) => {
                     src={i.image}
                     alt=""
                     className="rounded-pill"
-                    style={{ height: "45px", width: "45px", objectFit: "cover" }}
+                    style={{
+                      height: "45px",
+                      width: "45px",
+                      objectFit: "cover",
+                    }}
                   />
                 </div>
                 <div className="col-10 bg-light rounded py-1 ps-3">
                   <Link
                     role="button"
-                    href={`/profile?id=${i._id}`}
+                    href={`/profile/${i.c_id}`}
                     passHref
                     target="_blank"
                     className="text-dark"
@@ -248,14 +274,13 @@ const CommentShowModal = ({ post, fetchComment, setFetchComment, user }) => {
                   <p>{i.text}</p>
                 </div>
                 <div className="col-12 col-sm-10 ms-0 ms-sm-5 ps-0 ps-sm-3 pe-0 d-flex justify-content-around align-items-center">
-                  {i.c_id === user._id && <button className="btn resetbtn text-primary">
-                    Delete</button>}
+                  {i.c_id === user._id && (
                     <button className="btn resetbtn text-primary">
-                      Like
+                      Delete
                     </button>
-                    <button className="btn resetbtn text-primary">
-                      Reply
-                    </button>
+                  )}
+                  <button className="btn resetbtn text-primary">Like</button>
+                  <button className="btn resetbtn text-primary">Reply</button>
                   <p className="text-muted text-end m-0">
                     <Moment fromNow interval={1000}>
                       {i.created}
@@ -272,8 +297,6 @@ const CommentShowModal = ({ post, fetchComment, setFetchComment, user }) => {
               data-post-id={post._id}
             >
               <div className="d-flex justify-content-center w-100 m-0">
-                
-
                 <div className="col-6 col-sm-8 p-0 pe-2 ">
                   <input
                     type="text"
@@ -296,8 +319,7 @@ const CommentShowModal = ({ post, fetchComment, setFetchComment, user }) => {
                     Comment
                   </button>
                 </div>
-                </div>
-              
+              </div>
             </form>
           </div>
         </div>

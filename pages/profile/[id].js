@@ -14,7 +14,7 @@ export default function SingleProfile(props) {
           {`${props.data.name.firstName} ${props.data.name.lastName} - Lifebook`}
         </title>
       </Head>
-      {props.user && <Header user={props.user} />}
+      {props.user && <Header user={props.user} notificationCount={props.notification} />}
       <ProfilePage user={props.user} data={props.data} />
     </Fragment>
   );

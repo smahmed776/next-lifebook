@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import API from "../API/API";
@@ -7,8 +7,9 @@ import MobileNav from "../offcanvas/MobileNav";
 import NotificationDropDown from "./NotificationDropDown";
 import NotificationOffcanvas from "../offcanvas/NotificationOffcanvas";
 
-const Header = ({ user }) => {
+const Header = ({ user, notificationCount }) => {
   const [notification, setNotification] = useState(null);
+  const [n_count, setN_count] = useState(0);
   const history = useRouter();
   const logout = async () => {
     await API.delete("/logout", {
@@ -23,7 +24,15 @@ const Header = ({ user }) => {
     });
     setNotification(res.data);
   };
+  const makeRead = async () => {
+    await API.put("/readnotification", {user_id : user._id}, {
+      headers: { "Content-Type": "application/json" },
+    });
+  };
 
+  useEffect(()=> {
+    setN_count(notificationCount)
+  }, [notificationCount])
   return (
     <nav
       className="navbar navbar-expand-sm navbar-light bg-white sticky-top vw-100 border-bottom p-0"
@@ -94,11 +103,17 @@ const Header = ({ user }) => {
               data-bs-toggle="offcanvas"
               data-bs-target="#notificationcanvas"
               aria-controls="notificationcanvas"
-              onClick={() => fetchNotification()}
+              onClick={() => {
+                fetchNotification();
+                if(n_count > 0){
+                  makeRead();
+                  setN_count(0)
+                }
+              }}
               style={{ fontSize: "1rem" }}
             >
               <span className="bi bi-bell p-0"></span>
-              {user.notification.unread.length > 0 && (
+              {n_count !== 0 && (
                 <span
                   className="position-absolute p-1 rounded-pill bg-danger text-center text-white d-flex justify-content-center align-items-center"
                   style={{
@@ -108,7 +123,7 @@ const Header = ({ user }) => {
                     right: "-6px",
                   }}
                 >
-                  {user.notification.unread.length}
+                  {n_count}
                 </span>
               )}
             </a>
@@ -172,10 +187,16 @@ const Header = ({ user }) => {
                 id="notificationdrop"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
-                onClick={() => fetchNotification()}
+                onClick={() => {
+                  fetchNotification();
+                  if(n_count > 0){
+                    makeRead();
+                    setN_count(0)
+                  }
+                }}
               >
                 <span className="bi bi-bell p-0"></span>
-                {user.notification.unread.length > 0 && (
+                {n_count !== 0 && (
                   <span
                     className="position-absolute p-1 rounded-pill bg-danger text-center text-white d-flex justify-content-center align-items-center"
                     style={{
@@ -185,7 +206,7 @@ const Header = ({ user }) => {
                       right: "-10px",
                     }}
                   >
-                    {user.notification.unread.length}
+                    {n_count}
                   </span>
                 )}
               </a>

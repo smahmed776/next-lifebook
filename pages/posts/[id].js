@@ -5,13 +5,13 @@ import axios from "axios";
 import Head from "next/head";
 import GetPosts from "../../components/Sections/newsfeed/GetPosts";
 
-export default function PostHandler({ user, data }) {
+export default function PostHandler({ user, data, notification }) {
   return (
     <Fragment>
       <Head>
         <title>{`${data.post.text.substr(0, 32)}... - Lifebook`}</title>
       </Head>
-      <Header user={user} />
+      <Header user={user} notificationCount={notification}/>
       <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 justify-content-center m-0 w-100">
         <GetPosts user={user} post={data} />
       </div>

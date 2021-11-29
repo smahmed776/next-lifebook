@@ -3,7 +3,6 @@ import SingleNotification from "./SingleNotification";
 import Link from "next/link";
 
 const NotificationDropDown = ({ user, notification, mobile }) => {
-  console.log(notification)
   if (mobile) {
     if (!notification) {
       return (

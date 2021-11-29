@@ -7,7 +7,7 @@ import LeftSideBar from "../components/Sections/leftSideBar/leftsidebar";
 export default function Handler(props) {
   return (
   <Fragment>
-    <Header user={props.user} />
+    <Header user={props.user} notificationCount={props.notification}/>
     <div
       className="row position-relative gx-0 px-2 px-md-0 gx-md-4 gx-lg-0 "
       style={{ backgroundColor: "rgb(240, 242, 245)" }}
