@@ -25,15 +25,43 @@ const ProfilePage = ({ user, data }) => {
     });
   };
 
-  const friendRequest = async (receiver_id) => {
-    await API.put(`/sentrequest/${receiver_id}`, {
-      sender_id : user._id
-    }, {
-      headers: {
-        "Content-Type": "application/json"
+  const confirmRequest = async (id) => {
+    await API.put(
+      `/confirmrequest/${id}`,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-    })
-  }
+    );
+  };
+
+  const rejectRequest = async (id) => {
+    await API.put(
+      `/rejectrequest/${id}`,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  };
+
+  const friendRequest = async (receiver_id) => {
+    await API.put(
+      `/sentrequest/${receiver_id}`,
+      {
+        sender_id: user._id,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  };
 
   useEffect(() => {
     fetchProfilePosts();
@@ -123,7 +151,7 @@ const ProfilePage = ({ user, data }) => {
               </li>
               <li className="nav-item mt-2">
                 <a href="" className="nav-link text-dark">
-                  Friends
+                  Friends {data.friends.length > 0 && `(${data.friends.length})`}
                 </a>
               </li>
               <li className="nav-item mt-2">
@@ -139,17 +167,68 @@ const ProfilePage = ({ user, data }) => {
                   </button>
                 </li>
               )}
-             {data._id !== user._id && <li className="nav-item px-2 mt-2">
-                <button className="btn btn-primary bi bi-person-plus mb-2" disabled={user.friend_requests.includes(data._id) ? true : false} onClick={(e)=> {
-                          e.target.classList.remove("bi-person-plus")
-                          e.target.classList.add("bi-person-check")
-                          e.target.innerText = " Request Sent"
-                          e.target.setAttribute("disabled", 'true')
-                          friendRequest(data._id)
-                        }}>
-                {user.friend_requests.includes(data._id) ? " Request Sent" : " Add Friend"}
-                </button>
-              </li>}
+
+              {data._id !== user._id && !data.friends.includes(user._id) && (
+                <li className="nav-item px-2 mt-2">
+                  {user.friend_requests?.sent?.includes(data._id) && (
+                    <div className="w-100 d-flex justify-content-between">
+                      <button
+                        className="btn btn-sm btn-primary bi bi-person-plus mb-2"
+                        disabled
+                      >
+                        {" "}
+                        Request sent
+                      </button>
+                    </div>
+                  )}
+                  {user.friend_requests?.received?.includes(data._id) && (
+                    <div className="w-100 d-flex justify-content-between">
+                      <button
+                        className="btn btn-sm btn-primary bi bi-check mb-2"
+                        ref={confirmReqBtn}
+                        onClick={(e) => {
+                          e.target.innerText = "Confirmed";
+                          e.target.setAttribute("disabled", "true");
+
+                          confirmRequest(data._id);
+                        }}
+                      >
+                        {" "}
+                        Confirm
+                      </button>
+                      <button
+                        className="btn btn-sm btn-danger bi bi-x mb-2"
+                        ref={rejectReqBtn}
+                        onClick={(e) => {
+                          e.target.innerText = " Rejected";
+                          rejectRequest(data._id);
+                        }}
+                      >
+                        {` Reject`}
+                      </button>
+                    </div>
+                  )}
+                  {!user.friend_requests?.sent?.includes(data._id) &&
+                    !user.friend_requests?.received?.includes(data._id) && (
+                      <div className="w-100 d-flex justify-content-between">
+                        <button
+                          className="btn btn-sm btn-primary bi bi-person-plus mb-2"
+                          onClick={(e) => {
+                            e.target.classList.remove("bi-person-plus");
+                            e.target.classList.add("bi-person-check");
+                            e.target.innerText = " Request Sent";
+                            e.target.setAttribute("disabled", "true");
+                            friendRequest(data._id);
+                          }}
+                        >
+                          {" "}
+                          Add Friend
+                        </button>
+                      </div>
+                    )}
+                </li>
+              )}
+
               <li className="nav-item px-2 mt-2">
                 <button className="btn btn-light bi bi-messenger mb-2">
                   {` Message`}

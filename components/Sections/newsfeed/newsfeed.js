@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import GetPosts from "./GetPosts";
 import CreatePostModal from "../../Modals/CreatePostModal";
 import { useApi } from "../../globalcontext/callApi";
@@ -7,6 +7,9 @@ import Link from "next/link";
 import API from "../../API/API";
 
 const NewsFeed = ({ user }) => {
+  const confirmReqBtn = useRef();
+  const rejectReqBtn = useRef();
+
   const { data, isLoading, isError } = useApi({
     text: "posts",
     method: "GET",
@@ -27,14 +30,42 @@ const NewsFeed = ({ user }) => {
   });
 
   const friendRequest = async (receiver_id) => {
-    await API.put(`/sentrequest/${receiver_id}`, {
-      sender_id : user._id
-    }, {
-      headers: {
-        "Content-Type": "application/json"
+    await API.put(
+      `/sentrequest/${receiver_id}`,
+      {
+        sender_id: user._id,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-    })
-  }
+    );
+  };
+
+  const confirmRequest = async (id) => {
+    await API.put(
+      `/confirmrequest/${id}`,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  };
+
+  const rejectRequest = async (id) => {
+    await API.put(
+      `/rejectrequest/${id}`,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  };
 
   const PrevButton = (props) => {
     const { onClick } = props;
@@ -336,21 +367,78 @@ const NewsFeed = ({ user }) => {
                           <h6>{`${people.name.firstName} ${people.name.lastName}`}</h6>
                         </a>
                       </Link>
-                      <div className="w-100 d-flex justify-content-between">
-                        <button className="btn btn-sm btn-primary bi bi-person-plus mb-2" disabled={user.friend_requests.includes(people._id) ? true : false} onClick={(e)=> {
-                          e.target.classList.remove("bi-person-plus")
-                          e.target.classList.add("bi-person-check")
-                          e.target.innerText = " Request Sent"
-                          e.target.setAttribute("disabled", 'true')
-                          friendRequest(people._id)
-                        }}>
-                          {" "}
-                          {user.friend_requests.includes(people._id) ? " Request Sent" : " Add Friend"}
-                        </button>
-                        <button className="btn btn-sm btn-light bi bi-messenger mb-2">
-                          {` Message`}
-                        </button>
-                      </div>
+                      {user.friend_requests?.sent?.includes(people._id) && (
+                        <div className="w-100 d-flex justify-content-between">
+                          <button
+                            className="btn btn-sm btn-primary bi bi-person-plus mb-2"
+                            disabled
+                          >
+                            {" "}
+                            Request sent
+                          </button>
+                          <button className="btn btn-sm btn-light bi bi-messenger mb-2">
+                            {` Message`}
+                          </button>
+                        </div>
+                      )}
+                      {user.friend_requests?.received?.includes(people._id) && (
+                        <div className="w-100 d-flex justify-content-between">
+                          <button
+                            className="btn btn-sm btn-primary bi bi-check mb-2"
+                            ref={confirmReqBtn}
+                            onClick={(e) => {
+                              e.target.innerText = "Confirmed";
+                              e.target.setAttribute("disabled", "true");
+                              rejectReqBtn.current.setAttribute(
+                                "disabled",
+                                "true"
+                              );
+                              confirmRequest(people._id);
+                            }}
+                          >
+                            {" "}
+                            Confirm
+                          </button>
+                          <button
+                            className="btn btn-sm btn-danger bi bi-x mb-2"
+                            ref={rejectReqBtn}
+                            onClick={(e) => {
+                              confirmReqBtn.current.setAttribute(
+                                "disabled",
+                                "true"
+                              );
+                              e.target.innerText = " Rejected";
+                              rejectRequest(people._id);
+                            }}
+                          >
+                            {` Reject`}
+                          </button>
+                        </div>
+                      )}
+                      {!user.friend_requests?.sent?.includes(people._id) &&
+                        !user.friend_requests?.received?.includes(
+                          people._id
+                        ) && (
+                          <div className="w-100 d-flex justify-content-between">
+                            <button
+                              className="btn btn-sm btn-primary bi bi-person-plus mb-2"
+                              onClick={(e) => {
+                                e.target.classList.remove("bi-person-plus");
+                                e.target.classList.add("bi-person-check");
+                                e.target.innerText = " Request Sent";
+                                e.target.setAttribute("disabled", "true");
+                                friendRequest(people._id);
+                              }}
+                            >
+                              {" "}
+                              Add Friend
+                            </button>
+                            <button className="btn btn-sm btn-light bi bi-messenger mb-2">
+                              {` Message`}
+                            </button>
+                          </div>
+                        )}
+                     
                     </div>
                   </div>
                 </div>

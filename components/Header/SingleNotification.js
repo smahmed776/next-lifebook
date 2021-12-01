@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import API from "../API/API";
 import Link from "next/link";
 import Moment from "react-moment";
@@ -6,6 +6,9 @@ import Moment from "react-moment";
 const SingleNotification = ({ notify }) => {
   const [name, setName] = useState(null);
   const [profImg, setProfImg] = useState(null);
+  const reqsuccess = useRef();
+  const confirmbtn = useRef();
+  const rejectbtn = useRef();
 
   const getIcon = (type) => {
     if (type === "like") {
@@ -14,6 +17,10 @@ const SingleNotification = ({ notify }) => {
       return "bi bi-chat-fill text-white ";
     } else if (type === "friendRequest") {
       return "bi bi-person-plus-fill text-white";
+    } else if (type === "confirmRequest"){
+      return "bi bi-person-check-fill text-white"
+    } else if (type === "rejectRequest"){
+      return "bi bi-person-x-fill text-white"
     }
   };
 
@@ -26,6 +33,30 @@ const SingleNotification = ({ notify }) => {
     });
     setName(res.data.users);
     setProfImg(res.data.users[0]?.profileImage);
+  };
+
+  const confirmRequest = async (id) => {
+    await API.put(
+      `/confirmrequest/${id}`,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  };
+
+  const rejectRequest = async (id) => {
+    await API.put(
+      `/rejectrequest/${id}`,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   };
 
   useEffect(() => {
@@ -42,7 +73,7 @@ const SingleNotification = ({ notify }) => {
     );
   }
   return (
-    <li className="border-bottom" key={notify}>
+    <li className="border-bottom p-2" key={notify}>
       <div className="row m-0 w-100 align-items-start pt-2 gx-0 gy-0">
         <div className="col-3 p-0 d-flex justify-content-center">
           {profImg && (
@@ -75,29 +106,47 @@ const SingleNotification = ({ notify }) => {
         </div>
         <div className="col-9">
           <div className="d-flex flex-column flex-wrap">
-            {notify.type !== "friendRequest" && (
+            {notify.type === "like" && (
               <div className="w-100">
                 <p className="notification-para mb-0 pb-0 w-100">
                   {notify.buddy_id.length === 1 &&
-                    `${name[0]?.name.firstName} ${name[0]?.name.lastName} has`}
+                    `${name[0]?.name.firstName} ${name[0]?.name.lastName} has liked your`}
                   {notify.buddy_id.length == 2 &&
-                    `${name[0]?.name.firstName} ${name[0]?.name.lastName} and ${name[1]?.name.firstName} ${name[1]?.name.lastName}`}
+                    `${name[0]?.name.firstName} ${name[0]?.name.lastName} and ${name[1]?.name.firstName} ${name[1]?.name.lastName} liked your`}
                   {notify.buddy_id.length > 2 &&
                     `${name[0]?.name.firstName}, ${
                       name[1]?.name.firstName
-                    } and ${notify.buddy_id.length - 2} others `}
-                  {notify.type === "like" && " liked your "}
-                  {notify.type === "comment" && " commented on your "}
-                  {notify.type === "friendRequest" &&
-                    "sent you a friend request."}
-                  {notify.type !== "friendRequest" && (
-                    <Link
-                      href={`/posts/${notify.post_id}`}
-                      style={{ paddingLeft: ".5rem", textDecoration: "none" }}
-                    >
-                      Post
-                    </Link>
-                  )}
+                    } and ${notify.buddy_id.length - 2} others liked your`}
+
+                  <Link
+                    href={`/posts/${notify.post_id}`}
+                    style={{ paddingLeft: ".5rem", textDecoration: "none" }}
+                  >
+                    Post
+                  </Link>
+                </p>
+              </div>
+            )}
+            {notify.type === "comment" && (
+              <div className="w-100">
+                <p className="notification-para mb-0 pb-0 w-100">
+                  {notify.buddy_id.length === 1 &&
+                    `${name[0]?.name.firstName} ${name[0]?.name.lastName} has commented `}
+                  {notify.buddy_id.length == 2 &&
+                    `${name[0]?.name.firstName} ${name[0]?.name.lastName} and ${name[1]?.name.firstName} ${name[1]?.name.lastName} commented on your `}
+                  {notify.buddy_id.length > 2 &&
+                    `${name[0]?.name.firstName}, ${
+                      name[1]?.name.firstName
+                    } and ${
+                      notify.buddy_id.length - 2
+                    } others commented on your `}
+
+                  <Link
+                    href={`/posts/${notify.post_id}`}
+                    style={{ paddingLeft: ".5rem", textDecoration: "none" }}
+                  >
+                    Post
+                  </Link>
                 </p>
               </div>
             )}
@@ -107,16 +156,69 @@ const SingleNotification = ({ notify }) => {
                   {notify.buddy_id.length === 1 && (
                     <Link passHref href={`/profile/${notify.buddy_id[0]}`}>
                       <a>
-                        {`${name[0]?.name.firstName} ${name[0]?.name.lastName}`}
+                        {`${name[0]?.name.firstName} ${name[0]?.name.lastName} `}
                       </a>
                     </Link>
                   )}{" "}
                   has sent you a friend request.
                 </p>
                 <div className="d-flex w-100 justify-content-around mt-2">
-                  <button className="btn btn-primary bi bi-check">{` Confirm`}</button>
-                  <button className="btn btn-danger bi bi-x">{` Reject`}</button>
+                  <div className="d-none" ref={reqsuccess}>
+                    Request confirmed.
+                  </div>
+                  <button
+                    className="btn btn-primary bi bi-check"
+                    ref={confirmbtn}
+                    onClick={(e) => {
+                      reqsuccess.current.classList.remove("d-none");
+                      reqsuccess.current.classList.add("text-success");
+                      reqsuccess.current.innerHTML = "Request Confirmed";
+                      confirmRequest(notify.buddy_id[0]);
+                      e.target.classList.add("d-none");
+                      rejectbtn.current.classList.add("d-none");
+                    }}
+                  >{` Confirm`}</button>
+                  <button
+                    className="btn btn-danger bi bi-x"
+                    ref={rejectbtn}
+                    onClick={(e) => {
+                      reqsuccess.current.classList.remove("d-none");
+                      reqsuccess.current.classList.add("text-warning");
+                      reqsuccess.current.innerHTML = "Request rejected!";
+                      rejectRequest();
+                      e.target.classList.add("d-none");
+                      rejectbtn.current.classList.add("d-none");
+                    }}
+                  >{` Reject`}</button>
                 </div>
+              </div>
+            )}
+            {notify.type === "confirmRequest" && (
+              <div className="w-100">
+                <p className="notification-para mb-0 pb-0 w-100">
+                  {notify.buddy_id.length === 1 && (
+                    <Link passHref href={`/profile/${notify.buddy_id[0]}`}>
+                      <a>
+                        {`${name[0]?.name.firstName} ${name[0]?.name.lastName} `}
+                      </a>
+                    </Link>
+                  )}
+                  has accepted your friend request.
+                </p>
+              </div>
+            )}
+            {notify.type === "rejectRequest" && (
+              <div className="w-100">
+                <p className="notification-para mb-0 pb-0 w-100">
+                  {notify.buddy_id.length === 1 && (
+                    <Link passHref href={`/profile/${notify.buddy_id[0]}`}>
+                      <a>
+                        {`${name[0]?.name.firstName} ${name[0]?.name.lastName} `}
+                      </a>
+                    </Link>
+                  )}
+                  has rejected your friend request.
+                </p>
               </div>
             )}
             <div className="d-flex justify-content-end mt-2 w-100">
