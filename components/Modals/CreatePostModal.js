@@ -41,7 +41,6 @@ const CreatePostModal = ({ user }) => {
           author_id: user._id,
           author_username: user.username,
           author_name: user.name,
-          author_image: user.profile?.profileImage,
           post: postText,
           image: postImg,
           privacy: "public"

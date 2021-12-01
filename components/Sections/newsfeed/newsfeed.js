@@ -4,6 +4,7 @@ import CreatePostModal from "../../Modals/CreatePostModal";
 import { useApi } from "../../globalcontext/callApi";
 import Slider from "react-slick";
 import Link from "next/link";
+import API from "../../API/API";
 
 const NewsFeed = ({ user }) => {
   const { data, isLoading, isError } = useApi({
@@ -24,7 +25,16 @@ const NewsFeed = ({ user }) => {
     method: "GET",
     url: `/people/${user._id}`,
   });
-  console.log(peoples);
+
+  const friendRequest = async (receiver_id) => {
+    await API.put(`/sentrequest/${receiver_id}`, {
+      sender_id : user._id
+    }, {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+  }
 
   const PrevButton = (props) => {
     const { onClick } = props;
@@ -327,9 +337,15 @@ const NewsFeed = ({ user }) => {
                         </a>
                       </Link>
                       <div className="w-100 d-flex justify-content-between">
-                        <button className="btn btn-sm btn-primary bi bi-person-plus mb-2">
+                        <button className="btn btn-sm btn-primary bi bi-person-plus mb-2" disabled={user.friend_requests.includes(people._id) ? true : false} onClick={(e)=> {
+                          e.target.classList.remove("bi-person-plus")
+                          e.target.classList.add("bi-person-check")
+                          e.target.innerText = " Request Sent"
+                          e.target.setAttribute("disabled", 'true')
+                          friendRequest(people._id)
+                        }}>
                           {" "}
-                          Add Friend
+                          {user.friend_requests.includes(people._id) ? " Request Sent" : " Add Friend"}
                         </button>
                         <button className="btn btn-sm btn-light bi bi-messenger mb-2">
                           {` Message`}

@@ -44,6 +44,7 @@ function MyApp({ Component, pageProps }) {
     },
   });
 
+
   if (isLoading) {
     return (
       <div className="d-flex justify-content-center align-items-center vh-100 vw-100 bg-white">
@@ -73,7 +74,7 @@ function MyApp({ Component, pageProps }) {
         <title>Lifebook - A platform to connect with peoples!</title>
       </Head>
 
-      <Component {...pageProps} user={data.findUser} notification={notification.data?.unread?.length} />
+      <Component {...pageProps} user={data} notification={notification.data?.unread?.length} />
     </Fragment>
   );
 }

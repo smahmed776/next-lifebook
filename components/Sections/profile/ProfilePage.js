@@ -25,6 +25,16 @@ const ProfilePage = ({ user, data }) => {
     });
   };
 
+  const friendRequest = async (receiver_id) => {
+    await API.put(`/sentrequest/${receiver_id}`, {
+      sender_id : user._id
+    }, {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+  }
+
   useEffect(() => {
     fetchProfilePosts();
   }, [data]);
@@ -101,38 +111,51 @@ const ProfilePage = ({ user, data }) => {
         <div className="col-12 d-flex justify-content-center pt-5 mt-3 mt-sm-5 px-0 px-lg-5 mx-0">
           <div className="profile-nav pt-5 px-0 px-lg-5 w-100">
             <ul className="navbar border-top pt-3 px-0 px-lg-3 m-0">
-              <li className="nav-item border-bottom border-primary pb-1">
+              <li className="nav-item border-bottom border-primary pb-1 mt-2">
                 <a href="" className="nav-link">
                   Posts
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item mt-2">
                 <a href="" className="nav-link text-dark">
                   About
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item mt-2">
                 <a href="" className="nav-link text-dark">
                   Friends
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item mt-2">
                 <a href="" className="nav-link text-dark">
                   Photos
                 </a>
               </li>
-              <li className="nav-item px-2">
-                <button className="btn btn-primary bi bi-person-plus mb-2">
-                  {" "}
-                  Add Friend
+              {data._id === user._id && (
+                <li className="nav-item px-2 mt-2">
+                  <button className="btn btn-white border bi bi-pencil-square mb-2">
+                    {" "}
+                    Edit Profile
+                  </button>
+                </li>
+              )}
+             {data._id !== user._id && <li className="nav-item px-2 mt-2">
+                <button className="btn btn-primary bi bi-person-plus mb-2" disabled={user.friend_requests.includes(data._id) ? true : false} onClick={(e)=> {
+                          e.target.classList.remove("bi-person-plus")
+                          e.target.classList.add("bi-person-check")
+                          e.target.innerText = " Request Sent"
+                          e.target.setAttribute("disabled", 'true')
+                          friendRequest(data._id)
+                        }}>
+                {user.friend_requests.includes(data._id) ? " Request Sent" : " Add Friend"}
                 </button>
-              </li>
-              <li className="nav-item px-2">
+              </li>}
+              <li className="nav-item px-2 mt-2">
                 <button className="btn btn-light bi bi-messenger mb-2">
                   {` Message`}
                 </button>
               </li>
-              <li className="nav-item px-2">
+              <li className="nav-item px-2 mt-2">
                 <button className="btn btn-light rounded-pill bi bi-three-dots mb-2"></button>
               </li>
             </ul>

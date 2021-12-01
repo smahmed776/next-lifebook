@@ -67,7 +67,7 @@ const NotificationDropDown = ({ user, notification, mobile }) => {
     if (!notification) {
       return (
         <ul
-          className="dropdown-menu nav-drop-down placeholder-glow shadow border rounded py-0"
+          className="dropdown-menu notification-drop-down placeholder-glow shadow border rounded py-0"
           aria-labelledby="notificationdrop"
         >
           <li>
@@ -108,7 +108,7 @@ const NotificationDropDown = ({ user, notification, mobile }) => {
     }
     return (
       <ul
-        className="dropdown-menu nav-drop-down placeholder-glow shadow border rounded py-0"
+        className="dropdown-menu notification-drop-down placeholder-glow shadow border rounded py-0"
         aria-labelledby="notificationdrop"
       >
         {notification.unread.length > 0 &&
