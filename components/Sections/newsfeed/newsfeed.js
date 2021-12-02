@@ -295,23 +295,23 @@ const NewsFeed = ({ user }) => {
       {/* people may know column  */}
 
       {peoples.data?.length > 2 && (
-        <div className="col-12 p-0 mt-3 px-3">
+        <div className="col-12 bg-white p-0 mt-3 px-2 px-sm-3">
           <div className="w-100 bg-white">
             <h5 className="p-2 text-muted">Pepole You May Know</h5>
           </div>
-          <div className="w-100 my-2 px-3">
+          <div className="w-100 my-2 px-sm-3">
             <Slider
               infinite
               nextArrow={<NextButton />}
               prevArrow={<PrevButton />}
-              slidesToShow={3}
-              slidesToScroll={1}
+              slidesToShow={4}
+              slidesToScroll={2}
               responsive={[
                 {
                   breakpoint: 1200,
                   settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 1,
+                    slidesToShow: 5,
+                    slidesToScroll: 2,
                     infinite: true,
                   },
                 },
@@ -340,18 +340,18 @@ const NewsFeed = ({ user }) => {
                   breakpoint: 405,
                   settings: {
                     slidesToScroll: 1,
-                    slidesToShow: 1,
+                    slidesToShow: 2,
                   },
                 },
               ]}
             >
               {peoples.data.map((people, index) => (
                 <div className="p-1" key={index}>
-                  <div className=" bg-white custom-rounded border">
+                  <div className=" bg-white custom-rounded border shadow-sm">
                     <img
                       src={people.profile.profileImage}
                       style={{
-                        height: "230px",
+                        height: "185px",
                         width: "100%",
                         objectFit: "cover",
                         borderTopLeftRadius: "15px",
@@ -376,13 +376,10 @@ const NewsFeed = ({ user }) => {
                             {" "}
                             Request sent
                           </button>
-                          <button className="btn btn-sm btn-light bi bi-messenger mb-2">
-                            {` Message`}
-                          </button>
                         </div>
                       )}
                       {user.friend_requests?.received?.includes(people._id) && (
-                        <div className="w-100 d-flex justify-content-between">
+                        <div className="w-100 d-flex flex-column">
                           <button
                             className="btn btn-sm btn-primary bi bi-check mb-2"
                             ref={confirmReqBtn}
@@ -419,9 +416,9 @@ const NewsFeed = ({ user }) => {
                         !user.friend_requests?.received?.includes(
                           people._id
                         ) && (
-                          <div className="w-100 d-flex justify-content-between">
+                          <div className="w-100 d-flex flex-column">
                             <button
-                              className="btn btn-sm btn-primary bi bi-person-plus mb-2"
+                              className="btn btn-sm btn-outline-primary bi bi-person-plus mb-2"
                               onClick={(e) => {
                                 e.target.classList.remove("bi-person-plus");
                                 e.target.classList.add("bi-person-check");
@@ -432,9 +429,6 @@ const NewsFeed = ({ user }) => {
                             >
                               {" "}
                               Add Friend
-                            </button>
-                            <button className="btn btn-sm btn-light bi bi-messenger mb-2">
-                              {` Message`}
                             </button>
                           </div>
                         )}

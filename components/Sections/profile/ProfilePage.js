@@ -8,6 +8,8 @@ import { useApi } from "../../globalcontext/callApi";
 
 const ProfilePage = ({ user, data }) => {
   const [profilePost, setProfilePost] = useState({ isLoading: true });
+  const confirmReqBtn = useRef()
+  const rejectReqBtn = useRef()
 
   const fetchProfilePosts = async () => {
     setProfilePost({
@@ -52,6 +54,19 @@ const ProfilePage = ({ user, data }) => {
   const friendRequest = async (receiver_id) => {
     await API.put(
       `/sentrequest/${receiver_id}`,
+      {
+        sender_id: user._id,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  };
+  const unfriend = async (receiver_id) => {
+    await API.put(
+      `/unfriend/${receiver_id}`,
       {
         sender_id: user._id,
       },
@@ -151,7 +166,8 @@ const ProfilePage = ({ user, data }) => {
               </li>
               <li className="nav-item mt-2">
                 <a href="" className="nav-link text-dark">
-                  Friends {data.friends.length > 0 && `(${data.friends.length})`}
+                  Friends{" "}
+                  {data.friends.length > 0 && `(${data.friends.length})`}
                 </a>
               </li>
               <li className="nav-item mt-2">
@@ -182,9 +198,9 @@ const ProfilePage = ({ user, data }) => {
                     </div>
                   )}
                   {user.friend_requests?.received?.includes(data._id) && (
-                    <div className="w-100 d-flex justify-content-between">
+                    <>
                       <button
-                        className="btn btn-sm btn-primary bi bi-check mb-2"
+                        className="btn btn-sm btn-primary bi bi-check mb-2 me-2"
                         ref={confirmReqBtn}
                         onClick={(e) => {
                           e.target.innerText = "Confirmed";
@@ -206,7 +222,7 @@ const ProfilePage = ({ user, data }) => {
                       >
                         {` Reject`}
                       </button>
-                    </div>
+                    </>
                   )}
                   {!user.friend_requests?.sent?.includes(data._id) &&
                     !user.friend_requests?.received?.includes(data._id) && (
@@ -228,9 +244,34 @@ const ProfilePage = ({ user, data }) => {
                     )}
                 </li>
               )}
+              {data._id !== user._id && user.friends.includes(data._id) && (
+                <li className="nav-item px-2 mt-2 dropdown">
+                  <a
+                    className="btn btn-light bi bi-person-check-fill mb-2"
+                    role="button"
+                    id="friendsdrop"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    {` Friends`}
+                  </a>
+                  <ul
+                    className="dropdown-menu w-auto"
+                    aria-labelledby="friendsdrop"
+                  >
+                    <li className="p-2">
+                      <a
+                        style={{ cursor: "pointer" }}
+                        className="nav-link bi bi-person-x-fill"
+                        onClick={() => unfriend(data._id)}
+                      >{` Unfriend`}</a>
+                    </li>
+                  </ul>
+                </li>
+              )}
 
               <li className="nav-item px-2 mt-2">
-                <button className="btn btn-light bi bi-messenger mb-2">
+                <button className="btn btn-primary bi bi-messenger mb-2">
                   {` Message`}
                 </button>
               </li>

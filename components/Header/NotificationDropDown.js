@@ -7,7 +7,7 @@ const NotificationDropDown = ({ user, notification, mobile }) => {
     if (!notification) {
       return (
         <ul
-          className="placeholder-glow shadow border rounded py-0"
+          className="placeholder-glow notification-mobile shadow border rounded py-0"
           aria-labelledby="notificationdrop"
           style={{listStyleType: "none"}}
         >
@@ -49,7 +49,7 @@ const NotificationDropDown = ({ user, notification, mobile }) => {
     }
     return (
       <ul
-        className=" placeholder-glow bg-white shadow border rounded py-0 px-2"
+        className=" placeholder-glow notification-mobile bg-white shadow border rounded py-0 px-2"
         style={{listStyleType: "none"}}
         aria-labelledby="notificationdrop"
       >

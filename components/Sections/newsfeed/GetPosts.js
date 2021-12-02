@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import Moment from "react-moment";
 import Link from "next/link";
 import API from "../../API/API";
-import { callApi } from "../../globalcontext/callApi";
 import ShowMoreText from "react-show-more-text";
 import LikeShowModal from "../../Modals/LikeShowModal";
 import CommentShowModal from "../../Modals/CommentShowModal";
@@ -14,15 +13,11 @@ const GetPosts = ({ post, user }) => {
   const [likeText, setLikeText] = useState(post.reactions?.likes?.length);
   const [fetchLike, setFetchLike] = useState(false);
   const [fetchComment, setFetchComment] = useState(false);
-  const [reqAgain, setReqAgain] = useState([]);
-  const [newComment, setNewComment] = useState([]);
   const [likebtnclass, setLikebtnclass] = useState(
     post.reactions.likes.includes(user._id)
       ? "btn bi bi-hand-thumbs-up-fill text-primary resetbtn ps-1"
       : "btn bi bi-hand-thumbs-up resetbtn ps-1"
   );
-  const [reqtype, setreqType] = useState("");
-  const [postid, setPostid] = useState("");
   const likeCount = useRef();
   const history = useRouter();
   const getUserImage = async () => {
@@ -81,23 +76,6 @@ const GetPosts = ({ post, user }) => {
   const hidePost = (e) => {
     const post = document.getElementById(e.target.dataset.postId);
     post.style.display = "none";
-  };
-
-  const getLikers = (e) => {
-    setReqAgain(!reqAgain);
-    const postId = e.target.dataset.postId;
-    setreqType("like");
-    setPostid(postId);
-  };
-
-  const getComments = (id, strng) => {
-    setReqAgain(!reqAgain);
-    const commentId = id;
-    setreqType("comment");
-    setPostid(commentId);
-    if (strng === "true") {
-      setNewComment(!newComment);
-    }
   };
 
   const deletePost = async (e) => {
@@ -187,12 +165,15 @@ const GetPosts = ({ post, user }) => {
                   onClick={(e) => hidePost(e)}
                   className="row w-100 text-dark m-0"
                 >
-                  <div className="col-3 p-0 pe-2" style={{pointerEvents: "none"}}>
+                  <div
+                    className="col-3 p-0 pe-2"
+                    style={{ pointerEvents: "none" }}
+                  >
                     <div className="icon-drop-down rounded-pill bg-light">
                       <span className="bi bi-x-lg ps-2"></span>
                     </div>
                   </div>
-                  <div className="col-9" style={{pointerEvents: "none"}}>
+                  <div className="col-9" style={{ pointerEvents: "none" }}>
                     <h6 className="text-dark">Hide Post</h6>
                     <small className="text-muted">See fewer like this</small>
                   </div>

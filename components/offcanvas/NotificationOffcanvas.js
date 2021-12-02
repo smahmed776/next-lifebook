@@ -10,16 +10,16 @@ const NotificationOffcanvas = ({ notification, user }) => {
       id="notificationcanvas"
       aria-labelledby="notificationcanvasLabel"
     >
-      <div className="offcanvas-header justify-content-center flex-column">
+      <div className="offcanvas-header justify-content-center p-1">
+        <h3 className="p-2 col-10 my-2 text-center">Notifications</h3>
         <button
           type="button"
-          className="btn-close text-reset text-center"
+          className="btn-close col-2 text-reset text-center"
           data-bs-dismiss="offcanvas"
           aria-label="Close"
         />
-        <h3 className="p-2 my-2">Notifications</h3>
       </div>
-      <div className="offcanvas-body justify-content-center align-items-center p-0">
+      <div className="offcanvas-body notification-offcanvas justify-content-center align-items-center p-0">
         <NotificationDropDown user={user} notification={notification} mobile={true} />
       </div>
     </div>

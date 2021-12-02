@@ -48,11 +48,29 @@
 .notification-drop-down::-webkit-scrollbar {
   display: none;
 }
+.notification-offcanvas::-webkit-scrollbar {
+  display: none;
+}
 /* Hide scrollbar for Chrome, Safari and Opera */
 .notification-drop-down, .nav-drop-down::-webkit-scrollbar {
   display: none;
 }
 
+.notification-mobile li {
+  height: auto !important;
+  width: 100% !important;
+  cursor: pointer;
+}
+.notification-mobile li:hover {
+  background-color: #928c8c2e;
+  cursor: pointer;
+}
+.notification-mobile li a {
+  text-decoration: none;
+}
+.notification-mobile li a:hover {
+  background-color: #928c8c2e;
+}
 .nav-drop-down li {
   height: auto !important;
   width: 100% !important;
