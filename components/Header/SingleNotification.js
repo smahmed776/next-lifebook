@@ -5,6 +5,7 @@ import Moment from "react-moment";
 
 const SingleNotification = ({ notify }) => {
   const [name, setName] = useState(null);
+  const [notificationIconbg, setNotificationbg] = useState("bg-primary");
   const [profImg, setProfImg] = useState(null);
   const reqsuccess = useRef();
   const confirmbtn = useRef();
@@ -12,27 +13,103 @@ const SingleNotification = ({ notify }) => {
 
   const getIcon = (type) => {
     if (type === "like") {
-      return "bi bi-hand-thumbs-up-fill text-white ";
+      return (
+        <div
+          className={
+            "d-flex justify-content-center align-items-center position-absolute rounded-pill bg-primary"
+          }
+          style={{
+            height: "30px",
+            width: "30px",
+            right: "-5px",
+            bottom: "-2px",
+          }}
+        >
+          <span className="bi bi-hand-thumbs-up-fill text-white "></span>
+        </div>
+      );
     } else if (type === "comment") {
-      return "bi bi-chat-fill text-white ";
+      return (
+        <div
+          className={
+            "d-flex justify-content-center align-items-center position-absolute rounded-pill bg-success"
+          }
+          style={{
+            height: "30px",
+            width: "30px",
+            right: "-5px",
+            bottom: "-2px",
+          }}
+        >
+          <span className="bi bi-chat-square-fill text-white"></span>
+        </div>
+      );
     } else if (type === "friendRequest") {
-      return "bi bi-person-plus-fill text-white";
-    } else if (type === "confirmRequest"){
-      return "bi bi-person-check-fill text-white"
-    } else if (type === "rejectRequest"){
-      return "bi bi-person-x-fill text-white"
+      return (
+        <div
+          className={
+            "d-flex justify-content-center align-items-center position-absolute rounded-pill bg-primary"
+          }
+          style={{
+            height: "30px",
+            width: "30px",
+            right: "-5px",
+            bottom: "-2px",
+          }}
+        >
+          <span className="bi bi-person-fill text-white"></span>
+        </div>
+      );
+    } else if (type === "confirmRequest") {
+      return (
+        <div
+          className={
+            "d-flex justify-content-center align-items-center position-absolute rounded-pill bg-success"
+          }
+          style={{
+            height: "30px",
+            width: "30px",
+            right: "-5px",
+            bottom: "-2px",
+          }}
+        >
+          <span className="bi bi-person-check-fill text-white"></span>
+        </div>
+      );
+    } else if (type === "rejectRequest") {
+      setNotificationbg("bg-danger");
+      return (
+        <div
+          className={
+            "d-flex justify-content-center align-items-center position-absolute rounded-pill bg-danger"
+          }
+          style={{
+            height: "30px",
+            width: "30px",
+            right: "-5px",
+            bottom: "-2px",
+          }}
+        >
+          <span className="bi bi-person-x-fill text-white"></span>
+        </div>
+      );
     }
   };
 
   const fetchUser = async () => {
-    const res = await API.get("/userinfo", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${notify.buddy_id[0]} ${notify.buddy_id[1]}`,
+    const res = await API.post(
+      "/userinfo",
+      {
+        buddy_id: notify.buddy_id,
       },
-    });
-    setName(res.data.users);
-    setProfImg(res.data.users[0]?.profileImage);
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    setName(res.data?.users);
+    setProfImg(res.data?.users[0].profileImage);
   };
 
   const confirmRequest = async (id) => {
@@ -90,17 +167,7 @@ const SingleNotification = ({ notify }) => {
                   borderRadius: "50%",
                 }}
               />
-              <div
-                className="d-flex justify-content-center align-items-center position-absolute bg-primary rounded-pill"
-                style={{
-                  height: "30px",
-                  width: "30px",
-                  right: "-5px",
-                  bottom: "-2px",
-                }}
-              >
-                <span className={`${getIcon(notify.type)} `}></span>
-              </div>
+              {getIcon(notify.type)}
             </div>
           )}
         </div>
@@ -110,13 +177,15 @@ const SingleNotification = ({ notify }) => {
               <div className="w-100">
                 <p className="notification-para mb-0 pb-0 w-100">
                   {notify.buddy_id.length === 1 &&
-                    `${name[0]?.name.firstName} ${name[0]?.name.lastName} has liked your`}
+                    `${name[0]?.name.firstName} ${name[0]?.name.lastName} has liked your `}
                   {notify.buddy_id.length == 2 &&
-                    `${name[0]?.name.firstName} ${name[0]?.name.lastName} and ${name[1]?.name.firstName} ${name[1]?.name.lastName} liked your`}
+                    `${name[0]?.name.firstName} ${name[0]?.name.lastName} and ${name[1]?.name.firstName} ${name[1]?.name.lastName} liked your `}
                   {notify.buddy_id.length > 2 &&
-                    `${name[0]?.name.firstName}, ${
+                    `${name[0]?.name.firstName} ${name[0]?.name.lastName}, ${
                       name[1]?.name.firstName
-                    } and ${notify.buddy_id.length - 2} others liked your`}
+                    } ${name[1]?.name.lastName} and ${
+                      notify.buddy_id.length - 2
+                    } others liked your `}
 
                   <Link
                     href={`/posts/${notify.post_id}`}
@@ -131,13 +200,13 @@ const SingleNotification = ({ notify }) => {
               <div className="w-100">
                 <p className="notification-para mb-0 pb-0 w-100">
                   {notify.buddy_id.length === 1 &&
-                    `${name[0]?.name.firstName} ${name[0]?.name.lastName} has commented `}
+                    `${name[0]?.name.firstName} ${name[0]?.name.lastName} has commented on your `}
                   {notify.buddy_id.length == 2 &&
                     `${name[0]?.name.firstName} ${name[0]?.name.lastName} and ${name[1]?.name.firstName} ${name[1]?.name.lastName} commented on your `}
                   {notify.buddy_id.length > 2 &&
-                    `${name[0]?.name.firstName}, ${
+                    `${name[0]?.name.firstName} ${name[0]?.name.lastName}, ${
                       name[1]?.name.firstName
-                    } and ${
+                    } ${name[1]?.name.lastName} and ${
                       notify.buddy_id.length - 2
                     } others commented on your `}
 

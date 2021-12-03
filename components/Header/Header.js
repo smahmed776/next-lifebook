@@ -9,6 +9,7 @@ import NotificationOffcanvas from "../offcanvas/NotificationOffcanvas";
 
 const Header = ({ user, notificationCount }) => {
   const [notification, setNotification] = useState(null);
+  const [needTofetch, setNeedTofetch] = useState(true);
   const [n_count, setN_count] = useState(0);
   const history = useRouter();
   const logout = async () => {
@@ -17,7 +18,6 @@ const Header = ({ user, notificationCount }) => {
     });
     history.reload();
   };
-
   const fetchNotification = async () => {
     const res = await API.get("/notification", {
       headers: { "Content-Type": "application/json" },
@@ -104,7 +104,10 @@ const Header = ({ user, notificationCount }) => {
               data-bs-target="#notificationcanvas"
               aria-controls="notificationcanvas"
               onClick={() => {
-                fetchNotification();
+                if(needTofetch){
+                  fetchNotification();
+                  setNeedTofetch(false)
+                }
                 if(n_count > 0){
                   makeRead();
                   setN_count(0)

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default axios.create({
-    baseURL: "https://lifebooksocial.herokuapp.com/api/auth/v1/",
+    baseURL: process.env.API_URI,
     withCredentials: true,
     credentials: "include"
 })

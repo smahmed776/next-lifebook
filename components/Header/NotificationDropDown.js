@@ -1,6 +1,5 @@
 import React from "react";
 import SingleNotification from "./SingleNotification";
-import Link from "next/link";
 
 const NotificationDropDown = ({ user, notification, mobile }) => {
   if (mobile) {
@@ -9,7 +8,7 @@ const NotificationDropDown = ({ user, notification, mobile }) => {
         <ul
           className="placeholder-glow notification-mobile shadow border rounded py-0"
           aria-labelledby="notificationdrop"
-          style={{listStyleType: "none"}}
+          style={{ listStyleType: "none" }}
         >
           <li>
             <a className="row p-3 w-100">
@@ -50,7 +49,7 @@ const NotificationDropDown = ({ user, notification, mobile }) => {
     return (
       <ul
         className=" placeholder-glow notification-mobile bg-white shadow border rounded py-0 px-2"
-        style={{listStyleType: "none"}}
+        style={{ listStyleType: "none" }}
         aria-labelledby="notificationdrop"
       >
         {notification.unread.length > 0 &&

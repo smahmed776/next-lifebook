@@ -294,7 +294,7 @@ const NewsFeed = ({ user }) => {
     <section className="feed-container flex-column pb-3">
       {/* people may know column  */}
 
-      {peoples.data?.length > 2 && (
+      {peoples.data?.length > 3 && (
         <div className="col-12 bg-white p-0 mt-3 px-2 px-sm-3">
           <div className="w-100 bg-white">
             <h5 className="p-2 text-muted">Pepole You May Know</h5>
