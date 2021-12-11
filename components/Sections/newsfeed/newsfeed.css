@@ -23,6 +23,9 @@
   height: 32px;
   margin-left: 0.3rem;
 }
+.status-drop-down::-webkit-scrollbar {
+  display: none;
+}
 .status-drop-down li {
   height: auto !important;
   width: 100% !important;
@@ -39,6 +42,7 @@
   right: -13px !important;
   left: auto !important;
   top: 33% !important;
+  bottom: auto!important;
   width: 300px;
   max-height: 384px;
   overflow-x: hidden;

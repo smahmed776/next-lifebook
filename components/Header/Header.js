@@ -73,7 +73,7 @@ const Header = ({ user, notificationCount }) => {
           <li className="nav-item d-none d-md-block border-bottom border-primary">
             <Link passHref href="/">
               <a className="nav-link ">
-                <span className="bi bi-house-door"></span>
+                <span className="bi bi-house-door-fill text-primary"></span>
               </a>
             </Link>
           </li>

@@ -1,9 +1,8 @@
 import { Fragment, useEffect } from "react";
-import API from "../../components/API/API";
 import Header from "../../components/Header/Header";
 import axios from "axios";
 import Head from "next/head";
-import GetPosts from "../../components/Sections/newsfeed/GetPosts";
+import SinglePost from "../../components/SinglePost";
 
 export default function PostHandler({ user, data, notification }) {
   return (
@@ -13,7 +12,7 @@ export default function PostHandler({ user, data, notification }) {
       </Head>
       <Header user={user} notificationCount={notification}/>
       <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 justify-content-center m-0 w-100">
-        <GetPosts user={user} post={data} />
+        <SinglePost user={user} post={data} />
       </div>
     </Fragment>
   );

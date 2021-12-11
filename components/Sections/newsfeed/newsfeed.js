@@ -441,7 +441,7 @@ const NewsFeed = ({ user }) => {
           </div>
         </div>
       )}
-      <div className="row feedrow gy-2 gy-sm-4 px-0 px-sm-3 ps-lg-5">
+      <div className="row feedrow gy-2 gy-sm-3 px-0 px-sm-3 ps-lg-5">
         {/* create post column  */}
 
         <div className="col-12 bg-white custom-rounded p-0 p-sm-2 mt-3 mt-sm-5 border">
