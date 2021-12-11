@@ -1,30 +1,41 @@
 import React, { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import API from "../../API/API";
 import GetPosts from "../newsfeed/GetPosts";
 import ChangeProfilePicModal from "../../Modals/ChangeProfilePicModal";
 import ChangeCoverPicModal from "../../Modals/ChangeCoverPicModal";
 import CreatePostModal from "../../Modals/CreatePostModal";
 import { useApi } from "../../globalcontext/callApi";
+import Friends from "./Friends";
+import ProfImages from "./ProfImages";
 
 const ProfilePage = ({ user, data }) => {
   const [profilePost, setProfilePost] = useState({ isLoading: true });
-  const confirmReqBtn = useRef()
-  const rejectReqBtn = useRef()
-
+  const [friends, setFriends] = useState(null);
+  const confirmReqBtn = useRef();
+  const rejectReqBtn = useRef();
   const fetchProfilePosts = async () => {
-    setProfilePost({
-      isLoading: true,
-      data: "undefined",
-    });
-    const res = await API.get(`/posts/${data._id}`, {
-      headers: { "Content-Type": "application/json" },
-    });
-    setProfilePost({
-      isLoading: false,
-      data: {
-        Posts: res.data.Posts,
-      },
-    });
+    try {
+      setProfilePost({
+        isLoading: true,
+        data: "undefined",
+      });
+      const res = await API.get(`/posts/${data._id}`, {
+        headers: { "Content-Type": "application/json" },
+      });
+      setProfilePost({
+        isLoading: false,
+        data: {
+          Posts: res.data.Posts,
+        },
+      });
+    } catch (error) {
+      setProfilePost({
+        isLoading: true,
+        isError: true,
+        data: "undefined"
+      })
+    }
   };
 
   const confirmRequest = async (id) => {
@@ -78,7 +89,13 @@ const ProfilePage = ({ user, data }) => {
     );
   };
 
+  const getFriends = async (id) => {
+    const res = await API.post(`/friends/${id}`);
+    setFriends(res.data);
+  };
+
   useEffect(() => {
+    getFriends(data._id);
     fetchProfilePosts();
   }, [data]);
 
@@ -256,15 +273,18 @@ const ProfilePage = ({ user, data }) => {
                     {` Friends`}
                   </a>
                   <ul
-                    className="dropdown-menu w-auto"
+                    className="dropdown-menu w-auto p-2"
                     aria-labelledby="friendsdrop"
                   >
-                    <li className="p-2">
+                    <li className="p-0">
                       <a
                         style={{ cursor: "pointer" }}
-                        className="nav-link bi bi-person-x-fill"
+                        className="nav-link d-flex justify-content-around"
                         onClick={() => unfriend(data._id)}
-                      >{` Unfriend`}</a>
+                      >
+                        <span className="bi bi-person-x-fill"></span>
+                        <span>Unfriend</span>
+                      </a>
                     </li>
                   </ul>
                 </li>
@@ -334,67 +354,125 @@ const ProfilePage = ({ user, data }) => {
                   <h5>Photos</h5>
                   <a href="#">See All</a>
                 </div>
-                {data.length && (
+                {data && (
                   <div className="row row-cols-2 gx-3 gy-2">
-                    <div className="col p-1">
-                      <div className="border">
-                        <img
-                          src={"albumReverse[0]"}
-                          alt=""
-                          style={{
-                            height: "125px",
-                            width: "100%",
-                            padding: ".3rem",
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <div className="col p-1">
-                      <div className="border">
-                        <img
-                          src={"albumReverse[1]"}
-                          alt=""
-                          style={{
-                            height: "125px",
-                            width: "100%",
-                            padding: ".3rem",
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <div className="col p-1">
-                      <div className="border">
-                        <img
-                          src={"albumReverse[2]"}
-                          alt=""
-                          style={{
-                            height: "125px",
-                            width: "100%",
-                            padding: ".3rem",
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <div className="col p-1">
-                      <div className="border">
-                        <img
-                          src={"albumReverse[3]"}
-                          alt=""
-                          style={{
-                            height: "125px",
-                            width: "100%",
-                            padding: ".3rem",
-                          }}
-                        />
-                      </div>
-                    </div>
+                    {data.profile.allProfileImages.length > 0 && (
+                      <ProfImages image={data.profile.allProfileImages[data.profile.allProfileImages.length - 1]} />
+                    )}
+                    {data.profile.allProfileImages.length > 1 && (
+                      <ProfImages image={data.profile.allProfileImages[data.profile.allProfileImages.length - 2]} />
+                    )}
+                    {data.profile.allProfileImages.length > 2 && (
+                      <ProfImages image={data.profile.allProfileImages[data.profile.allProfileImages.length - 3]} />
+                    )}
+                    {data.profile.allProfileImages.length > 3 && (
+                      <ProfImages image={data.profile.allProfileImages[data.profile.allProfileImages.length - 4]} />
+                    )}
                   </div>
                 )}
               </div>
               <div className="col bg-white border rounded p-3">
                 <div className="d-flex justify-content-between">
-                  <h5>Friends</h5>
+                  <h5>Friends {`(${data.friends.length})`}</h5>
                   <a href="#">See All</a>
+                </div>
+
+                  
+                  {!friends && (
+                    <div className="row row-cols-2 row-cols-sm-3 gx-3 gx-sm-2 gy-2 placeholder-glow">
+                    <div className="col">
+                      <span className="placeholder col-12" style={{height: "125px"}}></span>
+                    </div>
+                    <div className="col">
+                      <span className="placeholder col-12" style={{height: "125px"}}></span>
+                    </div>
+                    <div className="col">
+                      <span className="placeholder col-12" style={{height: "125px"}}></span>
+                    </div>
+                    <div className="col">
+                      <span className="placeholder col-12" style={{height: "125px"}}></span>
+                    </div>
+                    <div className="col">
+                      <span className="placeholder col-12" style={{height: "125px"}}></span>
+                    </div>
+                    <div className="col">
+                      <span className="placeholder col-12" style={{height: "125px"}}></span>
+                    </div>
+                  </div>
+                  )}
+                <div className="row row-cols-2 row-cols-sm-3 gx-3 gx-sm-2 gy-2 placeholder-glow">
+                  {friends?.length > 0 && (
+                    <Friends
+                      obj={{
+                        id: friends[0]._id,
+                        image: friends[0].image,
+                        name: {
+                          firstName: friends[0].name.firstName,
+                          lastName: friends[0].name.lastName,
+                        },
+                      }}
+                    />
+                  )}
+                  {friends?.length > 1 && (
+                    <Friends
+                      obj={{
+                        id: friends[1]._id,
+                        image: friends[1].image,
+                        name: {
+                          firstName: friends[1].name.firstName,
+                          lastName: friends[1].name.lastName,
+                        },
+                      }}
+                    />
+                  )}
+                  {friends?.length > 2 && (
+                    <Friends
+                      obj={{
+                        id: friends[2]._id,
+                        image: friends[2].image,
+                        name: {
+                          firstName: friends[2].name.firstName,
+                          lastName: friends[2].name.lastName,
+                        },
+                      }}
+                    />
+                  )}
+                  {friends?.length > 3 && (
+                    <Friends
+                      obj={{
+                        id: friends[3]._id,
+                        image: friends[3].image,
+                        name: {
+                          firstName: friends[3].name.firstName,
+                          lastName: friends[3].name.lastName,
+                        },
+                      }}
+                    />
+                  )}
+                  {friends?.length > 4 && (
+                    <Friends
+                      obj={{
+                        id: friends[4]._id,
+                        image: friends[4].image,
+                        name: {
+                          firstName: friends[4].name.firstName,
+                          lastName: friends[4].name.lastName,
+                        },
+                      }}
+                    />
+                  )}
+                  {friends?.length > 5 && (
+                    <Friends
+                      obj={{
+                        id: friends[5]._id,
+                        image: friends[5].image,
+                        name: {
+                          firstName: friends[5].name.firstName,
+                          lastName: friends[5].name.lastName,
+                        },
+                      }}
+                    />
+                  )}
                 </div>
               </div>
             </div>

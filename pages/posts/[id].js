@@ -8,11 +8,11 @@ export default function PostHandler({ user, data, notification }) {
   return (
     <Fragment>
       <Head>
-        <title>{`${data.post.text.substr(0, 32)}... - Lifebook`}</title>
+        <title>{`${data.post.post.text.substr(0, 32)}... - Lifebook`}</title>
       </Head>
-      <Header user={user} notificationCount={notification}/>
+      <Header user={user} notificationCount={notification} />
       <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 justify-content-center m-0 w-100">
-        <SinglePost user={user} post={data} />
+        <SinglePost user={user} post={data.post} postComments={data.comments}/>
       </div>
     </Fragment>
   );
@@ -28,7 +28,15 @@ export async function getServerSideProps(context) {
       credentials: "include",
     }
   );
-  const data = res.data?.getPost;
+  const res_comments = await axios.get(
+    `https://lifebooksocial.herokuapp.com/api/auth/v1/comments/${id}`,
+    {
+      withCredentials: true,
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    }
+  );
+  const data = {post: res.data?.getPost, comments: res_comments.data};
   if (!data) {
     return {
       notFound: true,

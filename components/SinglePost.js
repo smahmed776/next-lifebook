@@ -8,13 +8,13 @@ import CommentShowModal from "./Modals/CommentShowModal";
 import { useRouter } from "next/router";
 import DeletePostModal from "./Modals/DeletePostModal";
 
-const SinglePost = ({ post, user }) => {
+const SinglePost = ({ post, user, postComments }) => {
   const [userImage, setUserImage] = useState(null);
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState(null);
   const [likeText, setLikeText] = useState(post.reactions?.likes?.length);
   const [fetchLike, setFetchLike] = useState(false);
-  const [fetchComment, setFetchComment] = useState(true);
+  const [fetchComment, setFetchComment] = useState(false);
   const [likebtnclass, setLikebtnclass] = useState(
     post.reactions.likes.includes(user._id)
       ? "btn bi bi-hand-thumbs-up-fill text-primary resetbtn ps-1"
@@ -30,10 +30,7 @@ const SinglePost = ({ post, user }) => {
     });
     setUserImage(res.data?.profile?.profileImage);
   };
-  useEffect(() => {
-    setLikeText(post.reactions?.likes?.length);
-    getUserImage();
-  }, [post]);
+
 
   const likePost = async (e) => {
     try {
@@ -99,8 +96,8 @@ const SinglePost = ({ post, user }) => {
 
   const makeComment = async (e) => {
     e.preventDefault();
-    if(newComment === ''){
-        return
+    if (newComment === "") {
+      return;
     }
     try {
       commentbtn.current.setAttribute("disabled", "true");
@@ -135,12 +132,19 @@ const SinglePost = ({ post, user }) => {
     setComments(res.data);
   }
 
+  useEffect(() => { 
+    setComments(postComments);
+  }, [postComments]);
   useEffect(() => {
     if (fetchComment) {
       getComments(post._id);
       setFetchComment((prev) => !prev);
     }
   }, [fetchComment]);
+  useEffect(() => {
+    setLikeText(post.reactions?.likes?.length);
+    getUserImage();
+  }, [post]);
 
   return (
     <div className="col-12 bg-white border p-2" key={post._id} id={post._id}>
@@ -321,16 +325,12 @@ const SinglePost = ({ post, user }) => {
             <a
               role="button"
               data-post-id={post._id}
-              onClick={() => setFetchComment(true)}
-              data-bs-toggle="modal"
-              data-bs-target={`#comment${post._id}`}
               className="text-muted"
               style={{ textDecoration: "none" }}
             >
-              <span
-                className="pe-1 pe-sm-2"
-                style={{ pointerEvents: "none" }}
-              >{comments && comments.length}</span>
+              <span className="pe-1 pe-sm-2" style={{ pointerEvents: "none" }}>
+                {comments && comments.length}
+              </span>
               Comment
             </a>
             <a

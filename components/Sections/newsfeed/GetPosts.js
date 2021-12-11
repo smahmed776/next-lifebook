@@ -98,6 +98,7 @@ const GetPosts = ({ post, user }) => {
       className="col-12 bg-white border custom-rounded shadow-sm p-2"
       key={post._id}
       id={post._id}
+      style={{height: "fit-content"}}
     >
       <div className="">
         <div className="d-flex justify-content-between py-1 px-1 px-sm-3 overflow-visible">
