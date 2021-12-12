@@ -11,7 +11,7 @@ export default function PostHandler({ user, data, notification }) {
         <title>{`${data.post.post.text.substr(0, 32)}... - Lifebook`}</title>
       </Head>
       <Header user={user} notificationCount={notification} />
-      <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 justify-content-center m-0 w-100">
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-2 justify-content-center m-0 w-100">
         <SinglePost user={user} post={data.post} postComments={data.comments}/>
       </div>
     </Fragment>

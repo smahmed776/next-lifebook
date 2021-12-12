@@ -6,6 +6,7 @@ import Moment from "react-moment";
 const SingleNotification = ({ notify }) => {
   const [name, setName] = useState(null);
   const [notificationIconbg, setNotificationbg] = useState("bg-primary");
+  const [authorName, setAuthorName] = useState("");
   const [profImg, setProfImg] = useState(null);
   const reqsuccess = useRef();
   const confirmbtn = useRef();
@@ -96,6 +97,20 @@ const SingleNotification = ({ notify }) => {
     }
   };
 
+  const fetchAuthor = async () => {
+    const res = await API.post(
+      "/userinfo",
+      {
+        buddy_id: notify.author_id,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    setAuthorName(`${res.data?.users[0].name.firstName} ${res.data?.users[0].name.lastName}`);
+  };
   const fetchUser = async () => {
     const res = await API.post(
       "/userinfo",
@@ -138,6 +153,7 @@ const SingleNotification = ({ notify }) => {
 
   useEffect(() => {
     fetchUser();
+    fetchAuthor()
   }, [notify]);
   if (!name) {
     return (
@@ -290,9 +306,33 @@ const SingleNotification = ({ notify }) => {
                 </p>
               </div>
             )}
+
+            {notify.type === "replycomment" && (
+              <div className="w-100">
+                <p className="notification-para mb-0 pb-0 w-100">
+                  {notify.buddy_id.length === 1 &&
+                    `${name[0]?.name.firstName} ${name[0]?.name.lastName} has also commented on `}
+                  {notify.buddy_id.length == 2 &&
+                    `${name[0]?.name.firstName} ${name[0]?.name.lastName} and ${name[1]?.name.firstName} ${name[1]?.name.lastName} also commented on `}
+                  {notify.buddy_id.length > 2 &&
+                    `${name[0]?.name.firstName} ${name[0]?.name.lastName}, ${
+                      name[1]?.name.firstName
+                    } ${name[1]?.name.lastName} and ${
+                      notify.buddy_id.length - 2
+                    } others also commented on `}
+                  {notify.author_id && `${authorName}'s `}
+                  <Link
+                    href={`/posts/${notify.post_id}`}
+                    style={{ paddingLeft: ".5rem", textDecoration: "none" }}
+                  >
+                    Post
+                  </Link>
+                </p>
+              </div>
+            )}
             <div className="d-flex justify-content-end mt-2 w-100">
               <p className="text-muted m-0 pe-2">
-                <Moment fromNow interval={1000}>
+                <Moment fromNow interval={2000}>
                   {notify.created}
                 </Moment>
               </p>

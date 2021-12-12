@@ -278,7 +278,7 @@ const SinglePost = ({ post, user, postComments }) => {
             </ul>
           </div>
         </div>
-        <div className="px-3">
+        <div className="px-3 px-lg-5">
           {post.post?.text && (
             <ShowMoreText
               lines={10}

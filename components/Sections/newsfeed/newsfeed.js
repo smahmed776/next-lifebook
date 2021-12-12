@@ -71,11 +71,11 @@ const NewsFeed = ({ user }) => {
     const { onClick } = props;
     return (
       <button
-        className="slick-arrow carousel-control-prev d-none d-md-block testimonial-control-prev"
+        className="slick-arrow d-none d-md-block testimonial-control-prev shadow border"
         type="button"
         onClick={onClick}
       >
-        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span className="bi bi-chevron-left text-primary" aria-hidden="true"></span>
         <span className="visually-hidden">Previous</span>
       </button>
     );
@@ -84,11 +84,11 @@ const NewsFeed = ({ user }) => {
     const { onClick } = props;
     return (
       <button
-        className="slick-arrow carousel-control-next d-none d-md-block testimonial-control-next"
+        className="btn slick-arrow  d-none d-md-block testimonial-control-next shadow border"
         type="button"
         onClick={onClick}
       >
-        <span className="carousel-control-next-icon" aria-hidden="true"></span>
+        <span className="bi bi-chevron-right text-primary" aria-hidden="true"></span>
         <span className="visually-hidden">Next</span>
       </button>
     );
@@ -301,7 +301,7 @@ const NewsFeed = ({ user }) => {
           </div>
           <div className="w-100 my-2 px-sm-3">
             <Slider
-              infinite
+              infinite={false}
               nextArrow={<NextButton />}
               prevArrow={<PrevButton />}
               slidesToShow={4}
