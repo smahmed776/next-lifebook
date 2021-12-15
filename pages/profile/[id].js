@@ -28,6 +28,7 @@ export async function getServerSideProps(context) {
     "profile",
     "friends",
     "followers",
+    "verified"
   ]);
 
   if (getUser) {
@@ -43,6 +44,7 @@ export async function getServerSideProps(context) {
         "profile",
         "friends",
         "followers",
+        "verified"
       ]);
 
       if (!res) {

@@ -2,7 +2,6 @@ import React from "react";
 import SingleNotification from "./SingleNotification";
 
 const NotificationDropDown = ({ user, notification, mobile }) => {
-  console.log(notification)
   if (mobile) {
     if (!notification) {
       return (

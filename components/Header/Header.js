@@ -25,14 +25,18 @@ const Header = ({ user, notificationCount }) => {
     setNotification(res.data);
   };
   const makeRead = async () => {
-    await API.put("/readnotification", {user_id : user._id}, {
-      headers: { "Content-Type": "application/json" },
-    });
+    await API.put(
+      "/readnotification",
+      { user_id: user._id },
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   };
 
-  useEffect(()=> {
-    setN_count(notificationCount)
-  }, [notificationCount])
+  useEffect(() => {
+    setN_count(notificationCount);
+  }, [notificationCount]);
   return (
     <nav
       className="navbar navbar-expand-sm navbar-light bg-white sticky-top vw-100 border-bottom p-0"
@@ -93,41 +97,43 @@ const Header = ({ user, notificationCount }) => {
             </a>
           </li>
           <li
-            className="nav-item d-sm-none rounded-pill border bg-light me-2 px-lg-0 px-xl-2 dropdown"
+            className="nav-item d-sm-none rounded-pill  me-2 px-2 dropdown"
             style={{ height: "40px", width: "40px" }}
           >
             <a
-              className="nav-link p-0 d-flex justify-content-center align-items-center position-relative h-100 w-100"
+              className="nav-link p-0 bi bi-bell-fill d-flex justify-content-center align-items-center position-relative h-100 w-100"
               role="button"
               id="notificationdrop"
               data-bs-toggle="offcanvas"
               data-bs-target="#notificationcanvas"
               aria-controls="notificationcanvas"
               onClick={() => {
-                if(needTofetch){
+                if (needTofetch) {
                   fetchNotification();
-                  setNeedTofetch(false)
+                  setNeedTofetch(false);
                 }
-                if(n_count > 0){
+                if (n_count > 0) {
                   makeRead();
-                  setN_count(0)
+                  setN_count(0);
                 }
               }}
-              style={{ fontSize: "1rem" }}
+              style={{ fontSize: "2rem" }}
             >
-              <span className="bi bi-bell p-0"></span>
               {n_count !== 0 && (
-                <span
+                <div
                   className="position-absolute p-1 rounded-pill bg-danger text-center text-white d-flex justify-content-center align-items-center"
                   style={{
                     height: "20px",
                     width: "20px",
-                    top: "-5px",
+                    top: "3px",
                     right: "-6px",
+                    border: "2px solid #fff",
                   }}
                 >
-                  {n_count}
-                </span>
+                  <span className=" p-0" style={{ fontSize: ".7rem" }}>
+                    {n_count}
+                  </span>
+                </div>
               )}
             </a>
             <NotificationOffcanvas notification={notification} user={user} />
@@ -152,13 +158,16 @@ const Header = ({ user, notificationCount }) => {
 
         <div className="d-none d-sm-block" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-lg-0 justify-content-end">
-            <li className="nav-item navuname d-none d-xl-flex p-3 bg-light border border-primary me-1 rounded-pill">
+            <li className="nav-item navuname d-none d-xl-flex p-2 bg-light border border-primary me-1 rounded-pill overflow-hidden">
               <Link
                 className="nav-link "
                 passHref
                 href={`/profile/${user._id}`}
               >
-                <a style={{ textDecoration: "none" }}>
+                <a
+                  style={{ textDecoration: "none", overflow: "hidden" }}
+                  className="rounded-pill d-flex justify-content-between align-items-center"
+                >
                   {user.profile && (
                     <img
                       src={user.profile.profileImage}
@@ -169,48 +178,72 @@ const Header = ({ user, notificationCount }) => {
                       style={{ objectFit: "cover" }}
                     />
                   )}
-                  <p className="d-inline text-dark ps-2">{`${user?.name?.firstName} ${user?.name?.lastName}`}</p>
+                  <p
+                    className="d-inline text-dark m-0 ps-2"
+                    style={{
+                      width: "135px",
+                      whiteSpace: "nowrap",
+                      textOverflow: "ellipsis",
+                      overflow: "hidden",
+                    }}
+                  >{`${user?.name?.firstName} ${user?.name?.lastName}`}</p>
+                  {user?.verified === true && (
+                    <span
+                      className="bi bi-check rounded-pill d-flex justify-content-center align-items-center p-2 text-white bg-primary"
+                      style={{ height: "15px", width: "15px" }}
+                    ></span>
+                  )}
                 </a>
               </Link>
             </li>
-            <li className="nav-item rounded-pill border bg-light me-2 px-lg-0 px-xl-2">
-              <a className="nav-link active" aria-current="page">
-                <span className="bi bi-plus"></span>
-              </a>
-            </li>
-            <li className="nav-item rounded-pill border bg-light me-2 px-lg-0 px-xl-2">
-              <a className="nav-link">
-                <span className="bi bi-messenger"></span>
-              </a>
-            </li>
-            <li className="nav-item rounded-pill d-none d-sm-block border bg-light me-2 px-lg-0 px-xl-2 dropdown">
+            <li className="nav-item rounded-pill  me-2 px-2">
               <a
-                className="nav-link position-relative rounded-pill h-100 d-flex justify-content-center align-items-center p-0"
+                className="nav-link active bi bi-plus"
+                aria-current="page"
+                style={{ fontSize: "2rem" }}
+              ></a>
+            </li>
+            <li className="nav-item rounded-pill me-2 px-2">
+              <a
+                className="nav-link bi bi-chat-text p-0"
+                style={{ fontSize: "2rem" }}
+              ></a>
+            </li>
+            <li className="nav-item rounded-pill d-none d-sm-block  me-2 px-2 dropdown">
+              <a
+                className="nav-link position-relative bi bi-bell-fill rounded-pill h-100 d-flex justify-content-center align-items-center p-1"
                 role="button"
                 id="notificationdrop"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
+                style={{ fontSize: "2rem" }}
                 onClick={() => {
                   fetchNotification();
-                  if(n_count > 0){
+                  if (n_count > 0) {
                     makeRead();
-                    setN_count(0)
+                    setN_count(0);
                   }
                 }}
               >
-                <span className="bi bi-bell p-0"></span>
+                {/* <span className=" p-0" style={{fontSize: "1.5rem"}}></span> */}
                 {n_count !== 0 && (
-                  <span
-                    className="position-absolute p-1 rounded-pill bg-danger text-center text-white d-flex justify-content-center align-items-center"
+                  <div
+                    className="position-absolute rounded-pill bg-danger text-center text-white d-flex justify-content-center align-items-center"
                     style={{
-                      height: "25px",
-                      width: "25px",
-                      top: "-5px",
-                      right: "-10px",
+                      height: "20px",
+                      width: "20px",
+                      top: "6px",
+                      right: "-3px",
+                      border: "2px solid #fff",
                     }}
                   >
-                    {n_count}
-                  </span>
+                    <span
+                      className="w-100 h-100 p-0"
+                      style={{ fontSize: ".7rem" }}
+                    >
+                      {n_count}
+                    </span>
+                  </div>
                 )}
               </a>
               <NotificationDropDown
@@ -220,16 +253,15 @@ const Header = ({ user, notificationCount }) => {
               />
             </li>
 
-            <li className="nav-item rounded-pill border bg-light me-2 px-lg-0 px-xl-2 dropdown">
+            <li className="nav-item rounded-pill me-2 px-2 dropdown">
               <a
-                className="nav-link"
+                className="nav-link bi bi-caret-down"
                 role="button"
                 id="profiledrop"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
-              >
-                <span className="bi bi-caret-down-fill"></span>
-              </a>
+                style={{ fontSize: "2rem" }}
+              ></a>
               <ul
                 className="dropdown-menu nav-drop-down"
                 aria-labelledby="profiledrop"
@@ -248,7 +280,15 @@ const Header = ({ user, notificationCount }) => {
                         />
                       </div>
                       <div className="col-8 pt-2">
-                        <h6 className="text-dark">{`${user?.name?.firstName} ${user?.name?.lastName}`}</h6>
+                        <h6 className="text-dark d-flex justify-content-start align-items-center">
+                          {`${user?.name?.firstName} ${user?.name?.lastName}`}
+                          {user?.verified === true && (
+                            <span
+                              className="bi bi-check rounded-pill d-inline-flex ms-2 justify-content-center align-items-center p-2 text-white bg-primary"
+                              style={{ height: "15px", width: "15px" }}
+                            ></span>
+                          )}
+                        </h6>
                         <small className="text-muted">See your profile</small>
                       </div>
                     </a>

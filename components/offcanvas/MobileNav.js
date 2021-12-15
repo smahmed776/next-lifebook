@@ -44,8 +44,10 @@ const MobileNav = ({ currentUser, logout }) => {
                     />
                   </div>
                   <div className="col-9 m-0 d-flex justify-contetnt-start flex-column">
-                    <p className="text-start text-dark mb-1">
+                    <p className="text-start text-dark mb-1 d-flex justify-content-start align-items-center">
                       {`${currentUser?.name?.firstName} ${currentUser?.name?.lastName}`}
+                  {currentUser?.verified === true && <span className="bi bi-check rounded-pill ms-2 d-inline-flex justify-content-center align-items-center p-2 text-white bg-primary" style={{height: "15px", width: "15px"}}></span>}
+                      
                     </p>
                     <p className="text-start text-muted m-0">
                       See your profile

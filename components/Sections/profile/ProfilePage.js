@@ -162,7 +162,10 @@ const ProfilePage = ({ user, data }) => {
               )}
             </div>
             <div className="pt-2">
-              <h3 className="text-center">{`${data.name.firstName} ${data.name.lastName}`}</h3>
+              <h3 className="text-center d-flex justify-content-center align-items-center" style={{fontFamily: "cursive"}}>{`${data.name.firstName} ${data.name.lastName}`}
+              {data.verified === true && <span className="bi bi-check rounded-pill d-inline-flex p-2 ms-2 justify-content-center align-items-center p-2 text-white bg-primary" style={{height: "25px", width: "25px"}}></span>}
+              
+              </h3>
               <p className="text-muted text-center">Your Bio</p>
             </div>
           </div>
@@ -410,6 +413,7 @@ const ProfilePage = ({ user, data }) => {
                           firstName: friends[0].name.firstName,
                           lastName: friends[0].name.lastName,
                         },
+                        verified: friends[0].verified
                       }}
                     />
                   )}
@@ -422,6 +426,7 @@ const ProfilePage = ({ user, data }) => {
                           firstName: friends[1].name.firstName,
                           lastName: friends[1].name.lastName,
                         },
+                        verified: friends[1].verified
                       }}
                     />
                   )}
@@ -434,6 +439,7 @@ const ProfilePage = ({ user, data }) => {
                           firstName: friends[2].name.firstName,
                           lastName: friends[2].name.lastName,
                         },
+                        verified: friends[2].verified
                       }}
                     />
                   )}
@@ -446,6 +452,7 @@ const ProfilePage = ({ user, data }) => {
                           firstName: friends[3].name.firstName,
                           lastName: friends[3].name.lastName,
                         },
+                        verified: friends[3].verified
                       }}
                     />
                   )}
@@ -458,6 +465,7 @@ const ProfilePage = ({ user, data }) => {
                           firstName: friends[4].name.firstName,
                           lastName: friends[4].name.lastName,
                         },
+                        verified: friends[4].verified
                       }}
                     />
                   )}
@@ -470,6 +478,7 @@ const ProfilePage = ({ user, data }) => {
                           firstName: friends[5].name.firstName,
                           lastName: friends[5].name.lastName,
                         },
+                        verified: friends[5].verified
                       }}
                     />
                   )}

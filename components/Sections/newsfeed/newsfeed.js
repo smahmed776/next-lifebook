@@ -364,7 +364,11 @@ const NewsFeed = ({ user }) => {
                           className="text-dark"
                           style={{ textDecoration: "none" }}
                         >
-                          <h6>{`${people.name.firstName} ${people.name.lastName}`}</h6>
+                          <h6 className="d-flex justify-content-start align-items-center"
+                          >{`${people.name.firstName} ${people.name.lastName}`}
+                  {people.verified === true && <span className="bi bi-check rounded-pill d-inline-flex ms-2 justify-content-center align-items-center p-2 text-white bg-primary" style={{height: "15px", width: "15px"}}></span>}
+                          
+                          </h6>
                         </a>
                       </Link>
                       {user.friend_requests?.sent?.includes(people._id) && (
@@ -494,7 +498,19 @@ const NewsFeed = ({ user }) => {
             <CreatePostModal user={user} />
           </div>
         </div>
-
+        {data.Posts?.length === 0 && (
+          <div className="col-12 bg-white border rounded p-2">
+            <div className="">
+              <div className="text-center">
+                <h4 className="text-center">No more posts</h4>
+                <p className="px-1 text-center">
+                  Add more friends to see more posts in your News Feed.
+                </p>
+                <button className="btn btn-primary">Add friend</button>
+              </div>
+            </div>
+          </div>
+        )}
         {data.Posts?.length > 0 &&
           data.Posts.map((post, index) => (
             <GetPosts post={post} user={user} key={index} />

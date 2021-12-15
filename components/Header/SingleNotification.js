@@ -102,6 +102,11 @@ const SingleNotification = ({ notify }) => {
       "/userinfo",
       {
         buddy_id: notify.author_id,
+        information: [
+          "name",
+          "username",
+          "profile.profileImage"
+        ]
       },
       {
         headers: {
@@ -109,13 +114,18 @@ const SingleNotification = ({ notify }) => {
         },
       }
     );
-    setAuthorName(`${res.data?.users[0].name.firstName} ${res.data?.users[0].name.lastName}`);
+    setAuthorName(`${res.data[0]?.name.firstName} ${res.data[0]?.name.lastName}`);
   };
   const fetchUser = async () => {
     const res = await API.post(
       "/userinfo",
       {
-        buddy_id: notify.buddy_id,
+        buddy_id: notify.buddy_id.length === 1 ? notify.buddy_id : [notify.buddy_id[notify.buddy_id.length -1 ], notify.buddy_id[notify.buddy_id.length - 2]],
+        information: [
+          "name",
+          "username",
+          "profile.profileImage"
+        ]
       },
       {
         headers: {
@@ -123,8 +133,9 @@ const SingleNotification = ({ notify }) => {
         },
       }
     );
-    setName(res.data?.users);
-    setProfImg(res.data?.users[0].profileImage);
+    console.log(res.data)
+    setName(res.data);
+    setProfImg(res.data[0]?.profile?.profileImage);
   };
 
   const confirmRequest = async (id) => {

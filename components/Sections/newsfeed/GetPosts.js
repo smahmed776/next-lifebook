@@ -10,6 +10,7 @@ import DeletePostModal from "../../Modals/DeletePostModal";
 
 const GetPosts = ({ post, user }) => {
   const [userImage, setUserImage] = useState(null);
+  const [verified, setVerified] = useState(false)
   const [likeText, setLikeText] = useState(post.reactions?.likes?.length);
   const [fetchLike, setFetchLike] = useState(false);
   const [fetchComment, setFetchComment] = useState(false);
@@ -25,6 +26,7 @@ const GetPosts = ({ post, user }) => {
       headers: { "Content-Type": "application/json" },
     });
     setUserImage(res.data?.profile?.profileImage);
+    setVerified(res.data?.verified)
   };
   useEffect(() => {
     setLikeText(post.reactions?.likes?.length);
@@ -119,9 +121,12 @@ const GetPosts = ({ post, user }) => {
             <div className=" text-start">
               <Link passHref href={`/profile/${post.author_id}`}>
                 <a
-                  className="mt-1 text-dark"
+                  className="mt-1 text-dark d-flex justify-content-start align-items-center"
                   style={{ textDecoration: "none" }}
-                >{`${post.author_name.firstName} ${post.author_name.lastName}`}</a>
+                >{`${post.author_name.firstName} ${post.author_name.lastName}`}
+                  {verified === true && <span className="bi bi-check rounded-pill d-inline-flex ms-2 justify-content-center align-items-center p-2 text-white bg-primary" style={{height: "15px", width: "15px"}}></span>}
+                
+                </a>
               </Link>
               <p className="text-muted text-start">
                 <Moment fromNow interval={1000}>
