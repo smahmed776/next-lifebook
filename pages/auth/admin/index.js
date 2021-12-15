@@ -7,6 +7,11 @@ import SinglePost from "../../../components/SinglePost" ;
 
 export default function AdminHandler({ user, notification }) {
   const history = useRouter()
+   useEffect(()=> {
+     if(user.type !== "Admin")
+     history.push("/");
+
+   })
   if(user.type === "Admin"){
     return (
     <Fragment>
@@ -21,11 +26,6 @@ export default function AdminHandler({ user, notification }) {
 
     )
   }
-   useEffect(()=> {
-     if(user.type !== "Admin")
-     history.push("/");
-
-   })
   return (
       <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-2 justify-content-center m-0 w-100">
         {/* <SinglePost user={user} post={{post: "text"}} postComments={[{text: "name"}]}/> */}
