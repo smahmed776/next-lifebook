@@ -6,7 +6,7 @@ import dbConnect from "../../server/db/dbConnect";
 import User from "../../server/schemas/UserSchema";
 
 export default function SingleProfile(props) {
-
+  console.log(props)
   return (
     <Fragment>
       <Head>
@@ -30,7 +30,6 @@ export async function getServerSideProps(context) {
     "followers",
     "verified"
   ]);
-
   if (getUser) {
     const formatJson = JSON.stringify(getUser);
     const data = JSON.parse(formatJson);

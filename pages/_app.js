@@ -16,6 +16,7 @@ import { useApi } from "../components/globalcontext/callApi";
 import HomePage from "../components/HomePage/HomePage";
 import Header from "../components/Header/Header";
 import API from "../components/API/API";
+import "../globalcss/dashboard.css"
 
 function MyApp({ Component, pageProps }) {
 

@@ -1,0 +1,31 @@
+.dashboard ul {
+    list-style-type: none;
+    width: 100%;
+    padding : 0 0 0 1rem;
+}
+.dashboard ul li{
+    width: 100%;
+    padding: .5rem 0 .5rem .5rem;
+    line-height: 16px;
+
+}
+.dashboard ul li a{
+    color: #fff;
+    padding: 1rem;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-family: poppins;
+}
+.dashboard ul li a.active{
+    background-color: #fff;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    color: blue;
+}
+.dashboard ul li a:hover{
+    background-color: #fff;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    color: blue;
+}

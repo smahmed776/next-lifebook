@@ -2,35 +2,27 @@ import { Fragment, useEffect } from "react";
 import Header from "../../../components/Header/Header";
 import axios from "axios";
 import Head from "next/head";
-import { useRouter } from "next/router"
-import SinglePost from "../../../components/SinglePost" ;
+import { useRouter } from "next/router";
+import Dashboard from "../../../components/admin/Dashboard";
 
 export default function AdminHandler({ user, notification }) {
-  const history = useRouter()
-   useEffect(()=> {
-     if(user.type !== "Admin")
-     history.push("/");
+  const history = useRouter();
+  useEffect(() => {
+    if (user.clearance !== "admin") {
+      history.push("/");
+    }
+  }, []);
 
-   })
-  if(user.type === "Admin"){
-    return (
+  return (
     <Fragment>
       <Head>
         <title>Admin - Lifebook</title>
       </Head>
       <Header user={user} notificationCount={notification} />
-      <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-2 justify-content-center m-0 w-100">
-        {/* <SinglePost user={user} post={{post: "text"}} postComments={[{text: "name"}]}/> */}
+      <div className=" m-0 w-100">
+        <Dashboard />
       </div>
     </Fragment>
-
-    )
-  }
-  return (
-      <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-2 justify-content-center m-0 w-100">
-        {/* <SinglePost user={user} post={{post: "text"}} postComments={[{text: "name"}]}/> */}
-      </div>
-
   );
 }
 
