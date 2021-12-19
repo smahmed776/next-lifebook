@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { fetchPost } from "../globalcontext/callApi";
+import API from "../API/API";
 
 const AdminEditUser = ({ id, user }) => {
   const sspinner = useRef();
@@ -14,44 +15,43 @@ const AdminEditUser = ({ id, user }) => {
   const [valid, setValid] = useState("");
   const [invalid, setInvalid] = useState([]);
 
-  const [verifiedText, setVerifiedText] = useState("")
+  const [verifiedText, setVerifiedText] = useState("");
 
   const onSubmit = async () => {
-     
-      signForm.current.classList.add("was-validated");
-      sbtn.current.setAttribute("disabled", "true");
-      sspinner.current.classList.remove("d-none");
-      const { data, isError, error } = await fetchPost({
-        url: `/adminupdate/${user._id}`,
-        data: {
-          verified: verifiedText
-        },
-      });
-
-      if (isError) {
-        setValid("");
-        setInvalid(error.data.errors);
-        sspinner.current.classList.add("d-none");
-        sbtn.current.removeAttribute("disabled");
-      }
-      if (data) {
-        setInvalid([]);
-        setValid(data.message);
-        signForm.current.reset();
-        sspinner.current.classList.add("d-none");
-        sbtn.current.removeAttribute("disabled");
-        signForm.current.classList.remove("was-validated");
-        spassword.current?.classList.remove("is-valid");
-        signForm.current.classList.add("needs-validation");
-      }
-    
+    signForm.current.classList.add("was-validated");
+    sbtn.current.setAttribute("disabled", "true");
+    sspinner.current.classList.remove("d-none");
+    try {
+      const res = await API.post(
+        `/adminupdate/${user._id}`,
+        { verified: verifiedText },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setInvalid([]);
+      setValid(res.data?.message);
+      signForm.current.reset();
+      sspinner.current.classList.add("d-none");
+      sbtn.current.removeAttribute("disabled");
+      signForm.current.classList.remove("was-validated");
+      spassword.current?.classList.remove("is-valid");
+      signForm.current.classList.add("needs-validation");
+    } catch (error) {
+      console.error(error);
+      setValid("");
+      setInvalid(error.data.errors);
+      sspinner.current.classList.add("d-none");
+      sbtn.current.removeAttribute("disabled");
+    }
   };
 
   const handleVerifiedInp = () => {
-      verifiedInp.current?.removeAttribute("disabled");
-      verifiedInp.current.type="text";
-  }
-
+    verifiedInp.current?.removeAttribute("disabled");
+    verifiedInp.current.type = "text";
+  };
 
   return (
     <div
@@ -189,7 +189,7 @@ const AdminEditUser = ({ id, user }) => {
                         type="text"
                         className="form-control"
                         value={verifiedText}
-                        onChange={(e)=> setVerifiedText(e.target.value)}
+                        onChange={(e) => setVerifiedText(e.target.value)}
                         placeholder={user.verified ? "true" : "false"}
                         ref={verifiedInp}
                         required
@@ -197,8 +197,9 @@ const AdminEditUser = ({ id, user }) => {
                       />
                     </div>
                     <div className="col-2">
-                      <button type="button" 
-                      onClick={handleVerifiedInp}
+                      <button
+                        type="button"
+                        onClick={handleVerifiedInp}
                         className="btn btn-info bi bi-pen"
                       ></button>
                     </div>
