@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PieChart from "./PieChart";
 import Navigation from "./Navigation";
 import BarChart from "./BarChart";

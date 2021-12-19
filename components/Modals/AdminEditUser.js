@@ -49,7 +49,7 @@ const AdminEditUser = ({ id, user }) => {
 
   const handleVerifiedInp = () => {
       verifiedInp.current?.removeAttribute("disabled");
-      verifiedInp.current?.type="text";
+      verifiedInp.current.type="text";
   }
 
 
