@@ -7,6 +7,7 @@ import LikeShowModal from "../../Modals/LikeShowModal";
 import CommentShowModal from "../../Modals/CommentShowModal";
 import { useRouter } from "next/router";
 import DeletePostModal from "../../Modals/DeletePostModal";
+import ReactPlayer from "react-player"
 
 const GetPosts = ({ post, user }) => {
   const [userImage, setUserImage] = useState(null);
@@ -263,6 +264,10 @@ const GetPosts = ({ post, user }) => {
               style={{ maxHeight: "300px", objectFit: "contain" }}
             />
           ))}
+        {post.post?.video && (
+          <ReactPlayer url={post.post.video} controls={true} height={"350px"} width={"100%"} />
+        )}
+          
 
         <div className="d-flex justify-content-between align-items-baseline px-3 px-sm-4 mt-3 postreactcount">
           <a

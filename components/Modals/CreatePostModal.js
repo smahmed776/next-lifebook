@@ -3,6 +3,8 @@ import API from "../API/API";
 import { useRouter } from "next/router";
 
 const CreatePostModal = ({ user }) => {
+  const [videoUrl, setVideoUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [postText, setPostText] = useState("");
   const [postImg, setPostImg] = useState([]);
   const [valid, setValid] = useState(null);
@@ -30,9 +32,13 @@ const CreatePostModal = ({ user }) => {
 
   const handlePostForm = async (e) => {
     e.preventDefault();
-    if (postImg.length <= 0 && postText === "") {
+    if (postImg.length <= 0 && postText === "" && videoUrl === "" && imageUrl === '') {
       alert("Please write something or upload a photo");
     } else {
+      if(videoUrl !== ""){
+        setImageUrl("")
+        setPostImg([])
+      }
       try {
         createPostBtn.current.setAttribute("disabled", "true");
         postSpinner.current.classList.remove("d-none");
@@ -42,7 +48,8 @@ const CreatePostModal = ({ user }) => {
           author_username: user.username,
           author_name: user.name,
           post: postText,
-          image: postImg,
+          image: imageUrl? imageUrl : postImg,
+          video: videoUrl !== "" && videoUrl,
           privacy: "public"
         };
         const option = {
@@ -138,14 +145,19 @@ const CreatePostModal = ({ user }) => {
                       ))}
                     </div>
                   )}
-                  <label htmlFor="imagepost mt-2">Upload a photo: </label>
+                  <label className="imagepost mt-2">Upload a photo: (max size: 1mb)</label>
                   <input
                     type="file"
                     id="imagepost"
                     accept="img/**"
                     className="form-control"
                     onChange={(e) => setimage(e)}
-                  />
+                    />
+                  <label className="imagepost mt-2">Image Url:</label>
+                  <input className="form-control" type="url" name="imageUrl" value={imageUrl} onChange={e => setImageUrl(e.target.value)} />
+
+                  <label className="form-label mt-2">Video Url: (supports youtube, vimeo video url)</label>
+                  <input className="form-control" type="url" name="videoUrl" value={videoUrl} onChange={e => setVideoUrl(e.target.value)} />
                 </div>
 
                 <div className="col-12">
