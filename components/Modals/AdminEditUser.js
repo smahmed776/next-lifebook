@@ -47,6 +47,12 @@ const AdminEditUser = ({ id, user }) => {
     
   };
 
+  const handleVerifiedInp = () => {
+      verifiedInp.current?.removeAttribute("disabled");
+      verifiedInp.current?.type = "text";
+    
+  }
+
 
   return (
     <div
@@ -193,10 +199,7 @@ const AdminEditUser = ({ id, user }) => {
                     </div>
                     <div className="col-2">
                       <button type="button" 
-                      onClick={() => {
-                          verifiedInp?.current?.removeAttribute("disabled");
-                          verifiedInp?.current?.type = "text";
-                        }}
+                      onClick={handleVerifiedInp}
                         className="btn btn-info bi bi-pen"
                       ></button>
                     </div>
