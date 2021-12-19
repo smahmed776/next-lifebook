@@ -133,7 +133,6 @@ const SingleNotification = ({ notify }) => {
         },
       }
     );
-    console.log(res.data)
     setName(res.data);
     setProfImg(res.data[0]?.profile?.profileImage);
   };

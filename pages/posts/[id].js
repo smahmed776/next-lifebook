@@ -8,7 +8,8 @@ export default function PostHandler({ user, data, notification }) {
   return (
     <Fragment>
       <Head>
-        <title>{`${data.post.post.text.substr(0, 32)}... - Lifebook`}</title>
+        <meta name="theme-color" content="#0d6efd" />
+        <title>{`${data.post.post.text.substr(0, 50)}... - Lifebook`}</title>
       </Head>
       <Header user={user} notificationCount={notification} />
       <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-2 justify-content-center m-0 w-100">

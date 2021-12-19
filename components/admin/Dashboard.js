@@ -95,8 +95,9 @@ const Dashboard = () => {
                     users.map((user, index) => {
                       if (user.clearance !== "admin") {
                         return (
-                          <tr key={index}>
+                          <Fragment key={index}>
                             <AdminEditUser id={`user${index}Modal`} user={user} />
+                          <tr >
                             <th scope="row">{index}</th>
                             <td>{user._id}</td>
                             <td>
@@ -150,6 +151,7 @@ const Dashboard = () => {
                               </div>
                             </td>
                           </tr>
+                          </Fragment>
                         );
                       }
                     })}

@@ -5,6 +5,7 @@ import { fetchPost } from "../globalcontext/callApi";
 const AdminEditUser = ({ id, user }) => {
   const sspinner = useRef();
   const sbtn = useRef();
+  const verifiedInp = useRef(null);
   const salert = useRef();
   const signSuccess = useRef();
   const signForm = useRef();
@@ -13,19 +14,18 @@ const AdminEditUser = ({ id, user }) => {
   const [valid, setValid] = useState("");
   const [invalid, setInvalid] = useState([]);
 
-  const onSubmit = async (dataobj) => {
-    if (
-      signForm.current.elements.spassword.classList.value.includes("is-invalid")
-    ) {
-      setValid("");
-      setInvalid(["Password invalid"]);
-    } else {
+  const [verifiedText, setVerifiedText] = useState("")
+
+  const onSubmit = async () => {
+     
       signForm.current.classList.add("was-validated");
       sbtn.current.setAttribute("disabled", "true");
       sspinner.current.classList.remove("d-none");
       const { data, isError, error } = await fetchPost({
-        url: "/signup",
-        data: dataobj,
+        url: `/adminupdate/${user._id}`,
+        data: {
+          verified: verifiedText
+        },
       });
 
       if (isError) {
@@ -44,64 +44,10 @@ const AdminEditUser = ({ id, user }) => {
         spassword.current?.classList.remove("is-valid");
         signForm.current.classList.add("needs-validation");
       }
-    }
+    
   };
 
-  const passvalidate = (e) => {
-    const pattern = {
-      capitalLtr: /[A-Z]/g,
-      smallLtr: /[a-z]/g,
-      nmbr: /[0-9]/g,
-      length: 8,
-    };
-    let con1 = "";
-    let con2 = "";
-    let con3 = "";
-    let con4 = "";
 
-    if (!e.target.value.match(pattern.capitalLtr)) {
-      con1 = "one capital letter,";
-      e.target.classList.add("is-invalid");
-      e.target.classList.remove("is-valid");
-    }
-    if (!e.target.value.match(pattern.smallLtr)) {
-      con2 = "one small letter,";
-      e.target.classList.add("is-invalid");
-      e.target.classList.remove("is-valid");
-    }
-    if (!e.target.value.match(pattern.nmbr)) {
-      con3 = "one number,";
-      e.target.classList.add("is-invalid");
-      e.target.classList.remove("is-valid");
-    }
-    if (e.target.value.length < pattern.length) {
-      con4 = "8 characters long";
-      e.target.classList.add("is-invalid");
-      e.target.classList.remove("is-valid");
-    }
-    if (
-      con1.length > 0 ||
-      con2.length > 0 ||
-      con3.length > 0 ||
-      con4.length > 0
-    ) {
-      document.getElementById("spassfeedback").innerText =
-        "Password must have atleast " +
-        con1 +
-        " " +
-        con2 +
-        " " +
-        con3 +
-        " " +
-        con4 +
-        "!";
-    } else if (!e.target.value) {
-      document.getElementById("spassfeedback").innerText = "Password required";
-    } else {
-      e.target.classList.add("is-valid");
-      e.target.classList.remove("is-invalid");
-    }
-  };
   return (
     <div
       className="modal fade"
@@ -230,12 +176,38 @@ const AdminEditUser = ({ id, user }) => {
                     disabled
                   />
                 </div>
+                <div className="col-12">
+                  <p className="text-dark mb-2">Verified: </p>
+                  <div className="row m-0 w-100 gx-1">
+                    <div className="col-10">
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={verifiedText}
+                        onChange={(e)=> setVerifiedText(e.target.value)}
+                        placeholder={user.verified ? "true" : "false"}
+                        ref={verifiedInp}
+                        required
+                        disabled
+                      />
+                    </div>
+                    <div className="col-2">
+                      <button type="button" 
+                      onClick={() => {
+                          verifiedInp?.current?.removeAttribute("disabled");
+                          verifiedInp?.current?.type = "text";
+                        }}
+                        className="btn btn-info bi bi-pen"
+                      ></button>
+                    </div>
+                  </div>
+                </div>
 
                 <div className="col-12">
                   <button
                     type="submit"
                     ref={sbtn}
-                    className="btn btn-success w-100"
+                    className="btn btn-info w-100"
                   >
                     <span
                       className="spinner-border spinner-border-sm me-3 d-none"
@@ -243,7 +215,7 @@ const AdminEditUser = ({ id, user }) => {
                       role="status"
                       aria-hidden="true"
                     ></span>
-                    Sign Up
+                    save changes
                   </button>
                 </div>
               </div>

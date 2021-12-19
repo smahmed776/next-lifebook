@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Moment from "react-moment";
+import ReactPlayer from "react-player";
 import Link from "next/link";
 import API from "./API/API";
 import ShowMoreText from "react-show-more-text";
@@ -10,7 +11,7 @@ import DeletePostModal from "./Modals/DeletePostModal";
 
 const SinglePost = ({ post, user, postComments }) => {
   const [userImage, setUserImage] = useState(null);
-  const [verified, setVerified] = useState(false)
+  const [verified, setVerified] = useState(false);
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState(null);
   const [likeText, setLikeText] = useState(post.reactions?.likes?.length);
@@ -30,9 +31,8 @@ const SinglePost = ({ post, user, postComments }) => {
       headers: { "Content-Type": "application/json" },
     });
     setUserImage(res.data?.profile?.profileImage);
-    setVerified(res.data?.verified)
+    setVerified(res.data?.verified);
   };
-
 
   const likePost = async (e) => {
     try {
@@ -76,10 +76,6 @@ const SinglePost = ({ post, user, postComments }) => {
     }
   };
 
-  const hidePost = (e) => {
-    const post = document.getElementById(e.target.dataset.postId);
-    post.style.display = "none";
-  };
 
   const deletePost = async (e) => {
     try {
@@ -134,7 +130,7 @@ const SinglePost = ({ post, user, postComments }) => {
     setComments(res.data);
   }
 
-  useEffect(() => { 
+  useEffect(() => {
     setComments(postComments);
   }, [postComments]);
   useEffect(() => {
@@ -171,9 +167,14 @@ const SinglePost = ({ post, user, postComments }) => {
                 <a
                   className="mt-1 text-dark d-flex justify-content-start align-items-center"
                   style={{ textDecoration: "none" }}
-                >{`${post.author_name.firstName} ${post.author_name.lastName}`}
-                  {verified === true && <span className="bi bi-check rounded-pill ms-2 d-inline-flex justify-content-center align-items-center p-2 text-white bg-primary" style={{height: "15px", width: "15px"}}></span>}
-                
+                >
+                  {`${post.author_name.firstName} ${post.author_name.lastName}`}
+                  {verified === true && (
+                    <span
+                      className="bi bi-check rounded-pill ms-2 d-inline-flex justify-content-center align-items-center p-2 text-white bg-primary"
+                      style={{ height: "15px", width: "15px" }}
+                    ></span>
+                  )}
                 </a>
               </Link>
               <p className="text-muted text-start">
@@ -311,6 +312,9 @@ const SinglePost = ({ post, user, postComments }) => {
               style={{ maxHeight: "300px", objectFit: "contain" }}
             />
           ))}
+        {post.post?.video && (
+          <ReactPlayer url={post.post.video} controls={true} height={"350px"} width={"100%"} />
+        )}
 
         <div className="d-flex justify-content-between align-items-baseline px-3 px-sm-4 mt-3 postreactcount">
           <a
@@ -473,6 +477,12 @@ const SinglePost = ({ post, user, postComments }) => {
                       }}
                     >
                       {`${i.name.firstName} ${i.name.lastName}`}
+                      {i.verified === true && (
+                    <span
+                      className="bi bi-check rounded-pill ms-2 d-inline-flex justify-content-center align-items-center p-2 text-white bg-primary"
+                      style={{ height: "15px", width: "15px" }}
+                    ></span>
+                  )}
                     </a>
                   </Link>
                   <p>{i.text}</p>

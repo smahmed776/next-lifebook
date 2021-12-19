@@ -5,7 +5,7 @@ import RightSideBar from "../components/Sections/rightsidebar/rightsidebar";
 import LeftSideBar from "../components/Sections/leftSideBar/leftsidebar";
 
 export default function Handler(props) {
-  console.log(props)
+
   if(props.user?.type === "Admin"){
     return (
   <Fragment>

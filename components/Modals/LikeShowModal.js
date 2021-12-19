@@ -125,16 +125,28 @@ const LikeShowModal = ({ post, fetchLike, setFetchLike }) => {
           <div className="modal-body px-1 py-1 ">
             <div className="row row-cols-1 w-100 m-0 gy-3">
               {data.length > 0 &&
-                data.map((i) => (
-                  <div className="col" key={i}>
+                data.map((i, index) => (
+                  <div className="col" key={index}>
                     <div className="d-flex justify-content-start text-primary p-2">
                       <img
                         src={i.image}
                         alt=""
                         className="rounded-pill"
-                        style={{ height: "35px", width: "35px", objectFit: "cover" }}
+                        style={{
+                          height: "35px",
+                          width: "35px",
+                          objectFit: "cover",
+                        }}
                       />
-                      <p className="text-dark ms-3">{`${i.name.firstName} ${i.name.lastName}`}</p>
+                      <p className="text-dark ms-3">
+                        {`${i.name.firstName} ${i.name.lastName}`}{" "}
+                        {i.verified === true && (
+                          <span
+                            className="bi bi-check rounded-pill ms-2 d-inline-flex justify-content-center align-items-center p-2 text-white bg-primary"
+                            style={{ height: "15px", width: "15px" }}
+                          ></span>
+                        )}
+                      </p>
                     </div>
                   </div>
                 ))}

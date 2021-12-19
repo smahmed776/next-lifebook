@@ -269,6 +269,12 @@ const CommentShowModal = ({ post, fetchComment, setFetchComment, user }) => {
                       style={{ textDecoration: "none", fontWeight: "bold" }}
                     >
                       {`${i.name.firstName} ${i.name.lastName}`}
+                      {i.verified === true && (
+                    <span
+                      className="bi bi-check rounded-pill ms-2 d-inline-flex justify-content-center align-items-center p-2 text-white bg-primary"
+                      style={{ height: "15px", width: "15px" }}
+                    ></span>
+                  )}
                     </a>
                   </Link>
                   <p>{i.text}</p>

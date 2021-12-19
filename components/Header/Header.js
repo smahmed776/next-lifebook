@@ -101,7 +101,7 @@ const Header = ({ user, notificationCount }) => {
             style={{ height: "40px", width: "40px" }}
           >
             <a
-              className="nav-link p-0 bi bi-bell-fill d-flex justify-content-center align-items-center position-relative h-100 w-100"
+              className="nav-link p-0 bi bi-bell d-flex justify-content-center align-items-center position-relative h-100 w-100"
               role="button"
               id="notificationdrop"
               data-bs-toggle="offcanvas"
@@ -211,7 +211,7 @@ const Header = ({ user, notificationCount }) => {
             </li>
             <li className="nav-item rounded-pill d-none d-sm-block  me-2 px-2 dropdown">
               <a
-                className="nav-link position-relative bi bi-bell-fill rounded-pill h-100 d-flex justify-content-center align-items-center p-1"
+                className="nav-link position-relative bi bi-bell rounded-pill h-100 d-flex justify-content-center align-items-center p-1"
                 role="button"
                 id="notificationdrop"
                 data-bs-toggle="dropdown"

@@ -143,6 +143,26 @@ const CreatePostModal = ({ user }) => {
                           </div>
                         </div>
                       ))}
+                      {imageUrl && (
+                        <div className="col position-relative">
+                          <div>
+                            <img
+                              src={imageUrl}
+                              alt=""
+                              style={{ maxHeight: "150px", width: "100%" }}
+                            />
+                          </div>
+                          <div
+                            className="position-absolute"
+                            style={{ top: "0", right: "0" }}
+                          >
+                            <button
+                              className="btn btn-close"
+                              onClick={() => setImageUrl("")}
+                            ></button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
                   <label className="imagepost mt-2">Upload a photo: (max size: 1mb)</label>

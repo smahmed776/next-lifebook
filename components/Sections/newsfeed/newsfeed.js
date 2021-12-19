@@ -274,14 +274,16 @@ const NewsFeed = ({ user }) => {
             </div>
           </div>
 
-          <div className="col-12 bg-white border rounded p-2">
+          <div className="col-12 bg-danger text-white border rounded p-2">
             <div className="">
               <div className="text-center">
-                <h4 className="text-center">No more posts</h4>
-                <p className="px-1 text-center">
-                  Add more friends to see more posts in your News Feed.
+                <p className="text-center">
+                  <span className="text-warning bi bi-alert"></span>
                 </p>
-                <button className="btn btn-primary">Add friend</button>
+                <h4 className="text-center">Failed to load posts!</h4>
+                <p className="px-1 text-center">
+                  Please check your internet connection and reload this page.
+                </p>
               </div>
             </div>
           </div>
@@ -448,7 +450,7 @@ const NewsFeed = ({ user }) => {
       <div className="row feedrow gy-2 gy-sm-3 px-0 px-sm-3 ps-lg-5">
         {/* create post column  */}
 
-        <div className="col-12 bg-white custom-rounded p-0 p-sm-2 mt-3 mt-sm-5 border">
+        <div className="col-12 bg-white custom-rounded p-0 p-sm-2 mt-3 mt-sm-5 border" style={{height: "fit-content"}}>
           <div className="row gy-3 gy-sm-3 p-0 pt-3 w-100 m-0 justify-content-center align-items-center p-sm-3">
             <div className="col-12 d-flex align-items-center justify-content-center p-0">
               <div
