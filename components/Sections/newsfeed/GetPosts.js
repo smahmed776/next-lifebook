@@ -7,7 +7,8 @@ import LikeShowModal from "../../Modals/LikeShowModal";
 import CommentShowModal from "../../Modals/CommentShowModal";
 import { useRouter } from "next/router";
 import DeletePostModal from "../../Modals/DeletePostModal";
-import ReactPlayer from "react-player"
+import ReactPlayer from "react-player/lazy";
+import likecountImg from "../../../public/img/likebg.png"
 
 const GetPosts = ({ post, user }) => {
   const [userImage, setUserImage] = useState(null);
@@ -277,11 +278,14 @@ const GetPosts = ({ post, user }) => {
             data-post-id={post._id}
             data-bs-toggle="modal"
             data-bs-target={`#modal${post._id}`}
-            className="text-muted bi bi-hand-thumbs-up text-primary pe-2"
+            className="text-muted pe-2 d-flex justify-content-start align-items-baseline"
             style={{ textDecoration: "none" }}
           >
-            {" "}
+             <img src={likecountImg.src} className="me-1" style={{height: "20px", width: "20px", alignSelf: "center"}} />
+           <span>
+
             {likeText}
+           </span>
           </a>
           <div>
             <a

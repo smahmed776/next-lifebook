@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Moment from "react-moment";
-import ReactPlayer from "react-player";
+import ReactPlayer from "react-player/lazy";
 import Link from "next/link";
 import API from "./API/API";
 import ShowMoreText from "react-show-more-text";
@@ -8,6 +8,7 @@ import LikeShowModal from "./Modals/LikeShowModal";
 import CommentShowModal from "./Modals/CommentShowModal";
 import { useRouter } from "next/router";
 import DeletePostModal from "./Modals/DeletePostModal";
+import likecountImg from "../public/img/likebg.png"
 
 const SinglePost = ({ post, user, postComments }) => {
   const [userImage, setUserImage] = useState(null);
@@ -75,7 +76,6 @@ const SinglePost = ({ post, user, postComments }) => {
       console.log(error.response);
     }
   };
-
 
   const deletePost = async (e) => {
     try {
@@ -313,7 +313,12 @@ const SinglePost = ({ post, user, postComments }) => {
             />
           ))}
         {post.post?.video && (
-          <ReactPlayer url={post.post.video} controls={true} height={"350px"} width={"100%"} />
+          <ReactPlayer
+            url={post.post.video}
+            controls={true}
+            height={"350px"}
+            width={"100%"}
+          />
         )}
 
         <div className="d-flex justify-content-between align-items-baseline px-3 px-sm-4 mt-3 postreactcount">
@@ -324,13 +329,17 @@ const SinglePost = ({ post, user, postComments }) => {
             data-post-id={post._id}
             data-bs-toggle="modal"
             data-bs-target={`#modal${post._id}`}
-            className="text-muted bi bi-hand-thumbs-up text-primary pe-2"
+            className="text-muted pe-2 d-flex justify-content-start align-items-baseline"
             style={{ textDecoration: "none" }}
           >
-            {" "}
+           
+              <img src={likecountImg.src} className="me-1" style={{height: "20px", width: "20px", alignSelf: "center"}} />
+           <span>
+
             {likeText}
+           </span>
           </a>
-          <div>
+          <div className="d-flex justify-content-start align-items-center">
             <a
               role="button"
               data-post-id={post._id}
@@ -478,11 +487,11 @@ const SinglePost = ({ post, user, postComments }) => {
                     >
                       {`${i.name.firstName} ${i.name.lastName}`}
                       {i.verified === true && (
-                    <span
-                      className="bi bi-check rounded-pill ms-2 d-inline-flex justify-content-center align-items-center p-2 text-white bg-primary"
-                      style={{ height: "15px", width: "15px" }}
-                    ></span>
-                  )}
+                        <span
+                          className="bi bi-check rounded-pill ms-2 d-inline-flex justify-content-center align-items-center p-2 text-white bg-primary"
+                          style={{ height: "15px", width: "15px" }}
+                        ></span>
+                      )}
                     </a>
                   </Link>
                   <p>{i.text}</p>
